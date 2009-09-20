@@ -10,47 +10,6 @@ module Benelux
   @@timed_objects = []
   @@timeline = Benelux::Timeline.new
   
-  def benelux_at(*names)
-    name = Benelux.name *names
-    self.benelux_timeline.select do |mark| 
-      mark.name.to_s == name.to_s
-    end
-  end
-  
-  def benelux_between(*names)
-    name_s, name_e = *names.collect { |n| Benelux.name n }
-    time_s, time_e = benelux_at(name_s), benelux_at(name_e)
-    time_e.first.to_f - time_s.first.to_f
-  end
-  
-  def benelux_duration(*names)
-    name = Benelux.name *names
-    name_s, name_e = "#{name}_start", "#{name}_end"
-    benelux_between(name_s, name_e)
-  end
-  
-  def benelux_mark(call_id, *names)
-    name = Benelux.name *names
-    thread_id = Thread.current.object_id.abs
-    mark = Benelux::Mark.now(name, thread_id, call_id)
-    Benelux.update_timeline mark
-    (self.benelux_timeline ||= Benelux::Timeline.new) << mark
-  end
-  private :benelux_mark
-  
-  def benelux_mark_open(ref, *names)
-    name = Benelux.name *names
-    benelux_mark ref, name, :'aa'
-  end
-  private :benelux_mark_open
-  
-  def benelux_mark_close(ref, *names)
-    name = Benelux.name *names
-    benelux_mark ref, name, :'zz'
-  end
-  private :benelux_mark_close
-  
-  
   def Benelux.timed_objects
     @@timed_objects
   end
@@ -60,12 +19,12 @@ module Benelux
   end
   
   def Benelux.thread_timeline
-    Thread.current.benelux_timeline
+    Thread.current.benelux
   end
   
   def Benelux.update_timeline mark
-    Thread.current.benelux_timeline ||= Benelux::Timeline.new
-    Thread.current.benelux_timeline << mark
+    Thread.current.benelux ||= Benelux::Timeline.new
+    Thread.current.benelux << mark
     Benelux.timeline << mark
     mark
   end
@@ -91,8 +50,7 @@ module Benelux
   def Benelux.prepare_object obj
     obj.extend Attic  unless obj.kind_of?(Attic)
     unless obj.kind_of?(Benelux)
-      obj.attic :benelux_timeline
-      obj.send :include, Benelux 
+      obj.attic :benelux
     end
   end
   
@@ -113,10 +71,11 @@ module Benelux
   def Benelux.generate_timer_str(meth_alias, meth)
     %Q{
     def #{meth}(*args, &block)
+      self.benelux ||= Benelux::Timeline.new
       ref = args.object_id.abs 
-      benelux_mark_open ref, :'#{meth}'
+      self.benelux.mark_open ref, :'#{meth}'
       ret = #{meth_alias}(*args, &block)
-      benelux_mark_close ref, :'#{meth}'
+      self.benelux.mark_close ref, :'#{meth}'
       ret
     end
     }
