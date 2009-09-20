@@ -1,63 +1,15 @@
 require 'attic'
 require 'thread'
-require 'mixins/thread'
+
 
 module Benelux
-  class Mark < Time
-    attr_accessor :name
-    attr_accessor :thread_id
-    attr_accessor :call_id
-    def self.now(n=nil,t=nil,c=nil)
-      v = super()
-      v.name, v.thread_id, v.call_id = n, t, c
-      v
-    end
-    def ==(other)
-      return false unless other.respond_to? :call_id
-      self.name == other.name &&
-      self.thread_id == other.thread_id &&
-      self.call_id == other.call_id &&
-      self.to_f == self.to_f
-    end
-    def same_timeline?(other)
-      return false unless other.respond_to? :thread_id
-      self.thread_id == other.thread_id
-    end
-    def same_call?(other)
-      return false unless other.respond_to? :call_id
-      self.thread_id == other.thread_id &&
-      self.call_id == other.call_id
-    end
-  end
-  # 
-  # |------+----+--+----+----|
-  #        |
-  #       0.02  
-  class Timeline < Array
-    def to_line
-      marks = self.sort
-      dur = marks.last.to_f - marks.first.to_f
-      str, prev = [], marks.first
-      marks.each do |mark|
-        rel = (mark.to_f - prev.to_f)
-        dur = (mark.to_f - marks.first.to_f)
-        str << "%s:%7.4f" % [mark.name, dur]
-        prev = mark
-      end
-      str
-    end
-    def +(other)
-      self << other
-      self.flatten
-    end
-    # Needs to compare thread id and call id. 
-    #def <=>(other)
-    #end
-  end
-end
-
-module Benelux
-
+  require 'benelux/timeline'
+  require 'benelux/mark'
+  require 'benelux/mixins/thread'
+  
+  @@timed_objects = []
+  @@timeline = Benelux::Timeline.new
+  
   def benelux_at(*names)
     name = Benelux.name *names
     self.benelux_timeline.select do |mark| 
@@ -98,8 +50,6 @@ module Benelux
   end
   private :benelux_mark_close
   
-  @@timed_objects = []
-  @@timeline = Benelux::Timeline.new
   
   def Benelux.timed_objects
     @@timed_objects
@@ -173,3 +123,5 @@ module Benelux
   end
   
 end
+
+
