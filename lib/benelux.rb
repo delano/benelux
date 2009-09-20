@@ -29,17 +29,17 @@ module Benelux
   end
   private :benelux_mark
   
-  def benelux_open_mark(ref, *names)
+  def benelux_mark_open(ref, *names)
     name = Benelux.name *names
-    benelux_mark ref, name, :open
+    benelux_mark ref, name, :aa
   end
-  private :benelux_open_mark
+  private :benelux_mark_open
   
-  def benelux_close_mark(ref, *names)
+  def benelux_mark_close(ref, *names)
     name = Benelux.name *names
-    benelux_mark ref, name, :close
+    benelux_mark ref, name, :zz
   end
-  private :benelux_close_mark
+  private :benelux_mark_close
   
   @@timed_objects = []
   
@@ -47,32 +47,49 @@ module Benelux
     @@timed_objects
   end
   
-  def Benelux.name(*names)
-    names.flatten.collect { |n| n.to_s }.join('_')
-  end
-  
   def Benelux.included(obj)
     timed_objects << obj unless timed_objects.member? obj
   end
   
   def Benelux.add_timer obj, meth
-    meth_alias = "__benelux_#{meth}_#{Thread.current.object_id.abs}_#{obj.object_id.abs}"
-    obj.extend Attic
-    obj.send :include, Benelux
-    obj.attic :benelux_timeline
+    meth_alias = prepare_object obj, meth
+    obj.module_eval generate_timer_str(meth_alias, meth)
+  end
+  
+  def Benelux.add_tally obj, meth
+  end
+  
+  def Benelux.name(*names)
+    names.flatten.collect { |n| n.to_s }.join('_')
+  end
+  
+  private
+  def Benelux.prepare_object obj, meth
+    obj.extend Attic  unless obj.kind_of?(Attic)
+    unless obj.kind_of?(Benelux)
+      obj.attic :benelux_timeline
+      obj.send :include, Benelux 
+    end
+    ## NOTE: This is commented out so we can include  
+    ## Benelux definitions before all classes are loaded. 
+    ##unless obj.respond_to? meth
+    ##  raise NoMethodError, "undefined method `#{meth}' for #{obj}:Class"
+    ##end
+    thread_id, call_id = Thread.current.object_id.abs, obj.object_id.abs
+    meth_alias = "__benelux_#{meth}_#{thread_id}_#{call_id}"
     obj.module_eval do
       alias_method meth_alias, meth
     end
-    obj.module_eval generate_wrapper_str(meth_alias, meth)
+    meth_alias
   end
   
-  def Benelux.generate_wrapper_str(meth_alias, meth)
+  def Benelux.generate_timer_str(meth_alias, meth)
     %Q{
     def #{meth}(*args, &block)
       ref = args.object_id.abs 
-      benelux_open_mark ref, :'#{meth}'
+      benelux_mark_open ref, :'#{meth}'
       ret = #{meth_alias}(*args, &block)
-      benelux_close_mark ref, :'#{meth}'
+      benelux_mark_close ref, :'#{meth}'
       ret
     end
     }
@@ -94,7 +111,8 @@ module Benelux
       return false unless other.respond_to? :call_id
       self.name == other.name &&
       self.thread_id == other.thread_id &&
-      self.call_id == other.call_id
+      self.call_id == other.call_id &&
+      self.to_f == self.to_f
     end
     def same_timeline?(other)
       return false unless other.respond_to? :thread_id
@@ -111,9 +129,22 @@ module Benelux
   #        |
   #       0.02  
   class Timeline < Array
-    #def to_line
-    #  marks = self.sort
-    #  len = marks.last.to_f - marks.first.to_f
+    def to_line
+      marks = self.sort
+      dur = marks.last.to_f - marks.first.to_f
+      str, prev = [], marks.first
+      marks.each do |mark|
+        str << (mark.to_f - prev.to_f)
+        prev = mark
+      end
+      str
+    end
+    def +(other)
+      self << other
+      self.flatten
+    end
+    # Needs to compare thread id and call id. 
+    #def <=>(other)
     #end
   end
 end
