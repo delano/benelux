@@ -23,9 +23,11 @@
   README.rdoc
   Rakefile
   benelux.gemspec
-  bin
-  lib
-  tryouts
+  lib/benelux.rb
+  lib/benelux/mark.rb
+  lib/benelux/mixins/thread.rb
+  lib/benelux/timeline.rb
+  tryouts/basic_tryouts.rb
   )
 
   
