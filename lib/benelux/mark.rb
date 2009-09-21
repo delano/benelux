@@ -3,14 +3,15 @@ module Benelux
     attr_accessor :name
     attr_accessor :thread_id
     attr_accessor :call_id
-    def self.now(n=nil,t=nil,c=nil)
+    def self.now(n=nil,c=nil,t=nil)
       v = super()
-      v.name, v.thread_id, v.call_id = n, t, c
+      v.name, v.call_id, v.thread_id = n, c, t
       v
     end
     def inspect(reftime=nil)
       val = reftime.nil? ? self.to_f : (self.to_f - reftime.to_f)
-      "%s:%f" % [self.name, val]
+      args = [self.class, self.hexoid, self.name, val, thread_id, call_id]
+      "#<%s:%s name=%s at=%f thread_id=%s call_id=%s>" % args
     end
     def to_s(reftime=nil)
       val = reftime.nil? ? self.to_f : (self.to_f - reftime.to_f)
