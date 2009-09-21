@@ -28,6 +28,8 @@ Get it in one of the following ways:
 
 == Thanks 
 
+* Alexis Sellier for fielding my Ruby questions
+
 
 == License
 
