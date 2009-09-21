@@ -48,9 +48,11 @@ module Benelux
   end
   
   def Benelux.generate_timeline
-    timeline = Benelux::Timeline.new
-    Benelux.thread_timelines.each { |t| timeline << t.benelux }
-    timeline.flatten.sort
+    @@mutex.synchronize do
+      timeline = Benelux::Timeline.new
+      Benelux.thread_timelines.each { |t| timeline << t.benelux }
+      timeline.flatten.sort
+    end
   end
   
   def Benelux.thread_timeline(thread_id=nil)
