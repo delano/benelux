@@ -6,6 +6,10 @@ module Benelux
   #       0.02  
   class Timeline < Array
     
+    def each(*args, &blk)
+      args.empty? ? super(&blk) : self
+    end
+    
     def at(*names)
       name = Benelux.name *names
       self.benelux.select do |mark| 
@@ -47,15 +51,12 @@ module Benelux
 
     def to_line
       marks = self.sort
-      dur = marks.last.to_f - marks.first.to_f
       str, prev = [], marks.first
       marks.each do |mark|
-        rel = (mark.to_f - prev.to_f)
-        dur = (mark.to_f - marks.first.to_f)
-        str << "%s:%7.4f" % [mark.name, dur]
+        str << "%s:%.4f" % [mark.name, mark.to_s(prev)]
         prev = mark
       end
-      str
+      str.join('; ')
     end
     def +(other)
       self << other

@@ -3,12 +3,24 @@ require 'thread'
 
 
 module Benelux
+  NOTSUPPORTED = [Class, Object, Kernel]
   require 'benelux/timeline'
   require 'benelux/mark'
   require 'benelux/mixins/thread'
   
-  @@timed_objects = []
+  @@timed_objects = {}
   @@timeline = Benelux::Timeline.new
+  
+  class BeneluxError < RuntimeError; end
+  class NotSupported < BeneluxError; end
+  
+  def benelux_timers
+    Benelux.timed_objects[self.class]
+  end
+  
+  def Benelux.supported?(klass)
+    !NOTSUPPORTED.member?(klass)
+  end
   
   def Benelux.timed_objects
     @@timed_objects
@@ -30,12 +42,14 @@ module Benelux
   end
   
   def Benelux.included(obj)
-    timed_objects << obj unless timed_objects.member? obj
+    timed_objects[obj] = [] unless timed_objects.has_key? obj
   end
   
   def Benelux.add_timer obj, meth
+    raise NotSupported, obj unless Benelux.supported? obj
     prepare_object obj
     meth_alias = rename_method obj, meth
+    timed_objects[obj] << meth
     obj.module_eval generate_timer_str(meth_alias, meth)
   end
   
@@ -51,6 +65,7 @@ module Benelux
     obj.extend Attic  unless obj.kind_of?(Attic)
     unless obj.kind_of?(Benelux)
       obj.attic :benelux
+      obj.send :include, Benelux
     end
   end
   

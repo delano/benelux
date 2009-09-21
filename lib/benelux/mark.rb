@@ -8,6 +8,14 @@ module Benelux
       v.name, v.thread_id, v.call_id = n, t, c
       v
     end
+    def inspect(reftime=nil)
+      val = reftime.nil? ? self.to_f : (self.to_f - reftime.to_f)
+      "%s:%f" % [self.name, val]
+    end
+    def to_s(reftime=nil)
+      val = reftime.nil? ? self.to_f : (self.to_f - reftime.to_f)
+      val.to_s
+    end
     def ==(other)
       return false unless other.respond_to? :call_id
       self.name == other.name &&
