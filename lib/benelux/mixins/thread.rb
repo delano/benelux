@@ -2,5 +2,6 @@
 
 class Thread
   extend Attic
-  attic :benelux
+  attic :timeline
+  attic :name
 end

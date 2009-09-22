@@ -32,7 +32,7 @@ tryouts "Basics" do
   drill "Creates a timeline" do
     sleeper = Sleeper.new
     5.times { sleeper.do_something }
-    sleeper.benelux
+    sleeper.timeline
   end
   
   dream :size, 4
@@ -41,7 +41,7 @@ tryouts "Basics" do
     Thread.new do
       2.times { sleeper.do_something }
     end.join
-    sleeper.benelux
+    sleeper.timeline
   end
   
   dream :class, Benelux::Timeline

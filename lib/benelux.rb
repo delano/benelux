@@ -53,8 +53,8 @@ module Benelux
       timeline = Benelux::Timeline.new
       regions = []
       Benelux.thread_timelines.each do |t| 
-        timeline << t.benelux
-        regions += t.benelux.regions
+        timeline << t.timeline
+        regions += t.timeline.regions
       end
       timeline = timeline.flatten.sort
       timeline.regions = regions.sort
@@ -63,8 +63,8 @@ module Benelux
   end
   
   def Benelux.thread_timeline(thread_id=nil)
-    Thread.current.benelux ||= Benelux::Timeline.new
-    Thread.current.benelux
+    Thread.current.timeline ||= Benelux::Timeline.new
+    Thread.current.timeline
   end
   
   
@@ -96,7 +96,7 @@ module Benelux
   def Benelux.prepare_object obj
     obj.extend Attic  unless obj.kind_of?(Attic)
     unless obj.kind_of?(Benelux)
-      obj.attic :benelux
+      obj.attic :timeline
       obj.send :include, Benelux
     end
   end
@@ -119,14 +119,14 @@ module Benelux
     %Q{
     def #{meth}(*args, &block)
       # We only need to do these things once.
-      if self.benelux.nil?
-        self.benelux = Benelux::Timeline.new
+      if self.timeline.nil?
+        self.timeline = Benelux::Timeline.new
         Benelux.store_thread_reference
       end
-      mark_a = self.benelux.add_mark_open :'#{meth}'
+      mark_a = self.timeline.add_mark_open :'#{meth}'
       ret = #{meth_alias}(*args, &block)
-      mark_z = self.benelux.add_mark_close :'#{meth}'
-      self.benelux.add_region :'#{meth}', mark_a, mark_z
+      mark_z = self.timeline.add_mark_close :'#{meth}'
+      self.timeline.add_region :'#{meth}', mark_a, mark_z
       ret
     end
     }

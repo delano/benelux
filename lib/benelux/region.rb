@@ -7,6 +7,9 @@ module Benelux
     def initialize(name,from,to)
       @name, @from, @to = name, from, to
     end
+    def duration
+      to - from
+    end
     def <=>(other)
       from <=> other.from
     end
