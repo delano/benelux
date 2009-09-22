@@ -20,46 +20,43 @@ module Benelux
       end
     end
     
-    ##def between(*names)
-    ##  name_s, name_e = *names.collect { |n| Benelux.name n }
-    ##  time_s, time_e = at(name_s), at(name_e)
-    ##  time_e.first.to_f - time_s.first.to_f
-    ##end
-    ##def duration(*names)
-    ##  name = Benelux.name *names
-    ##  name_s, name_e = "#{name}_a", "#{name}_z"
-    ##  between(name_s, name_e)
-    ##end
-    
-    #
-    #     obj.region(:do_request_a, :do_request_z) =>
-    #         [[:do_request_a, :get_body, :do_request_z], [:do_request_a, ...]]
-    #
-    ##def regions(from, to)
-    ##  pairs = marks(from).zip marks(to)
-    ##  pairs.collect do |pair|
-    ##    idx_a, idx_z = self.index(pair[0]), self.index(pair[1])
-    ##    range = self.values_at idx_a..idx_z
-    ##    range.select do |mark|
-    ##      mark.thread_id
-    ##    end
-    ##  end
-    ##end
-    
     #
     #      obj.marks(:execute_a, :execute_z, :do_request_a) => 
     #          [:execute_a, :do_request_a, :do_request_a, :execute_z]
     #
     def marks(*names)
+      return self if names.empty?
       names = names.flatten.collect { |n| n.to_s }
       self.select do |mark| 
         names.member? mark.name.to_s
       end
     end
-    
-    def duration(name)
-      name_s = Benelux.name name, SUFFIX_START 
-      name_e = Benelux.name name, SUFFIX_END
+
+    #
+    #     obj.regions(:do_request) =>
+    #         [[:do_request_a, :do_request_z], [:do_request_a, ...]]
+    #    
+    def regions(*names)
+      return @regions if names.empty?
+      names = names.flatten.collect { |n| n.to_s }
+      @regions.select do |region| 
+        names.member? region.name.to_s
+      end
+    end
+
+    #
+    #     obj.ranges(:do_request) =>
+    #         [[:do_request_a, :get_body, :do_request_z], [:do_request_a, ...]]
+    #
+    def ranges(*names)
+      return self if names.empty?
+      self.regions(*names).collect do |region|
+        self.sort.select do |mark|
+          mark >= region.from && 
+          mark <= region.to &&
+          mark.thread_id == region.to.thread_id
+        end
+      end
     end
     
     def add_mark(name)
