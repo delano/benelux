@@ -82,7 +82,7 @@ module Benelux
     prepare_object klass
     meth_alias = rename_method klass, meth
     timed_methods[klass] << meth
-    klass.module_eval generate_timer_str(meth_alias, meth)
+    klass.module_eval generate_timer_str(meth_alias, meth), __FILE__, 119
   end
   
   def Benelux.add_tally obj, meth
@@ -123,10 +123,16 @@ module Benelux
         self.timeline = Benelux::Timeline.new
         Benelux.store_thread_reference
       end
-      mark_a = self.timeline.add_mark_open :'#{meth}'
-      ret = #{meth_alias}(*args, &block)
-      mark_z = self.timeline.add_mark_close :'#{meth}'
-      self.timeline.add_region :'#{meth}', mark_a, mark_z
+      begin
+        mark_a = self.timeline.add_mark_open :'#{meth}'
+        ret = #{meth_alias}(*args, &block)
+      rescue => ex
+        raise ex
+      ensure
+        mark_z = self.timeline.add_mark_close :'#{meth}'
+        region = self.timeline.add_region :'#{meth}', mark_a, mark_z
+        region.exception = ex unless ex.nil?
+      end
       ret
     end
     }
