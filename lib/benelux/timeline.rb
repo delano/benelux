@@ -5,6 +5,12 @@ module Benelux
   #        |
   #       0.02  
   class Timeline < Array
+    attr_accessor :regions
+    
+    def initialize(*args)
+      @regions = []
+      super
+    end
     
     def each(*args, &blk)
       if args.empty? 
@@ -26,12 +32,19 @@ module Benelux
     ##end
     
     #
-    #     obj.region(:execute) =>
-    #         [[:execute_a, :execute_z], [:execute_a, :execute_z]]
+    #     obj.region(:do_request_a, :do_request_z) =>
+    #         [[:do_request_a, :get_body, :do_request_z], [:do_request_a, ...]]
     #
-    def regions(*names)
-      
-    end
+    ##def regions(from, to)
+    ##  pairs = marks(from).zip marks(to)
+    ##  pairs.collect do |pair|
+    ##    idx_a, idx_z = self.index(pair[0]), self.index(pair[1])
+    ##    range = self.values_at idx_a..idx_z
+    ##    range.select do |mark|
+    ##      mark.thread_id
+    ##    end
+    ##  end
+    ##end
     
     #
     #      obj.marks(:execute_a, :execute_z, :do_request_a) => 
@@ -39,7 +52,7 @@ module Benelux
     #
     def marks(*names)
       names = names.flatten.collect { |n| n.to_s }
-      self.benelux.select do |mark| 
+      self.select do |mark| 
         names.member? mark.name.to_s
       end
     end
@@ -49,22 +62,35 @@ module Benelux
       name_e = Benelux.name name, SUFFIX_END
     end
     
-    def add_mark(call_id, name)
-      thread_id = Thread.current.object_id.abs
-      mark = Benelux::Mark.now(name, call_id, thread_id)
+    def add_mark(name)
+      mark = Benelux::Mark.now(name)
       Benelux.thread_timeline << mark
       self << mark
+      mark
     end
 
-    def add_mark_open(call_id, name)
-      add_mark call_id, Benelux.name(name, SUFFIX_START)
+    def add_mark_open(name)
+      add_mark Benelux.name(name, SUFFIX_START)
     end
 
-    def add_mark_close(call_id, name)
-      add_mark call_id, Benelux.name(name, SUFFIX_END)
+    def add_mark_close(name)
+      add_mark Benelux.name(name, SUFFIX_END)
     end
-
+    
+    def add_region(name, from, to)
+      region = Benelux::Region.new(name, from, to)
+      @regions << region
+      Benelux.thread_timeline.regions << region
+      region
+    end
+    
     def to_line
+      marks = self.sort
+      
+      
+    end
+    
+    def to_line2
       marks = self.sort
       str, prev = [], marks.first
       marks.each do |mark|

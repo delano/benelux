@@ -2,20 +2,19 @@ module Benelux
   class Mark < Time
     attr_accessor :name
     attr_accessor :thread_id
-    attr_accessor :call_id
-    def self.now(n=nil,c=nil,t=nil)
+    def self.now(n=nil)
       v = super()
-      v.name, v.call_id, v.thread_id = n, c, t
+      v.name, v.thread_id = n, Thread.current.object_id.abs
       v
     end
     def inspect(reftime=nil)
-      val = reftime.nil? ? self.to_f : (self.to_f - reftime.to_f)
-      args = [self.class, self.hexoid, self.name, val, thread_id, call_id]
-      "#<%s:%s name=%s at=%f thread_id=%s call_id=%s>" % args
+      val = reftime.nil? ? self : (reftime - self)
+      arg = [self.class, self.hexoid, self.name, self.to_f, thread_id]
+      "#<%s:%s name=%s at=%f thread_id=%s>" % arg
     end
     def to_s(reftime=nil)
-      val = reftime.nil? ? self.to_f : (self.to_f - reftime.to_f)
-      val.to_s
+      val = reftime.nil? ? self : (reftime - self)
+      val.to_f.to_s
     end
     def ==(other)
       return false unless other.respond_to? :call_id

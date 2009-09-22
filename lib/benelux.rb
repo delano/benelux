@@ -9,6 +9,7 @@ module Benelux
   
   require 'benelux/timeline'
   require 'benelux/mark'
+  require 'benelux/region'
   require 'benelux/mixins/thread'
   
   @@timed_methods = {}
@@ -43,15 +44,21 @@ module Benelux
   end
   
   def Benelux.timeline
-    @@timeline = Benelux.generate_timeline if @@timeline.empty?
+    @@timeline = Benelux.generate_timeline #if @@timeline.empty?
     @@timeline
   end
   
   def Benelux.generate_timeline
     @@mutex.synchronize do
       timeline = Benelux::Timeline.new
-      Benelux.thread_timelines.each { |t| timeline << t.benelux }
-      timeline.flatten.sort
+      regions = []
+      Benelux.thread_timelines.each do |t| 
+        timeline << t.benelux
+        regions += t.benelux.regions
+      end
+      timeline = timeline.flatten.sort
+      timeline.regions = regions.sort
+      timeline
     end
   end
   
@@ -116,10 +123,10 @@ module Benelux
         self.benelux = Benelux::Timeline.new
         Benelux.store_thread_reference
       end
-      ref = self.object_id.abs.to_s << args.object_id.abs.to_s
-      self.benelux.add_mark_open ref, :'#{meth}'
+      mark_a = self.benelux.add_mark_open :'#{meth}'
       ret = #{meth_alias}(*args, &block)
-      self.benelux.add_mark_close ref, :'#{meth}'
+      mark_z = self.benelux.add_mark_close :'#{meth}'
+      self.benelux.add_region :'#{meth}', mark_a, mark_z
       ret
     end
     }
