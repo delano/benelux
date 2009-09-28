@@ -8,6 +8,12 @@ module Benelux
     def initialize(name,from,to)
       @name, @from, @to = name, from, to
     end
+    def track 
+      @from.nil? ? :unknown : @from.track
+    end
+    def thread_id
+      @from.nil? ? :unknown : @from.thread_id
+    end
     def successful?
       @exception.nil?
     end
@@ -26,6 +32,5 @@ module Benelux
     def >(other)
       from > other
     end
-    
   end
 end

@@ -2,15 +2,17 @@ module Benelux
   class Mark < Time
     attr_accessor :name
     attr_accessor :thread_id
-    def self.now(n=nil)
+    attr_accessor :track
+    def self.now(n=nil,t=nil)
       v = super()
       v.name, v.thread_id = n, Thread.current.object_id.abs
+      v.track = t.nil? ? :unknown : t
       v
     end
     def inspect(reftime=nil)
       val = reftime.nil? ? self : (reftime - self)
-      arg = [self.class, self.hexoid, self.name, self.to_f, thread_id]
-      "#<%s:%s name=%s at=%f thread_id=%s>" % arg
+      arg = [self.class, self.hexoid, self.name, self.to_f, thread_id, track]
+      "#<%s:%s name=%s at=%f thread_id=%s track=%s>" % arg
     end
     def to_s(reftime=nil)
       val = reftime.nil? ? self : (reftime - self)

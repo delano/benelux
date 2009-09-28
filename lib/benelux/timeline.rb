@@ -59,19 +59,19 @@ module Benelux
       end
     end
     
-    def add_mark(name)
-      mark = Benelux::Mark.now(name)
+    def add_mark(name, track=nil)
+      mark = Benelux::Mark.now(name, track)
       Benelux.thread_timeline << mark
       self << mark
       mark
     end
 
-    def add_mark_open(name)
-      add_mark Benelux.name(name, SUFFIX_START)
+    def add_mark_open(name, track=nil)
+      add_mark Benelux.name(name, SUFFIX_START), track
     end
 
-    def add_mark_close(name)
-      add_mark Benelux.name(name, SUFFIX_END)
+    def add_mark_close(name, track=nil)
+      add_mark Benelux.name(name, SUFFIX_END), track
     end
     
     def add_region(name, from, to)

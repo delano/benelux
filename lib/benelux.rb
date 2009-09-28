@@ -123,13 +123,14 @@ module Benelux
         self.timeline = Benelux::Timeline.new
         Benelux.store_thread_reference
       end
+      track = self.respond_to?(:benelux_track) ? self.benelux_track : nil
       begin
-        mark_a = self.timeline.add_mark_open :'#{meth}'
+        mark_a = self.timeline.add_mark_open :'#{meth}', track
         ret = #{meth_alias}(*args, &block)
       rescue => ex
         raise ex
       ensure
-        mark_z = self.timeline.add_mark_close :'#{meth}'
+        mark_z = self.timeline.add_mark_close :'#{meth}', track
         region = self.timeline.add_region :'#{meth}', mark_a, mark_z
         region.exception = ex unless ex.nil?
       end
@@ -139,5 +140,8 @@ module Benelux
   end
   
 end
+
+
+
 
 
