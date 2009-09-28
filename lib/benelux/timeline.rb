@@ -5,10 +5,10 @@ module Benelux
   #        |
   #       0.02  
   class Timeline < Array
-    attr_accessor :regions
+    attr_accessor :ranges
     
     def initialize(*args)
-      @regions = []
+      @ranges = []
       super
     end
     
@@ -33,14 +33,14 @@ module Benelux
     end
 
     #
-    #     obj.regions(:do_request) =>
+    #     obj.ranges(:do_request) =>
     #         [[:do_request_a, :do_request_z], [:do_request_a, ...]]
     #    
-    def regions(*names)
-      return @regions if names.empty?
+    def ranges(*names)
+      return @ranges if names.empty?
       names = names.flatten.collect { |n| n.to_s }
-      @regions.select do |region| 
-        names.member? region.name.to_s
+      @ranges.select do |range| 
+        names.member? range.name.to_s
       end
     end
 
@@ -48,13 +48,14 @@ module Benelux
     #     obj.ranges(:do_request) =>
     #         [[:do_request_a, :get_body, :do_request_z], [:do_request_a, ...]]
     #
-    def ranges(*names)
+    def regions(*names)
       return self if names.empty?
-      self.regions(*names).collect do |region|
+      self.ranges(*names).collect do |range|
         self.sort.select do |mark|
-          mark >= region.from && 
-          mark <= region.to &&
-          mark.thread_id == region.to.thread_id
+          mark >= range.from && 
+          mark <= range.to &&
+          ((!mark.track.nil? && mark.track == range.track) ||
+          mark.thread_id == range.to.thread_id)
         end
       end
     end
@@ -74,11 +75,11 @@ module Benelux
       add_mark Benelux.name(name, SUFFIX_END), track
     end
     
-    def add_region(name, from, to)
-      region = Benelux::Region.new(name, from, to)
-      @regions << region
-      Benelux.thread_timeline.regions << region
-      region
+    def add_range(name, from, to)
+      range = Benelux::Range.new(name, from, to)
+      @ranges << range
+      Benelux.thread_timeline.ranges << range
+      range
     end
     
     def to_line

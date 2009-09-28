@@ -1,6 +1,6 @@
 
 module Benelux
-  class Region
+  class Range
     attr_accessor :name
     attr_accessor :from
     attr_accessor :to

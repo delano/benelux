@@ -9,7 +9,7 @@ module Benelux
   
   require 'benelux/timeline'
   require 'benelux/mark'
-  require 'benelux/region'
+  require 'benelux/range'
   require 'benelux/mixins/thread'
   
   @@timed_methods = {}
@@ -28,13 +28,6 @@ module Benelux
     !NOTSUPPORTED.member?(klass)
   end
   
-  def Benelux.store_thread_reference
-    return if Benelux.thread_timelines.member? Thread.current
-    @@mutex.synchronize do
-      Benelux.thread_timelines << Thread.current
-    end
-  end
-  
   def Benelux.timed_methods
     @@timed_methods
   end
@@ -51,13 +44,13 @@ module Benelux
   def Benelux.generate_timeline
     @@mutex.synchronize do
       timeline = Benelux::Timeline.new
-      regions = []
+      ranges = []
       Benelux.thread_timelines.each do |t| 
         timeline << t.timeline
-        regions += t.timeline.regions
+        ranges += t.timeline.ranges
       end
       timeline = timeline.flatten.sort
-      timeline.regions = regions.sort
+      timeline.ranges = ranges.sort
       timeline
     end
   end
@@ -115,15 +108,23 @@ module Benelux
     meth_alias
   end
   
+  def Benelux.store_thread_reference(track=nil)
+    return if Benelux.thread_timelines.member? Thread.current
+    @@mutex.synchronize do
+      Thread.current.track = track
+      Benelux.thread_timelines << Thread.current
+    end
+  end
+  
   def Benelux.generate_timer_str(meth_alias, meth)
     %Q{
     def #{meth}(*args, &block)
+      track = self.respond_to?(:benelux_track) ? self.benelux_track : nil
       # We only need to do these things once.
       if self.timeline.nil?
         self.timeline = Benelux::Timeline.new
-        Benelux.store_thread_reference
+        Benelux.store_thread_reference(track)
       end
-      track = self.respond_to?(:benelux_track) ? self.benelux_track : nil
       begin
         mark_a = self.timeline.add_mark_open :'#{meth}', track
         ret = #{meth_alias}(*args, &block)
@@ -131,7 +132,7 @@ module Benelux
         raise ex
       ensure
         mark_z = self.timeline.add_mark_close :'#{meth}', track
-        region = self.timeline.add_region :'#{meth}', mark_a, mark_z
+        region = self.timeline.add_range :'#{meth}', mark_a, mark_z
         region.exception = ex unless ex.nil?
       end
       ret

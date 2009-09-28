@@ -6,7 +6,9 @@ module Benelux
     def self.now(n=nil,t=nil)
       v = super()
       v.name, v.thread_id = n, Thread.current.object_id.abs
-      v.track = t.nil? ? :unknown : t
+      track = Thread.current.track if Thread.current.respond_to? :track
+      track ||= :unknown
+      v.track = t.nil? ? track : t
       v
     end
     def inspect(reftime=nil)
