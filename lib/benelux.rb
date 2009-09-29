@@ -13,6 +13,7 @@ module Benelux
   
   @@timed_methods = {}
   @@known_threads = []
+  @@timelines = {}
   @@mutex = Mutex.new
   
   class BeneluxError < RuntimeError; end
@@ -42,20 +43,28 @@ module Benelux
     @@known_threads
   end
   
-  def Benelux.timeline(track=nil)
-    timeline = Benelux::Timeline.new
-    ranges = []
-    Benelux.known_threads.each do |t| 
-      next if !track.nil? && t.track != track
-      timeline << t.timeline
-      ranges += t.timeline.ranges
-    end
-    timeline = timeline.flatten.sort
-    timeline.ranges = ranges.sort
-    timeline
+  def Benelux.timelines
+    @@timelines
   end
   
-  def Benelux.thread_timeline(thread_id=nil)
+  def Benelux.timeline(track)
+    Benelux.timelines[track]
+  end
+  
+  def Benelux.update_track(track)
+    ranges = []
+    threads = Benelux.known_threads.select { |t| t.track == track }
+    threads.each do |t|
+      Benelux.timelines[track] << t.timeline
+      ranges += t.timeline.ranges
+    end
+    Benelux.timelines[track] = Benelux.timelines[track].flatten.sort!
+    Benelux.timelines[track].ranges = ranges.sort
+    threads.each { |t| t.timeline.clear }
+    Benelux.timelines[track]
+  end
+  
+  def Benelux.thread_timeline
     Thread.current.timeline ||= Benelux::Timeline.new
     Thread.current.timeline
   end
@@ -75,7 +84,7 @@ module Benelux
     prepare_object klass
     meth_alias = rename_method klass, meth
     timed_methods[klass] << meth
-    klass.module_eval generate_timer_str(meth_alias, meth), __FILE__, 119
+    klass.module_eval generate_timer_str(meth_alias, meth), __FILE__, 146
   end
   
   def Benelux.add_tally obj, meth
@@ -111,6 +120,7 @@ module Benelux
   def Benelux.store_thread_reference
     return if Benelux.known_threads.member? Thread.current
     @@mutex.synchronize do
+      Thread.current.timeline ||= Benelux::Timeline.new
       Benelux.known_threads << Thread.current
       Benelux.known_threads.uniq!
     end
@@ -118,8 +128,19 @@ module Benelux
   
   def Benelux.current_track(track)
     Benelux.store_thread_reference
-    Thread.current.track = track
+    @@mutex.synchronize do
+      # QUESTION: Is it okay for multiple threads to write to
+      # different elements in the same hash?
+      Benelux.timelines[track] = Benelux::Timeline.new
+      Benelux.timelines[track].default_tags[:track] = track
+      Thread.current.track = track
+    end
   end
+  
+  def Benelux.add_default_tags(args={})
+    Benelux.thread_timeline.add_default_tags args
+  end
+  def Benelux.add_default_tag(*args) add_default_tags *args end
   
   def Benelux.generate_timer_str(meth_alias, meth)
     %Q{
@@ -130,13 +151,17 @@ module Benelux
         self.timeline = Benelux::Timeline.new
         Benelux.store_thread_reference
       end
+      tags = {}
       begin
-        mark_a = self.timeline.add_mark :'#{meth}_a', call_id
+        mark_a = self.timeline.add_mark :'#{meth}_a'
+        mark_a.add_tag :call_id => call_id
+        tags = mark_a.tags
         ret = #{meth_alias}(*args, &block)
       rescue => ex
         raise ex
       ensure
-        mark_z = self.timeline.add_mark :'#{meth}_z', call_id
+        mark_z = self.timeline.add_mark :'#{meth}_z'
+        mark_z.tags = tags # In case tags were added between these marks
         region = self.timeline.add_range :'#{meth}', mark_a, mark_z
         region.exception = ex if defined?(ex) && !ex.nil?
       end

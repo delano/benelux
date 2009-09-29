@@ -6,10 +6,18 @@ module Benelux
   #       0.02  
   class Timeline < Array
     attr_accessor :ranges
-    
+    attr_accessor :default_tags
     def initialize(*args)
-      @ranges = []
+      @ranges, @default_tags = [], {}
+      add_default_tag :thread_id => Thread.current.object_id.abs
       super
+    end
+    def add_default_tags(tags={})
+      @default_tags.merge! tags
+    end
+    alias_method :add_default_tag, :add_default_tags
+    def track 
+      @default_tags[:track]
     end
     
     def duration
@@ -65,8 +73,16 @@ module Benelux
       end
     end
     
-    def add_mark(name, call_id)
-      mark = Benelux::Mark.now(name, call_id)
+    def clear
+      @ranges.clear
+      super
+    end
+    
+    def add_mark(name)
+      mark = Benelux::Mark.now(name)
+      #p "tag: #{Benelux.thread_timeline.default_tags}"
+      mark.add_tags Benelux.thread_timeline.default_tags
+      mark.add_tags self.default_tags
       Benelux.thread_timeline << mark
       self << mark
       mark
@@ -74,6 +90,7 @@ module Benelux
     
     def add_range(name, from, to)
       range = Benelux::Range.new(name, from, to)
+      range.add_tags from.tags
       @ranges << range
       Benelux.thread_timeline.ranges << range
       range

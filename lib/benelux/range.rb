@@ -5,9 +5,15 @@ module Benelux
     attr_accessor :from
     attr_accessor :to
     attr_accessor :exception
+    attr_accessor :tags
     def initialize(name,from,to)
       @name, @from, @to = name, from, to
+      @tags = {}
     end
+    def add_tags(tags={})
+      @tags.merge! tags
+    end
+    alias_method :add_tag, :add_tags
     def track 
       @from.nil? ? :unknown : @from.track
     end
