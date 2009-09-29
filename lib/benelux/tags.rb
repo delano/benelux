@@ -6,7 +6,7 @@ module Benelux
     def to_s
       tagstr = []
       self.each_pair do |n,v|
-        v = v.is_a?(Gibbler::Digest) ? v.short : v
+        #v = v.is_a?(Gibbler::Digest) ? v.short : v
         tagstr << "%s=%s" % [n,v]
       end
       tagstr.join ' '

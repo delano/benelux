@@ -16,6 +16,10 @@ module Benelux
       @default_tags.merge! tags
     end
     alias_method :add_default_tag, :add_default_tags
+    def remove_default_tags(*tags)
+      @default_tags.delete_if { |n,v| tags.member?(n) }
+    end
+    alias_method :add_default_tag, :add_default_tags
     def track 
       @default_tags[:track]
     end
@@ -43,7 +47,15 @@ module Benelux
         names.member? mark.name.to_s
       end
     end
-
+    
+    def [](tags={})
+      tags = [tags].flatten unless tags.is_a?(Hash)
+      ret = self.select do |mark|
+        mark.tags >= tags
+      end
+      Benelux::Timeline.new ret
+    end
+    
     #
     #     obj.ranges(:do_request) =>
     #         [[:do_request_a, :do_request_z], [:do_request_a, ...]]
@@ -51,8 +63,9 @@ module Benelux
     def ranges(name=nil, tags=Benelux::Tags.new)
       return @ranges if name.nil?
       @ranges.select do |range| 
-        name.to_s == range.name.to_s &&
+        ret = name.to_s == range.name.to_s &&
         (tags.nil? || range.tags >= tags)
+        ret
       end
     end
 
@@ -79,7 +92,6 @@ module Benelux
     
     def add_mark(name)
       mark = Benelux::Mark.now(name)
-      #p "tag: #{Benelux.thread_timeline.default_tags}"
       mark.add_tags Benelux.thread_timeline.default_tags
       mark.add_tags self.default_tags
       Benelux.thread_timeline << mark

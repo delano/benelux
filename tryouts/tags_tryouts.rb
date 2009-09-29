@@ -3,7 +3,7 @@ group "Benelux"
 
 library :benelux, 'lib'
 
-tryouts "Basics" do
+tryouts "Tags" do
   set :base, Benelux::Tags[:a => 1, :b => 2]
   
   drill "Can equal a Hash with the same keys/values", true do

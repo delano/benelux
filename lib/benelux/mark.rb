@@ -15,6 +15,10 @@ module Benelux
       @tags.merge! tags
     end
     alias_method :add_tag, :add_tags
+    def remove_tags(*tags)
+      @tags.delete_if { |n,v| tags.member?(n) }
+    end
+    alias_method :remove_tag, :remove_tags
     def inspect(reftime=nil)
       val = reftime.nil? ? self : (reftime - self)
       "#<%s:%s at=%f name=%s %s>" % [self.class, hexoid, to_f, name, tags]

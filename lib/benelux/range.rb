@@ -21,6 +21,10 @@ module Benelux
       @tags.merge! tags
     end
     alias_method :add_tag, :add_tags
+    def remove_tags(*tags)
+      @tags.delete_if { |n,v| tags.member?(n) }
+    end
+    alias_method :remove_tag, :remove_tags
     def track 
       @from.nil? ? :unknown : @from.track
     end

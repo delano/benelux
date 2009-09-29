@@ -152,7 +152,7 @@ module Benelux
       # QUESTION: Is it okay for multiple threads to write to
       # different elements in the same hash?
       Benelux.timelines[track] = Benelux::Timeline.new
-      Benelux.timelines[track].default_tags[:track] = track
+      Thread.current.timeline.default_tags[:track] = track
       Thread.current.track = track
     end
   end
@@ -161,6 +161,12 @@ module Benelux
     Benelux.thread_timeline.add_default_tags args
   end
   def Benelux.add_default_tag(*args) add_default_tags *args end
+  
+  def Benelux.remove_default_tags(*args)
+    Benelux.thread_timeline.remove_default_tags *args
+  end
+  def Benelux.remove_default_tag(*args) remove_default_tags *args end
+
   
   def Benelux.generate_timer_str(meth_alias, meth)
     %Q{
@@ -171,21 +177,17 @@ module Benelux
         self.timeline = Benelux::Timeline.new
         Benelux.store_thread_reference
       end
-      tags = {}
-      begin
-        mark_a = self.timeline.add_mark :'#{meth}_a'
-        mark_a.add_tag :call_id => call_id
-        tags = mark_a.tags
-        ret = #{meth_alias}(*args, &block)
-      rescue => ex
-        raise ex
-      ensure
-        mark_z = self.timeline.add_mark :'#{meth}_z'
-        mark_z.tags = tags # In case tags were added between these marks
-        range = self.timeline.add_range :'#{meth}', mark_a, mark_z
-        range.exception = ex if defined?(ex) && !ex.nil?
-      end
-      ret
+      mark_a = self.timeline.add_mark :'#{meth}_a'
+      mark_a.add_tag :call_id => call_id
+      tags = mark_a.tags
+      ret = #{meth_alias}(*args, &block)
+    rescue => ex
+      raise ex
+    ensure
+      mark_z = self.timeline.add_mark :'#{meth}_z'
+      mark_z.tags = tags # In case tags were added between these marks
+      range = self.timeline.add_range :'#{meth}', mark_a, mark_z
+      range.exception = ex if defined?(ex) && !ex.nil?
     end
     }
   end
