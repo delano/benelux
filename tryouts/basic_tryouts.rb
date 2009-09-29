@@ -13,13 +13,13 @@ tryouts "Basics" do
   
   drill "Add timers to existing objects", true do
     Benelux.add_timer Sleeper, :do_something
-    Sleeper.new.respond_to? :benelux
+    Sleeper.new.respond_to? :timeline
   end
   
   dream :class, Hash
   dream { Hash[ Sleeper => [:do_something] ] }
   drill "Benelux keeps track of timed objects" do
-    Benelux.timed_objects
+    Benelux.timed_methods
   end
   
   dream [:do_something]
