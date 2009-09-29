@@ -12,6 +12,10 @@ module Benelux
       super
     end
     
+    def duration
+      self.last - self.first
+    end
+    
     def each(*args, &blk)
       if args.empty? 
         super(&blk) 
@@ -52,27 +56,20 @@ module Benelux
       return self if names.empty?
       self.ranges(*names).collect do |range|
         self.sort.select do |mark|
-          mark >= range.from && 
+          ret = mark >= range.from && 
           mark <= range.to &&
           ((!mark.track.nil? && mark.track == range.track) ||
           mark.thread_id == range.to.thread_id)
+          ret
         end
       end
     end
     
-    def add_mark(name, track=nil)
-      mark = Benelux::Mark.now(name, track)
+    def add_mark(name, call_id)
+      mark = Benelux::Mark.now(name, call_id)
       Benelux.thread_timeline << mark
       self << mark
       mark
-    end
-
-    def add_mark_open(name, track=nil)
-      add_mark Benelux.name(name, SUFFIX_START), track
-    end
-
-    def add_mark_close(name, track=nil)
-      add_mark Benelux.name(name, SUFFIX_END), track
     end
     
     def add_range(name, from, to)
@@ -84,8 +81,6 @@ module Benelux
     
     def to_line
       marks = self.sort
-      
-      
     end
     
     def to_line2

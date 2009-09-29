@@ -4,21 +4,27 @@ require 'hexoid'
 
 module Benelux
   NOTSUPPORTED = [Class, Object, Kernel]
-  SUFFIX_START = :a.freeze
-  SUFFIX_END   = :z.freeze
   
-  require 'benelux/timeline'
   require 'benelux/mark'
   require 'benelux/range'
+  require 'benelux/stats'
+  require 'benelux/timeline'
   require 'benelux/mixins/thread'
   
   @@timed_methods = {}
-  @@thread_timelines = []
-  @@timeline = Benelux::Timeline.new
+  @@known_threads = []
   @@mutex = Mutex.new
   
   class BeneluxError < RuntimeError; end
   class NotSupported < BeneluxError; end
+  
+  def self.inspect
+    str = ["Benelux"]
+    str << "threads:" << Benelux.known_threads.inspect
+    str << "timers:" << Benelux.timed_methods.inspect
+    str << "timeline:" << Benelux.timeline.inspect
+    str.join $/
+  end
   
   def benelux_timers
     Benelux.timed_methods[self.class]
@@ -32,27 +38,21 @@ module Benelux
     @@timed_methods
   end
   
-  def Benelux.thread_timelines
-    @@thread_timelines
+  def Benelux.known_threads
+    @@known_threads
   end
   
-  def Benelux.timeline
-    @@timeline = Benelux.generate_timeline #if @@timeline.empty?
-    @@timeline
-  end
-  
-  def Benelux.generate_timeline
-    @@mutex.synchronize do
-      timeline = Benelux::Timeline.new
-      ranges = []
-      Benelux.thread_timelines.each do |t| 
-        timeline << t.timeline
-        ranges += t.timeline.ranges
-      end
-      timeline = timeline.flatten.sort
-      timeline.ranges = ranges.sort
-      timeline
+  def Benelux.timeline(track=nil)
+    timeline = Benelux::Timeline.new
+    ranges = []
+    Benelux.known_threads.each do |t| 
+      next if !track.nil? && t.track != track
+      timeline << t.timeline
+      ranges += t.timeline.ranges
     end
+    timeline = timeline.flatten.sort
+    timeline.ranges = ranges.sort
+    timeline
   end
   
   def Benelux.thread_timeline(thread_id=nil)
@@ -108,30 +108,35 @@ module Benelux
     meth_alias
   end
   
-  def Benelux.store_thread_reference(track=nil)
-    return if Benelux.thread_timelines.member? Thread.current
+  def Benelux.store_thread_reference
+    return if Benelux.known_threads.member? Thread.current
     @@mutex.synchronize do
-      Thread.current.track = track
-      Benelux.thread_timelines << Thread.current
+      Benelux.known_threads << Thread.current
+      Benelux.known_threads.uniq!
     end
+  end
+  
+  def Benelux.current_track(track)
+    Benelux.store_thread_reference
+    Thread.current.track = track
   end
   
   def Benelux.generate_timer_str(meth_alias, meth)
     %Q{
     def #{meth}(*args, &block)
-      track = self.respond_to?(:benelux_track) ? self.benelux_track : nil
+      call_id = "" << self.object_id.abs.to_s << args.object_id.abs.to_s
       # We only need to do these things once.
       if self.timeline.nil?
         self.timeline = Benelux::Timeline.new
-        Benelux.store_thread_reference(track)
+        Benelux.store_thread_reference
       end
       begin
-        mark_a = self.timeline.add_mark_open :'#{meth}', track
+        mark_a = self.timeline.add_mark :'#{meth}_a', call_id
         ret = #{meth_alias}(*args, &block)
       rescue => ex
         raise ex
       ensure
-        mark_z = self.timeline.add_mark_close :'#{meth}', track
+        mark_z = self.timeline.add_mark :'#{meth}_z', call_id
         region = self.timeline.add_range :'#{meth}', mark_a, mark_z
         region.exception = ex unless ex.nil?
       end

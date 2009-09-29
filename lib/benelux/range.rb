@@ -14,6 +14,9 @@ module Benelux
     def thread_id
       @from.nil? ? :unknown : @from.thread_id
     end
+    def call_id
+      @from.nil? ? :unknown : @from.call_id
+    end
     def successful?
       @exception.nil?
     end
