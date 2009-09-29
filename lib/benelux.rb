@@ -138,7 +138,7 @@ module Benelux
       ensure
         mark_z = self.timeline.add_mark :'#{meth}_z', call_id
         region = self.timeline.add_range :'#{meth}', mark_a, mark_z
-        region.exception = ex unless ex.nil?
+        region.exception = ex if defined?(ex) && !ex.nil?
       end
       ret
     end
