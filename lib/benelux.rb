@@ -54,21 +54,34 @@ module Benelux
     @@timelines
   end
   
-  def Benelux.timeline(track)
-    Benelux.timelines[track]
+  def Benelux.timeline(track=nil)
+    if track.nil?
+      Benelux.merge_timelines *Benelux.timelines.values
+    else
+      Benelux.timelines[track]
+    end
+  end
+  
+  def Benelux.update_tracks
+    Benelux.timelines.keys.each { |track| Benelux.update_track(track) }
   end
   
   def Benelux.update_track(track)
-    ranges = []
     threads = Benelux.known_threads.select { |t| t.track == track }
-    threads.each do |t|
-      Benelux.timelines[track] << t.timeline
-      ranges += t.timeline.ranges
-    end
-    Benelux.timelines[track] = Benelux.timelines[track].flatten.sort!
-    Benelux.timelines[track].ranges = ranges.sort
+    Benelux.timelines[track] = Benelux.merge_timelines(*threads.collect { |t| t.timeline })
     threads.each { |t| t.timeline.clear }
     Benelux.timelines[track]
+  end
+  
+  def Benelux.merge_timelines(*timelines)
+    tl, ranges = Benelux::Timeline.new, []
+    timelines.each_with_index do |t, index|
+      tl << t
+      ranges += t.ranges
+    end
+    tl = tl.flatten.sort!
+    tl.ranges = ranges.sort
+    tl
   end
   
   def Benelux.thread_timeline
@@ -169,8 +182,8 @@ module Benelux
       ensure
         mark_z = self.timeline.add_mark :'#{meth}_z'
         mark_z.tags = tags # In case tags were added between these marks
-        region = self.timeline.add_range :'#{meth}', mark_a, mark_z
-        region.exception = ex if defined?(ex) && !ex.nil?
+        range = self.timeline.add_range :'#{meth}', mark_a, mark_z
+        range.exception = ex if defined?(ex) && !ex.nil?
       end
       ret
     end

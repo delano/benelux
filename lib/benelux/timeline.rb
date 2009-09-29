@@ -48,11 +48,11 @@ module Benelux
     #     obj.ranges(:do_request) =>
     #         [[:do_request_a, :do_request_z], [:do_request_a, ...]]
     #    
-    def ranges(name, tags=Benelux::Tags.new)
-      return @ranges if names.empty?
-      names = names.flatten.collect { |n| n.to_s }
+    def ranges(name=nil, tags=Benelux::Tags.new)
+      return @ranges if name.nil?
       @ranges.select do |range| 
-        names.member? range.name.to_s
+        name.to_s == range.name.to_s &&
+        (tags.nil? || range.tags >= tags)
       end
     end
 
@@ -60,17 +60,15 @@ module Benelux
     #     obj.ranges(:do_request) =>
     #         [[:do_request_a, :get_body, :do_request_z], [:do_request_a, ...]]
     #
-    def regions(name, tags=Benelux::Tags.new)
-      return self if names.empty?
-      self.ranges(name).collect do |range|
-        self.sort.select do |mark|
+    def regions(name=nil, tags=Benelux::Tags.new)
+      return self if name.nil?
+      self.ranges(name, tags).collect do |range|
+        ret = self.sort.select do |mark|
           mark >= range.from && 
           mark <= range.to &&
-          # INCOKPLETE
-          ((!mark.tags.nil? && mark.tags == range.tags) ||
-          mark.thread_id == range.to.thread_id)
-          ret
+          mark.tags >= range.tags
         end
+        Benelux::Timeline.new(ret)
       end
     end
     
@@ -91,7 +89,8 @@ module Benelux
     
     def add_range(name, from, to)
       range = Benelux::Range.new(name, from, to)
-      range.add_tags from.tags
+      range.add_tags Benelux.thread_timeline.default_tags
+      range.add_tags self.default_tags
       @ranges << range
       Benelux.thread_timeline.ranges << range
       range
