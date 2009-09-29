@@ -8,11 +8,11 @@ module Benelux
     attr_accessor :ranges
     attr_accessor :default_tags
     def initialize(*args)
-      @ranges, @default_tags = [], {}
+      @ranges, @default_tags = [], Benelux::Tags.new
       add_default_tag :thread_id => Thread.current.object_id.abs
       super
     end
-    def add_default_tags(tags={})
+    def add_default_tags(tags=Benelux::Tags.new)
       @default_tags.merge! tags
     end
     alias_method :add_default_tag, :add_default_tags
@@ -48,7 +48,7 @@ module Benelux
     #     obj.ranges(:do_request) =>
     #         [[:do_request_a, :do_request_z], [:do_request_a, ...]]
     #    
-    def ranges(*names)
+    def ranges(name, tags=Benelux::Tags.new)
       return @ranges if names.empty?
       names = names.flatten.collect { |n| n.to_s }
       @ranges.select do |range| 
@@ -60,13 +60,14 @@ module Benelux
     #     obj.ranges(:do_request) =>
     #         [[:do_request_a, :get_body, :do_request_z], [:do_request_a, ...]]
     #
-    def regions(*names)
+    def regions(name, tags=Benelux::Tags.new)
       return self if names.empty?
-      self.ranges(*names).collect do |range|
+      self.ranges(name).collect do |range|
         self.sort.select do |mark|
-          ret = mark >= range.from && 
+          mark >= range.from && 
           mark <= range.to &&
-          ((!mark.track.nil? && mark.track == range.track) ||
+          # INCOKPLETE
+          ((!mark.tags.nil? && mark.tags == range.tags) ||
           mark.thread_id == range.to.thread_id)
           ret
         end

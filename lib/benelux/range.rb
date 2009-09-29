@@ -8,9 +8,16 @@ module Benelux
     attr_accessor :tags
     def initialize(name,from,to)
       @name, @from, @to = name, from, to
-      @tags = {}
+      @tags = Benelux::Tags.new
     end
-    def add_tags(tags={})
+    def to_s
+      "%s:%.4f" % [name, duration]
+    end
+    def inspect
+      args = [self.class, hexoid, duration, from, to, name, tags]
+      "#<%s:%s duration=%0.4f from=%s to=%s name=%s %s>" % args
+    end
+    def add_tags(tags=Benelux::Tags.new)
       @tags.merge! tags
     end
     alias_method :add_tag, :add_tags

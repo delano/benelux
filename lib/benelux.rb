@@ -1,10 +1,12 @@
 require 'attic'
 require 'thread'
 require 'hexoid'
+require 'gibbler'
 
 module Benelux
   NOTSUPPORTED = [Class, Object, Kernel]
   
+  require 'benelux/tags'
   require 'benelux/mark'
   require 'benelux/range'
   require 'benelux/stats'
@@ -15,6 +17,11 @@ module Benelux
   @@known_threads = []
   @@timelines = {}
   @@mutex = Mutex.new
+  @@debug = true
+  
+  def Benelux.enable_debug; @@debug = true; end
+  def Benelux.disable_debug; @@debug = false; end
+  def Benelux.debug?; @@debug; end
   
   class BeneluxError < RuntimeError; end
   class NotSupported < BeneluxError; end
@@ -137,7 +144,7 @@ module Benelux
     end
   end
   
-  def Benelux.add_default_tags(args={})
+  def Benelux.add_default_tags(args=Benelux::Tags.new)
     Benelux.thread_timeline.add_default_tags args
   end
   def Benelux.add_default_tag(*args) add_default_tags *args end
