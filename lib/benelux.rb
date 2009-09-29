@@ -56,7 +56,12 @@ module Benelux
   
   def Benelux.timeline(track=nil)
     if track.nil?
-      Benelux.merge_timelines *Benelux.timelines.values
+      if Benelux.timelines.empty?
+        tl = known_threads.collect { |t| t.timeline}
+      else
+        tl = Benelux.timelines.values
+      end
+      Benelux.merge_timelines *tl
     else
       Benelux.timelines[track]
     end
