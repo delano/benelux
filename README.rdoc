@@ -1,10 +1,12 @@
-= Benelux v0.1
+= Benelux v0.3 (IN PROGRESS)
 
-<b></b>
+<b>A madhouse of timers for your Ruby codes</b>
 
 
 == Features
 
+* Create timers for any Ruby method
+* Granular statistics
 
 
 == Installation
@@ -21,6 +23,7 @@ Get it in one of the following ways:
 * Codes[http://github.com/delano/benelux]
 * RDocs[http://delano.github.com/benelux]
 
+
 == Credits
 
 * Delano Mandelbaum (http://solutious.com)
@@ -29,6 +32,7 @@ Get it in one of the following ways:
 == Thanks 
 
 * Alexis Sellier for fielding my Ruby questions
+* Tara Dougans for the motivational speaches
 
 
 == License
