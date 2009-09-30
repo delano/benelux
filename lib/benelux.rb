@@ -7,6 +7,7 @@ module Benelux
   
   class BeneluxError < RuntimeError; end
   class NotSupported < BeneluxError; end
+  class NoTrack < BeneluxError; end
   
   require 'benelux/tags'
   require 'benelux/mark'
@@ -14,7 +15,6 @@ module Benelux
   require 'benelux/stats'
   require 'benelux/timeline'
   require 'benelux/mixins/thread'
-  require 'benelux/mixins/numeric'
   
   @@timed_methods = {}
   @@known_threads = []
@@ -34,7 +34,7 @@ module Benelux
   def benelux_timers
     Benelux.timed_methods[self.class]
   end
-
+  
   def Benelux.timeline(track=nil)
     if track.nil?
       if Benelux.timelines.empty?
@@ -67,8 +67,17 @@ module Benelux
     Benelux.timelines[track]
   end
   
-  # Create a named track. 
-  def Benelux.current_track(track)
+  # If +track+ is specified, this will associate the current
+  # thread with that +track+. 
+  #
+  # If +track+ is nil, it returns the timeline for the
+  # track associated to the current thread. 
+  #
+  def Benelux.current_track(track=nil)
+    if track.nil? 
+      raise NoTrack if Benelux.timelines[Thread.current.track].nil?
+      return Benelux.timelines[Thread.current.track] 
+    end
     Benelux.store_thread_reference
     @@mutex.synchronize do
       # QUESTION: Is it okay for multiple threads to write to
@@ -82,14 +91,10 @@ module Benelux
   # Combine two or more timelines into a new, single Benelux::Timeline.
   #
   def Benelux.merge_timelines(*timelines)
-    tl, ranges = Benelux::Timeline.new, []
-    timelines.each_with_index do |t, index|
-      next if t.empty?
-      tl << t
-      ranges += t.ranges
+    tl, stats, ranges = Benelux::Timeline.new, Benelux::Stats.new, []
+    timelines.each do |t|
+      tl += t
     end
-    tl = tl.flatten.sort!
-    tl.ranges = ranges.sort
     tl
   end
   
@@ -113,7 +118,7 @@ module Benelux
     prepare_object klass
     meth_alias = rename_method klass, meth
     timed_methods[klass] << meth
-    klass.module_eval generate_timer_str(meth_alias, meth), __FILE__, 146
+    klass.module_eval generate_timer_str(meth_alias, meth), __FILE__, 215
   end
   
   def Benelux.add_tally obj, meth

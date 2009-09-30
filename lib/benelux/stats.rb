@@ -2,19 +2,55 @@
 module Benelux
   class Stats
     attr_reader :names
-    def initialize(*methods)
-      @names = methods.flatten
-      @names.each { |meth| add_keeper(meth) }
+    def initialize(*names)
+      @names = []
+      add_keepers names
     end
-    def add_keeper(meth)
-      self.class.send :attr_reader, meth
-      instance_variable_set("@#{meth}", Benelux::Stats::Group.new(meth))
+    def add_keepers(*args)
+      args.flatten.each do |meth|
+        next if has_keeper? meth
+        @names << meth
+        self.class.send :attr_reader, meth
+        instance_variable_set("@#{meth}", Benelux::Stats::Group.new(meth))
+      end
+    end
+    alias_method :add_keeper, :add_keepers
+    def has_keeper?(name)
+      @names.member? name
+    end
+    def +(other)
+      if !other.is_a?(Benelux::Stats)
+        raise TypeError, "can't convert #{other.class} into Stats" 
+      end
+      other.names.each do |name|
+        add_keeper name
+        a = self.send(name) 
+        a += other.send(name)
+        a
+      end
+      self
     end
     
     class Group < Array
       attr_reader :name
       def initialize(name)
         @name = name
+      end
+      
+      def +(other)
+        unless @name == other.name
+          raise BeneluxError, "Cannot add #{other.name} to #{@name}"
+        end
+        other.each do |newcalc|
+          calcs = self.select { |calc| calc.tags == newcalc.tags }
+          self << newcalc and next if calcs.empty?
+          # This should only ever contain one b/c we should
+          # not have several calculators with the same tags. 
+          calcs.each do |calc|
+            calc += newcalc
+          end
+        end
+        self
       end
       
       def sample(s, tags={})
@@ -29,12 +65,25 @@ module Benelux
         nil
       end
       
-      def [](*tags)
-        tags = Benelux::TagHelpers.normalize tags
-        self.select { |c| c.tags >= tags }
+      def mean
+        merge.mean
       end
       
-
+      def merge
+        mc = Calculator.new
+        self.each { |calc| mc.samples calc }
+        mc
+      end
+      
+      def [](*tags)
+        tags = Benelux::TagHelpers.normalize tags
+        g = Benelux::Stats::Group.new @name
+        g << self.select { |c| c.tags >= tags }
+        g.flatten!
+        g
+      end
+      alias_method :filter, :[]
+      
     end
     
     # Based on Mongrel::Stats, Copyright (c) 2005 Zed A. Shaw
@@ -47,8 +96,10 @@ module Benelux
         reset
       end
   
-      def +(obj)
-        raise
+      def +(other)
+        super(other)
+        self.recalculate
+        self
       end
   
       # Resets the internal counters so you can start sampling again.
@@ -58,7 +109,11 @@ module Benelux
         @last_time = 0.0
         @min, @max = 0.0, 0.0
       end
-
+      
+      def samples(*args)
+        args.flatten.each { |s| sample(s) }
+      end
+      
       # Adds a sampling to the calculations.
       def sample(s)
         self << s

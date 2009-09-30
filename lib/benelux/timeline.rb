@@ -19,9 +19,13 @@ module Benelux
   #
   class Timeline < Array
     attr_accessor :ranges
+    attr_accessor :stats
     attr_accessor :default_tags
+    attr_reader :caller
     def initialize(*args)
+      @caller = Kernel.caller
       @ranges, @default_tags = [], Benelux::Tags.new
+      @stats = Benelux::Stats.new
       add_default_tag :thread_id => Thread.current.object_id.abs
       super
     end
@@ -63,10 +67,17 @@ module Benelux
     
     def [](tags={})
       tags = Benelux::TagHelpers.normalize tags
-      ret = self.select do |mark|
+      marks = self.select do |mark|
         mark.tags >= tags
       end
-      Benelux::Timeline.new ret
+      tl = Benelux::Timeline.new marks
+      tl.regions = @ranges.select do |region|
+        region.tags >= tags
+      end
+      #stats = @stats.select do |stat|
+      #  stat.tags >= tags
+      #end
+      tl
     end
     
     #
@@ -81,20 +92,27 @@ module Benelux
         ret
       end
     end
-
+    
     #
     #     obj.ranges(:do_request) =>
     #         [[:do_request_a, :get_body, :do_request_z], [:do_request_a, ...]]
     #
     def regions(name=nil, tags=Benelux::Tags.new)
       return self if name.nil?
-      self.ranges(name, tags).collect do |range|
-        ret = self.sort.select do |mark|
-          mark >= range.from && 
-          mark <= range.to &&
-          mark.tags >= range.tags
+      self.ranges(name, tags).collect do |base_range|
+        marks = self.sort.select do |mark|
+          mark >= base_range.from && 
+          mark <= base_range.to &&
+          mark.tags >= base_range.tags
         end
-        Benelux::Timeline.new(ret)
+        ranges = self.ranges.select do |range|
+          range.from >= base_range.from &&
+          range.to <= base_range.to &&
+          range.tags >= base_range.tags
+        end
+        tl = Benelux::Timeline.new(marks)
+        tl.ranges = ranges.sort
+        tl
       end
     end
     
@@ -116,8 +134,12 @@ module Benelux
       range = Benelux::Range.new(name, from, to)
       range.add_tags Benelux.thread_timeline.default_tags
       range.add_tags self.default_tags
+      @stats.add_keeper(name)
+      @stats.send(name).sample(range.duration, range.tags)
       @ranges << range
       Benelux.thread_timeline.ranges << range
+      Benelux.thread_timeline.stats.add_keeper(name)
+      Benelux.thread_timeline.stats.send(name).sample(range.duration, range.tags)
       range
     end
     
@@ -136,7 +158,10 @@ module Benelux
     end
     def +(other)
       self << other
-      self.flatten
+      self.ranges += other.ranges
+      self.stats += other.stats
+      self.flatten!
+      self
     end
     # Needs to compare thread id and call id. 
     #def <=>(other)
