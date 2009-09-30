@@ -160,11 +160,14 @@ module Benelux
   end
   def Benelux.remove_thread_tag(*args) remove_thread_tags *args end
   
+  def Benelux.tracks
+    Benelux.timelines.keys
+  end
   
   def Benelux.inspect
     str = ["Benelux"]
     str << "threads:" << Benelux.known_threads.inspect
-    str << "tracks:" << Benelux.timelines.keys.inspect
+    str << "tracks:" << Benelux.tracks.inspect
     str << "timers:" << Benelux.timed_methods.inspect
     str << "timeline:" << Benelux.timeline.inspect
     str.join $/

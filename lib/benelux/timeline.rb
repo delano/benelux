@@ -71,12 +71,15 @@ module Benelux
         mark.tags >= tags
       end
       tl = Benelux::Timeline.new marks
-      tl.regions = @ranges.select do |region|
+      tl.ranges = @ranges.select do |region|
         region.tags >= tags
       end
-      #stats = @stats.select do |stat|
-      #  stat.tags >= tags
-      #end
+      stats = Benelux::Stats.new
+      @stats.each do |stat|
+        next unless stat.tags >= tags
+        stats += stat
+      end
+      tl.stats = stats
       tl
     end
     

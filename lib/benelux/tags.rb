@@ -18,10 +18,20 @@ module Benelux
     end
     alias_method :add_tag, :add_tags
     def remove_tags(*tags)
+      tags.flatten!
       @tags ||= Benelux::Tags.new
       @tags.delete_if { |n,v| tags.member?(n) }
     end
     alias_method :remove_tag, :remove_tags
+    def tag_values(*tags)
+      tags.flatten!
+      @tags ||= Benelux::Tags.new
+      ret = @tags.collect { |n,v| 
+        p [:n, v]
+        v if tags.empty? || tags.member?(n) 
+      }.compact
+      ret
+    end
     def self.normalize(tags={})
       tags = tags.first if tags.kind_of?(Array) && tags.first.kind_of?(Hash)
       tags = [tags].flatten unless tags.kind_of?(Hash)

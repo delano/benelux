@@ -6,6 +6,17 @@ module Benelux
       @names = []
       add_keepers names
     end
+    def get_keeper(name)
+      self.send name
+    end
+    # Each keeper
+    def each(&blk)
+      @names.each { |name| blk.call(get_keeper(name)) }
+    end
+    # Each keeper name, keeper
+    def each_pair(&blk)
+      @names.each { |name| blk.call(name, get_keeper(name)) }
+    end
     def add_keepers(*args)
       args.flatten.each do |meth|
         next if has_keeper? meth
@@ -65,13 +76,20 @@ module Benelux
         nil
       end
       
-      def mean
-        merge.mean
-      end
+      def mean()    merge.mean   end
+      def min()     merge.min    end
+      def max()     merge.max    end
+        def sd()      merge.sd     end
+        def n()      merge.n     end
       
-      def merge
+      def merge(*tags)
+        tags = Benelux::TagHelpers.normalize tags
         mc = Calculator.new
-        self.each { |calc| mc.samples calc }
+        all = tags.empty? ? self : self.filter(tags)
+        all.each { |calc| 
+          mc.samples calc
+          mc.add_tags calc.tags
+        }
         mc
       end
       
@@ -79,7 +97,7 @@ module Benelux
         tags = Benelux::TagHelpers.normalize tags
         g = Benelux::Stats::Group.new @name
         g << self.select { |c| c.tags >= tags }
-        g.flatten!
+        g.flatten!(1)  # only 1 level deep
         g
       end
       alias_method :filter, :[]
@@ -140,8 +158,8 @@ module Benelux
       # Returns a common display (used by dump)
       def inspect
         v = [mean, @n, @sum, @sumsq, sd, @min, @max]
-        t = %q'N=%0.4f SUM=%0.4f SUMSQ=%0.4f SD=%0.4f MIN=%0.4f MAX=%0.4f"'
-        ('"%0.4f: ' << t) % v
+        t = %q'%8d(N) %10.4f(SUM) %8.4f(SUMSQ) %8.4f(SD) %8.4f(MIN) %8.4f(MAX)'
+        ('%0.4f: ' << t) % v
       end
 
       def to_s; mean.to_s; end
