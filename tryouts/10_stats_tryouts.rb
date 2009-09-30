@@ -30,7 +30,7 @@ tryouts "Stats" do
     stats.execute != stats.request
   end
   
-  dream [2, 2, 2, 2, 1, 1]
+  dream [true, true, true]
   drill "can keep stats with tags" do
     stats = Benelux::Stats.new(stat_names)
     3.times { |i|
@@ -38,12 +38,11 @@ tryouts "Stats" do
       stats.execute.sample(rand, :usecase => '11', :request => '22')
       stats.execute.sample(rand, :request => '22')
     }
-    [stats.execute['11'].size, 
-     stats.execute['22'].size,
-     stats.execute[:usecase => '11'].size,
-     stats.execute[:request => '22'].size,
-     stats.execute['22','11'].size,
-     stats.execute[:usecase => '11', :request => '22'].size
+    stash :execute_stats, stats.execute
+    [
+      stats.execute['11'] == stats.execute[:usecase => '11'],
+      stats.execute['22'] == stats.execute[:request => '22'],
+      stats.execute['22','11'] == stats.execute[:usecase => '11', :request => '22']
     ]
   end
   
