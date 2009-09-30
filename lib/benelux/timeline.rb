@@ -1,9 +1,22 @@
 
 module Benelux
   # 
-  # |------+----+--+----+----|
-  #        |
-  #       0.02  
+  #     |------+----+--+----+----|
+  #            |
+  #           0.02  
+  #
+  # Usage examples::
+  #
+  #    Benelux.timeline['9dbd521de4dfd6257135649d78a9c0aa2dd58cfe'].each do |mark|
+  #      p [mark.track, mark.name, mark.tags[:usecase], mark.tags[:call_id]]
+  #    end
+  #
+  #    Benelux.timeline.ranges(:do_request).each do |range|
+  #      puts "Client%s: %s: %s: %f" % [range.track, range.thread_id, range.name, range.duration]
+  #    end
+  #
+  #    regions = Benelux.timeline(track_id).regions(:execute)
+  #
   class Timeline < Array
     attr_accessor :ranges
     attr_accessor :default_tags
