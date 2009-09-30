@@ -67,11 +67,8 @@ module Benelux
     end
   end
   
-  def Benelux.update_tracks
-    Benelux.timelines.keys.each { |track| Benelux.update_track(track) }
-  end
-  
-  def Benelux.update_track(track)
+  def Benelux.update_track(track=nil)
+    track = Thread.current.track if track.nil?
     threads = Benelux.known_threads.select { |t| t.track == track }
     Benelux.timelines[track] = Benelux.merge_timelines(*threads.collect { |t| t.timeline })
     threads.each { |t| t.timeline.clear }
@@ -81,6 +78,7 @@ module Benelux
   def Benelux.merge_timelines(*timelines)
     tl, ranges = Benelux::Timeline.new, []
     timelines.each_with_index do |t, index|
+      next if t.empty?
       tl << t
       ranges += t.ranges
     end
@@ -162,15 +160,15 @@ module Benelux
     end
   end
   
-  def Benelux.add_default_tags(args=Benelux::Tags.new)
+  def Benelux.add_thread_tags(args=Benelux::Tags.new)
     Benelux.thread_timeline.add_default_tags args
   end
-  def Benelux.add_default_tag(*args) add_default_tags *args end
+  def Benelux.add_thread_tag(*args) add_thread_tags *args end
   
-  def Benelux.remove_default_tags(*args)
+  def Benelux.remove_thread_tags(*args)
     Benelux.thread_timeline.remove_default_tags *args
   end
-  def Benelux.remove_default_tag(*args) remove_default_tags *args end
+  def Benelux.remove_thread_tag(*args) remove_thread_tags *args end
 
   
   def Benelux.generate_timer_str(meth_alias, meth)
