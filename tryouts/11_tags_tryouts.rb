@@ -2,7 +2,6 @@
 group "Benelux"
 
 library :benelux, 'lib'
-
 tryouts "Tags" do
   set :base, Benelux::Tags[:a => 1, :b => 2]
   
@@ -14,15 +13,15 @@ tryouts "Tags" do
     base.respond_to? :'<=>'
   end
   
-  drill "Comaprison operator returns 0 for same values", 0 do
+  drill "Comparison operator returns 0 for same values", 0 do
     base <=> {:a => 1, :b => 2}
   end
   
-  drill "Comaprison operator returns 1 when it's a superset of other", 1 do
+  drill "Comparison operator returns 1 when it's a superset of other", 1 do
     base <=> {:a => 1}
   end
 
-  drill "Comaprison operator returns -1 when it's a subset of other", -1 do
+  drill "Comparison operator returns -1 when it's a subset of other", -1 do
     base <=> {:a => 1, :b => 2, :c => 3}
   end
   

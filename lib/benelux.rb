@@ -1,7 +1,6 @@
 require 'attic'
-require 'thread'
 require 'hexoid'
-require 'gibbler'
+require 'thread'
 
 module Benelux
   NOTSUPPORTED = [Class, Object, Kernel]
