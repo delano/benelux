@@ -1,7 +1,7 @@
 module Benelux
   class Mark < Time
+    include Benelux::TagHelpers
     attr_accessor :name
-    attr_accessor :tags
     def self.now(n=nil)
       v = super()
       v.tags = Benelux::Tags.new

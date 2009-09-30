@@ -5,12 +5,16 @@ require 'thread'
 module Benelux
   NOTSUPPORTED = [Class, Object, Kernel]
   
+  class BeneluxError < RuntimeError; end
+  class NotSupported < BeneluxError; end
+  
   require 'benelux/tags'
   require 'benelux/mark'
   require 'benelux/range'
   require 'benelux/stats'
   require 'benelux/timeline'
   require 'benelux/mixins/thread'
+  require 'benelux/mixins/numeric'
   
   @@timed_methods = {}
   @@known_threads = []
@@ -21,9 +25,6 @@ module Benelux
   def Benelux.enable_debug; @@debug = true; end
   def Benelux.disable_debug; @@debug = false; end
   def Benelux.debug?; @@debug; end
-  
-  class BeneluxError < RuntimeError; end
-  class NotSupported < BeneluxError; end
   
   # Returns an Array of method names for the current class that
   # are timed by Benelux. 

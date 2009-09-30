@@ -62,7 +62,7 @@ module Benelux
     end
     
     def [](tags={})
-      tags = [tags].flatten unless tags.is_a?(Hash)
+      tags = Benelux::TagHelpers.normalize tags
       ret = self.select do |mark|
         mark.tags >= tags
       end

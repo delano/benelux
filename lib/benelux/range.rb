@@ -1,11 +1,12 @@
 
 module Benelux
   class Range
+    include Benelux::TagHelpers
+    
     attr_accessor :name
     attr_accessor :from
     attr_accessor :to
     attr_accessor :exception
-    attr_accessor :tags
     def initialize(name,from,to)
       @name, @from, @to = name, from, to
       @tags = Benelux::Tags.new
@@ -17,14 +18,7 @@ module Benelux
       args = [self.class, hexoid, duration, from, to, name, tags]
       "#<%s:%s duration=%0.4f from=%s to=%s name=%s %s>" % args
     end
-    def add_tags(tags=Benelux::Tags.new)
-      @tags.merge! tags
-    end
-    alias_method :add_tag, :add_tags
-    def remove_tags(*tags)
-      @tags.delete_if { |n,v| tags.member?(n) }
-    end
-    alias_method :remove_tag, :remove_tags
+
     def track 
       @from.nil? ? :unknown : @from.track
     end
