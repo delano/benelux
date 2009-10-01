@@ -53,7 +53,7 @@ module Benelux
   # have finished).
   #
   def Benelux.update_all_track_timelines
-    Benelux.timelines.keys.each { |track| Benelux.update_track(track) }
+    Benelux.timelines.keys.each { |track| Benelux.update_track_timeline(track) }
   end
   
   # Must be run from the master thread in the current track. The master

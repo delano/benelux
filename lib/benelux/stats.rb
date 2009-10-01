@@ -79,8 +79,8 @@ module Benelux
       def mean()    merge.mean   end
       def min()     merge.min    end
       def max()     merge.max    end
-        def sd()      merge.sd     end
-        def n()      merge.n     end
+      def sd()      merge.sd     end
+      def n()       merge.n      end
       
       def merge(*tags)
         tags = Benelux::TagHelpers.normalize tags
