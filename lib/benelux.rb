@@ -3,7 +3,7 @@ require 'hexoid'
 require 'thread'
 
 module Benelux
-  VERSION = "0.3.0"
+  VERSION = "0.3.1"
   NOTSUPPORTED = [Class, Object, Kernel]
   
   class BeneluxError < RuntimeError; end
