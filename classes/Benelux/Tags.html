@@ -53,50 +53,50 @@
             <h2>Methods</h2>
             <h3>public instance</h3>
             <ol>
-              <li><a href="#M000096">&lt;</a></li>
-              <li><a href="#M000097">&lt;=</a></li>
-              <li><a href="#M000094">&lt;=&gt;</a></li>
-              <li><a href="#M000093">==</a></li>
-              <li><a href="#M000095">&gt;</a></li>
-              <li><a href="#M000098">&gt;=</a></li>
-              <li><a href="#M000092">inspect</a></li>
-              <li><a href="#M000091">to_s</a></li>
+              <li><a href="#M000097">&lt;</a></li>
+              <li><a href="#M000098">&lt;=</a></li>
+              <li><a href="#M000095">&lt;=&gt;</a></li>
+              <li><a href="#M000094">==</a></li>
+              <li><a href="#M000096">&gt;</a></li>
+              <li><a href="#M000099">&gt;=</a></li>
+              <li><a href="#M000093">inspect</a></li>
+              <li><a href="#M000092">to_s</a></li>
             </ol>
           </div>
           <div id='section'>
             <div id='methods'>
               <h2>Public instance methods</h2>
-              <div class='public-instance method' id='method-M000096'>
-                <a name='M000096'>      </a>
-                <div class='synopsis'>
-                  <span class='name'>&lt;</span>
-                  <span class='arguments'>(other)</span>
-                </div>
-                <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('M000096-source'); return false">
-                    [show source]
-                  </a>
-                  <pre id='M000096-source'>     <span class="ruby-comment cmt"># File lib/benelux/tags.rb, line 104</span>&#x000A;104:     <span class="ruby-keyword kw">def</span> <span class="ruby-operator">&lt;</span>(<span class="ruby-identifier">other</span>)  (<span class="ruby-keyword kw">self</span> <span class="ruby-operator">&lt;=&gt;</span> <span class="ruby-identifier">other</span>) <span class="ruby-operator">&lt;</span> <span class="ruby-value">0</span>  <span class="ruby-keyword kw">end</span></pre>
-                </div>
-              </div>
               <div class='public-instance method' id='method-M000097'>
                 <a name='M000097'>      </a>
                 <div class='synopsis'>
-                  <span class='name'>&lt;=</span>
+                  <span class='name'>&lt;</span>
                   <span class='arguments'>(other)</span>
                 </div>
                 <div class='source'>
                   <a class='source-toggle' href='#' onclick="toggleCode('M000097-source'); return false">
                     [show source]
                   </a>
-                  <pre id='M000097-source'>     <span class="ruby-comment cmt"># File lib/benelux/tags.rb, line 106</span>&#x000A;106:     <span class="ruby-keyword kw">def</span> <span class="ruby-operator">&lt;=</span>(<span class="ruby-identifier">other</span>) (<span class="ruby-keyword kw">self</span> <span class="ruby-operator">&lt;=&gt;</span> <span class="ruby-identifier">other</span>) <span class="ruby-operator">&lt;=</span> <span class="ruby-value">0</span> <span class="ruby-keyword kw">end</span></pre>
+                  <pre id='M000097-source'>    <span class="ruby-comment cmt"># File lib/benelux/tags.rb, line 96</span>&#x000A;96:     <span class="ruby-keyword kw">def</span> <span class="ruby-operator">&lt;</span>(<span class="ruby-identifier">other</span>)  (<span class="ruby-keyword kw">self</span> <span class="ruby-operator">&lt;=&gt;</span> <span class="ruby-identifier">other</span>) <span class="ruby-operator">&lt;</span> <span class="ruby-value">0</span>  <span class="ruby-keyword kw">end</span></pre>
                 </div>
               </div>
-              <div class='public-instance method' id='method-M000094'>
-                <a name='M000094'>      </a>
+              <div class='public-instance method' id='method-M000098'>
+                <a name='M000098'>      </a>
+                <div class='synopsis'>
+                  <span class='name'>&lt;=</span>
+                  <span class='arguments'>(other)</span>
+                </div>
+                <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('M000098-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='M000098-source'>    <span class="ruby-comment cmt"># File lib/benelux/tags.rb, line 98</span>&#x000A;98:     <span class="ruby-keyword kw">def</span> <span class="ruby-operator">&lt;=</span>(<span class="ruby-identifier">other</span>) (<span class="ruby-keyword kw">self</span> <span class="ruby-operator">&lt;=&gt;</span> <span class="ruby-identifier">other</span>) <span class="ruby-operator">&lt;=</span> <span class="ruby-value">0</span> <span class="ruby-keyword kw">end</span></pre>
+                </div>
+              </div>
+              <div class='public-instance method' id='method-M000095'>
+                <a name='M000095'>      </a>
                 <div class='synopsis'>
                   <span class='name'>&lt;=&gt;</span>
-                  <span class='arguments'>(*other)</span>
+                  <span class='arguments'>(b)</span>
                 </div>
                 <div class='description'>
                   <p>
@@ -108,75 +108,75 @@
                   <pre>a = {:a =&gt; 1, :b =&gt; 2}&#x000A;a &gt; {:a =&gt; 1, :b =&gt; 2, :c =&gt; 3}    # =&gt; false&#x000A;a &gt; {:a =&gt; 1}                      # =&gt; true&#x000A;a &lt; {:a =&gt; 1, :b =&gt; 2, :c =&gt; 3}    # =&gt; true&#x000A;a &gt;= [2, 1]                        # =&gt; true&#x000A;a &gt; [2, 1]                         # =&gt; false</pre>
                 </div>
                 <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('M000095-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='M000095-source'>    <span class="ruby-comment cmt"># File lib/benelux/tags.rb, line 89</span>&#x000A;89:     <span class="ruby-keyword kw">def</span> <span class="ruby-operator">&lt;=&gt;</span>(<span class="ruby-identifier">b</span>)&#x000A;90:       <span class="ruby-comment cmt">#other = Benelux::TagHelpers.normalize other</span>&#x000A;91:       <span class="ruby-keyword kw">return</span> <span class="ruby-value">0</span> <span class="ruby-keyword kw">if</span> <span class="ruby-keyword kw">self</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">b</span>&#x000A;92:       <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">send</span> <span class="ruby-identifier">:&quot;compare_#{b.class}&quot;</span>, <span class="ruby-identifier">b</span>&#x000A;93:     <span class="ruby-keyword kw">end</span></pre>
+                </div>
+              </div>
+              <div class='public-instance method' id='method-M000094'>
+                <a name='M000094'>      </a>
+                <div class='synopsis'>
+                  <span class='name'>==</span>
+                  <span class='arguments'>(other)</span>
+                </div>
+                <div class='source'>
                   <a class='source-toggle' href='#' onclick="toggleCode('M000094-source'); return false">
                     [show source]
                   </a>
-                  <pre id='M000094-source'>     <span class="ruby-comment cmt"># File lib/benelux/tags.rb, line 89</span>&#x000A; 89:     <span class="ruby-keyword kw">def</span> <span class="ruby-operator">&lt;=&gt;</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">other</span>)&#x000A; 90:       <span class="ruby-identifier">other</span> = <span class="ruby-constant">Benelux</span><span class="ruby-operator">::</span><span class="ruby-constant">TagHelpers</span>.<span class="ruby-identifier">normalize</span> <span class="ruby-identifier">other</span>&#x000A; 91:       <span class="ruby-keyword kw">return</span> <span class="ruby-value">0</span> <span class="ruby-keyword kw">if</span> <span class="ruby-keyword kw">self</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">other</span>&#x000A; 92:       <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">other</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Array</span>)&#x000A; 93:         <span class="ruby-keyword kw">return</span> <span class="ruby-value">-1</span> <span class="ruby-keyword kw">unless</span> (<span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">values</span> <span class="ruby-operator">&amp;</span> <span class="ruby-identifier">other</span>).<span class="ruby-identifier">size</span> <span class="ruby-operator">&gt;=</span> <span class="ruby-identifier">other</span>.<span class="ruby-identifier">size</span>&#x000A; 94:       <span class="ruby-keyword kw">else</span>&#x000A; 95:         <span class="ruby-keyword kw">return</span> <span class="ruby-value">-1</span> <span class="ruby-keyword kw">unless</span> (<span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">keys</span> <span class="ruby-operator">&amp;</span> <span class="ruby-identifier">other</span>.<span class="ruby-identifier">keys</span>).<span class="ruby-identifier">size</span> <span class="ruby-operator">&gt;=</span> <span class="ruby-identifier">other</span>.<span class="ruby-identifier">keys</span>.<span class="ruby-identifier">size</span>&#x000A; 96:         <span class="ruby-identifier">other</span>.<span class="ruby-identifier">each_pair</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">n</span>,<span class="ruby-identifier">v</span><span class="ruby-operator">|</span> &#x000A; 97:           <span class="ruby-keyword kw">return</span> <span class="ruby-value">-1</span> <span class="ruby-keyword kw">unless</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-identifier">n</span>) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-keyword kw">self</span>[<span class="ruby-identifier">n</span>] <span class="ruby-operator">==</span> <span class="ruby-identifier">v</span>&#x000A; 98:         }&#x000A; 99:       <span class="ruby-keyword kw">end</span>&#x000A;100:       <span class="ruby-value">1</span>&#x000A;101:     <span class="ruby-keyword kw">end</span></pre>
+                  <pre id='M000094-source'>    <span class="ruby-comment cmt"># File lib/benelux/tags.rb, line 69</span>&#x000A;69:     <span class="ruby-keyword kw">def</span> <span class="ruby-operator">==</span>(<span class="ruby-identifier">other</span>)&#x000A;70: <span class="ruby-comment cmt">#      other = Benelux::TagHelpers.normalize other</span>&#x000A;71:       <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">other</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Array</span>)&#x000A;72:         (<span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">values</span> <span class="ruby-operator">&amp;</span> <span class="ruby-identifier">other</span>).<span class="ruby-identifier">sort</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">other</span>.<span class="ruby-identifier">sort</span>&#x000A;73:       <span class="ruby-keyword kw">else</span>&#x000A;74:         <span class="ruby-keyword kw">super</span>(<span class="ruby-identifier">other</span>)&#x000A;75:       <span class="ruby-keyword kw">end</span>&#x000A;76:     <span class="ruby-keyword kw">end</span></pre>
                 </div>
               </div>
-              <div class='public-instance method' id='method-M000093'>
-                <a name='M000093'>      </a>
-                <div class='synopsis'>
-                  <span class='name'>==</span>
-                  <span class='arguments'>(*other)</span>
-                </div>
-                <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('M000093-source'); return false">
-                    [show source]
-                  </a>
-                  <pre id='M000093-source'>    <span class="ruby-comment cmt"># File lib/benelux/tags.rb, line 69</span>&#x000A;69:     <span class="ruby-keyword kw">def</span> <span class="ruby-operator">==</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">other</span>)&#x000A;70:       <span class="ruby-identifier">other</span> = <span class="ruby-constant">Benelux</span><span class="ruby-operator">::</span><span class="ruby-constant">TagHelpers</span>.<span class="ruby-identifier">normalize</span> <span class="ruby-identifier">other</span>&#x000A;71:       <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">other</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Array</span>)&#x000A;72:         (<span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">values</span> <span class="ruby-operator">&amp;</span> <span class="ruby-identifier">other</span>).<span class="ruby-identifier">sort</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">other</span>.<span class="ruby-identifier">sort</span>&#x000A;73:       <span class="ruby-keyword kw">else</span>&#x000A;74:         <span class="ruby-keyword kw">super</span>(<span class="ruby-identifier">other</span>)&#x000A;75:       <span class="ruby-keyword kw">end</span>&#x000A;76:     <span class="ruby-keyword kw">end</span></pre>
-                </div>
-              </div>
-              <div class='public-instance method' id='method-M000095'>
-                <a name='M000095'>      </a>
+              <div class='public-instance method' id='method-M000096'>
+                <a name='M000096'>      </a>
                 <div class='synopsis'>
                   <span class='name'>&gt;</span>
                   <span class='arguments'>(other)</span>
                 </div>
                 <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('M000095-source'); return false">
+                  <a class='source-toggle' href='#' onclick="toggleCode('M000096-source'); return false">
                     [show source]
                   </a>
-                  <pre id='M000095-source'>     <span class="ruby-comment cmt"># File lib/benelux/tags.rb, line 103</span>&#x000A;103:     <span class="ruby-keyword kw">def</span> <span class="ruby-operator">&gt;</span>(<span class="ruby-identifier">other</span>)  (<span class="ruby-keyword kw">self</span> <span class="ruby-operator">&lt;=&gt;</span> <span class="ruby-identifier">other</span>) <span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span>  <span class="ruby-keyword kw">end</span></pre>
+                  <pre id='M000096-source'>    <span class="ruby-comment cmt"># File lib/benelux/tags.rb, line 95</span>&#x000A;95:     <span class="ruby-keyword kw">def</span> <span class="ruby-operator">&gt;</span>(<span class="ruby-identifier">other</span>)  (<span class="ruby-keyword kw">self</span> <span class="ruby-operator">&lt;=&gt;</span> <span class="ruby-identifier">other</span>) <span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span>  <span class="ruby-keyword kw">end</span></pre>
                 </div>
               </div>
-              <div class='public-instance method' id='method-M000098'>
-                <a name='M000098'>      </a>
+              <div class='public-instance method' id='method-M000099'>
+                <a name='M000099'>      </a>
                 <div class='synopsis'>
                   <span class='name'>&gt;=</span>
                   <span class='arguments'>(other)</span>
                 </div>
                 <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('M000098-source'); return false">
+                  <a class='source-toggle' href='#' onclick="toggleCode('M000099-source'); return false">
                     [show source]
                   </a>
-                  <pre id='M000098-source'>     <span class="ruby-comment cmt"># File lib/benelux/tags.rb, line 107</span>&#x000A;107:     <span class="ruby-keyword kw">def</span> <span class="ruby-operator">&gt;=</span>(<span class="ruby-identifier">other</span>) (<span class="ruby-keyword kw">self</span> <span class="ruby-operator">&lt;=&gt;</span> <span class="ruby-identifier">other</span>) <span class="ruby-operator">&gt;=</span> <span class="ruby-value">0</span> <span class="ruby-keyword kw">end</span></pre>
+                  <pre id='M000099-source'>    <span class="ruby-comment cmt"># File lib/benelux/tags.rb, line 99</span>&#x000A;99:     <span class="ruby-keyword kw">def</span> <span class="ruby-operator">&gt;=</span>(<span class="ruby-identifier">other</span>) (<span class="ruby-keyword kw">self</span> <span class="ruby-operator">&lt;=&gt;</span> <span class="ruby-identifier">other</span>) <span class="ruby-operator">&gt;=</span> <span class="ruby-value">0</span> <span class="ruby-keyword kw">end</span></pre>
+                </div>
+              </div>
+              <div class='public-instance method' id='method-M000093'>
+                <a name='M000093'>      </a>
+                <div class='synopsis'>
+                  <span class='name'>inspect</span>
+                  <span class='arguments'>()</span>
+                </div>
+                <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('M000093-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='M000093-source'>    <span class="ruby-comment cmt"># File lib/benelux/tags.rb, line 65</span>&#x000A;65:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">inspect</span>&#x000A;66:       <span class="ruby-identifier">to_s</span>&#x000A;67:     <span class="ruby-keyword kw">end</span></pre>
                 </div>
               </div>
               <div class='public-instance method' id='method-M000092'>
                 <a name='M000092'>      </a>
                 <div class='synopsis'>
-                  <span class='name'>inspect</span>
+                  <span class='name'>to_s</span>
                   <span class='arguments'>()</span>
                 </div>
                 <div class='source'>
                   <a class='source-toggle' href='#' onclick="toggleCode('M000092-source'); return false">
                     [show source]
                   </a>
-                  <pre id='M000092-source'>    <span class="ruby-comment cmt"># File lib/benelux/tags.rb, line 65</span>&#x000A;65:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">inspect</span>&#x000A;66:       <span class="ruby-identifier">to_s</span>&#x000A;67:     <span class="ruby-keyword kw">end</span></pre>
-                </div>
-              </div>
-              <div class='public-instance method' id='method-M000091'>
-                <a name='M000091'>      </a>
-                <div class='synopsis'>
-                  <span class='name'>to_s</span>
-                  <span class='arguments'>()</span>
-                </div>
-                <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('M000091-source'); return false">
-                    [show source]
-                  </a>
-                  <pre id='M000091-source'>    <span class="ruby-comment cmt"># File lib/benelux/tags.rb, line 57</span>&#x000A;57:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">to_s</span>&#x000A;58:       <span class="ruby-identifier">tagstr</span> = []&#x000A;59:       <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">each_pair</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">n</span>,<span class="ruby-identifier">v</span><span class="ruby-operator">|</span>&#x000A;60:         <span class="ruby-identifier">tagstr</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value str">&quot;%s=%s&quot;</span> <span class="ruby-operator">%</span> [<span class="ruby-identifier">n</span>,<span class="ruby-identifier">v</span>]&#x000A;61:       <span class="ruby-keyword kw">end</span>&#x000A;62:       <span class="ruby-identifier">tagstr</span>.<span class="ruby-identifier">join</span> <span class="ruby-value str">' '</span>&#x000A;63:     <span class="ruby-keyword kw">end</span></pre>
+                  <pre id='M000092-source'>    <span class="ruby-comment cmt"># File lib/benelux/tags.rb, line 57</span>&#x000A;57:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">to_s</span>&#x000A;58:       <span class="ruby-identifier">tagstr</span> = []&#x000A;59:       <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">each_pair</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">n</span>,<span class="ruby-identifier">v</span><span class="ruby-operator">|</span>&#x000A;60:         <span class="ruby-identifier">tagstr</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value str">&quot;%s=%s&quot;</span> <span class="ruby-operator">%</span> [<span class="ruby-identifier">n</span>,<span class="ruby-identifier">v</span>]&#x000A;61:       <span class="ruby-keyword kw">end</span>&#x000A;62:       <span class="ruby-identifier">tagstr</span>.<span class="ruby-identifier">join</span> <span class="ruby-value str">' '</span>&#x000A;63:     <span class="ruby-keyword kw">end</span></pre>
                 </div>
               </div>
             </div>
