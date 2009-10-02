@@ -66,8 +66,8 @@ module Benelux
       to_s
     end
     
-    def ==(*other)
-      other = Benelux::TagHelpers.normalize other
+    def ==(other)
+#      other = Benelux::TagHelpers.normalize other
       if other.is_a?(Array)
         (self.values & other).sort == other.sort
       else
@@ -86,25 +86,31 @@ module Benelux
     #     a >= [2, 1]                        # => true
     #     a > [2, 1]                         # => false
     #
-    def <=>(*other)
-      other = Benelux::TagHelpers.normalize other
-      return 0 if self == other
-      if other.is_a?(Array)
-        return -1 unless (self.values & other).size >= other.size
-      else
-        return -1 unless (self.keys & other.keys).size >= other.keys.size
-        other.each_pair { |n,v| 
-          return -1 unless self.has_key?(n) && self[n] == v
-        }
-      end
-      1
+    def <=>(b)
+      #other = Benelux::TagHelpers.normalize other
+      return 0 if self == b
+      self.send :"compare_#{b.class}", b
     end
-    
+        
     def >(other)  (self <=> other) > 0  end
     def <(other)  (self <=> other) < 0  end
     
     def <=(other) (self <=> other) <= 0 end
     def >=(other) (self <=> other) >= 0 end
+    
+    private
+    
+    def compare_Hash(b)
+      a = self
+      return -1 unless (a.values_at(*b.keys) & b.values).size >= b.size
+      1
+    end
+    alias_method :"compare_Benelux::Tags", :compare_Hash
+    
+    def compare_Array(b)
+      return -1 unless (self.values & b).size >= b.size
+      1
+    end
       
   end
 end

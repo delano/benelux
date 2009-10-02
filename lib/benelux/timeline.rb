@@ -66,7 +66,7 @@ module Benelux
     end
     
     def [](tags={})
-      tags = Benelux::TagHelpers.normalize tags
+      #tags = Benelux::TagHelpers.normalize tags
       marks = self.select do |mark|
         mark.tags >= tags
       end
