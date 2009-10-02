@@ -152,16 +152,21 @@ module Benelux
   
       # Dump this Stats object with an optional additional message.
       def dump(msg = "", out=STDERR)
-        out.puts "#{msg}: #{self.inspect}"
+        out.puts "#{msg}: #{self.report}"
       end
 
       # Returns a common display (used by dump)
-      def inspect
+      def report
         v = [mean, @n, @sum, @sumsq, sd, @min, @max]
         t = %q'%8d(N) %10.4f(SUM) %8.4f(SUMSQ) %8.4f(SD) %8.4f(MIN) %8.4f(MAX)'
         ('%0.4f: ' << t) % v
       end
-
+      
+      def inspect
+        v = [ mean, @n, @sum, @sumsq, sd, @min, @max, tags]
+        "%.4f: n=%.4f sum=%.4f sumsq=%.4f sd=%.4f min=%.4f max=%.4f %s" % v
+      end
+      
       def to_s; mean.to_s; end
       def to_f; mean.to_f; end
       def to_i; mean.to_i; end
