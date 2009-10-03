@@ -2,6 +2,40 @@
 group "Benelux"
 
 library :benelux, 'lib'
+tryouts "Selectable" do
+  set :base, SelectableArray.new
+  
+  setup do
+    class ::TaggedItems
+      include Selectable::Object
+    end
+    10.times { |i|
+      obj = TaggedItems.new 
+      obj.add_tags :index => i, :even => (i%2 == 0)
+      base << obj
+    }
+  end
+  
+  dream :class, SelectableArray
+  dream :size, 5
+  drill "filter returns a new instance of the same object" do
+    base[:even => true]
+  end
+  
+  drill "[] and filter are the same", true do
+    base[:even => false] == base.filter[:even => false]
+  end
+  
+  dream :class, SelectableArray
+  dream :object_id, base.object_id
+  dream :size, 5
+  drill "filter! makes permanent changes to itself" do
+    base.filter! :even => true
+  end
+  
+end
+
+
 tryouts "Tags" do
   set :base, Selectable::Tags[:a => 1, :b => 2]
   
@@ -58,3 +92,5 @@ tryouts "Tags" do
   end
   
 end
+
+

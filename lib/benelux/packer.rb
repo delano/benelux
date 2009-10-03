@@ -39,7 +39,13 @@ module Benelux
         alias_method a, m  # Can't use the instance variables
       end
       install_method  # see generate_packed_method
+      self.add_tags :class => @klass.to_s.to_sym, 
+                    :meth  => @meth.to_sym,
+                    :kind  => self.class.to_s.to_sym
       Benelux.packed_methods << self
+    end
+    def install_method
+      raise "You need to implement this method"
     end
   end
   
@@ -88,10 +94,10 @@ module Benelux
     end
     
     
-    def Benelux.generate_packed_method(callblock=false)
+    def generate_packed_method(callblock=false)
       %Q{
       def #{@meth}(*args, &block)
-        p :#{@meth}
+        #{@aliaz}(*args, &block)
       end
       }
     end

@@ -18,6 +18,8 @@ module Benelux
   #    regions = Benelux.timeline(track_id).regions(:execute)
   #
   class Timeline < Array
+    include Selectable
+    
     attr_accessor :ranges
     attr_accessor :stats
     attr_accessor :default_tags
@@ -65,11 +67,8 @@ module Benelux
       end
     end
     
-    def [](tags={})
-      marks = self.select do |mark|
-        mark.tags >= tags
-      end
-      tl = Benelux::Timeline.new marks
+    def [](*tags)
+      tl = super
       tl.ranges = @ranges.select do |region|
         region.tags >= tags
       end

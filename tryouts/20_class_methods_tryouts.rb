@@ -1,30 +1,53 @@
-require 'profiler'
+
 group "Benelux"
 
 library :benelux, 'lib'
 
-tryouts "Basics" do
+
+
+tryouts "Essentials" do
   
   setup do
     class ::Sleeper
-      def do_something() sleep rand/3 end
+      def   do_something()  sleep rand/3 end
+      def another_method(t) t*2          end 
     end
   end
   
   drill "Add timers to existing objects", true do
     Benelux.add_timer Sleeper, :do_something
+    Benelux.add_counter Sleeper, :another_method
     Sleeper.new.respond_to? :timeline
   end
   
-  dream :class, Array
-  #dream { Hash[ Sleeper => [Benelux::MethodTimer.new(Sleeper, :do_something)] ] }
-  drill "Benelux keeps track of packed objects" do
+  dream :class, SelectableArray
+  dream :size, 2
+  dream :proc, lambda { |obj|
+    pm = obj.first
+    pm.class == Benelux::MethodTimer && 
+    pm.meth == :do_something &&
+    pm.klass == Sleeper
+  }
+  drill "Keeps a list of modified methods" do
     Benelux.packed_methods
   end
   
-  dream [:do_something]
-  xdrill "A Benelux object has a benelux_timers method" do
-    Sleeper.new.benelux_timers
+  drill "Knows what a timer has been defined", true do
+    Benelux.timed_method? :Sleeper, :do_something
+  end
+  
+  drill "Knows what a timer has not been defined", false do
+    Benelux.timed_method? :Sleeper, :no_such_method
+  end
+  
+  dream [1,1]
+  drill "Knows there's one timer and one counter" do
+    [Benelux.timed_methods.size, Benelux.counted_methods.size]
+  end
+  
+  dream :class, SelectableArray
+  xdrill "A Benelux object has a timed_methods method" do
+    Sleeper.new.timed_methods
   end
   
   dream :class, Benelux::Timeline

@@ -22,7 +22,8 @@ module Benelux
         next if has_keeper? meth
         @names << meth
         self.class.send :attr_reader, meth
-        instance_variable_set("@#{meth}", Benelux::Stats::Group.new(meth))
+        (g = Benelux::Stats::Group.new).name = meth
+        instance_variable_set("@#{meth}", g)
       end
     end
     alias_method :add_keeper, :add_keepers
@@ -43,10 +44,9 @@ module Benelux
     end
     
     class Group < Array
-      attr_reader :name
-      def initialize(name)
-        @name = name
-      end
+      include Selectable
+      
+      attr_accessor :name
       
       def +(other)
         unless @name == other.name
@@ -82,7 +82,8 @@ module Benelux
       def sd()      merge.sd     end
       def n()       merge.n      end
       
-      def merge(tags={})
+      def merge(*tags)
+        tags = Selectable.normalize tags
         mc = Calculator.new
         all = tags.empty? ? self : self.filter(tags)
         all.each { |calc| 
@@ -92,14 +93,11 @@ module Benelux
         mc
       end
       
-      def [](*tags)
-        tags = Selectable.normalize tags
-        g = Benelux::Stats::Group.new @name
-        g << self.select { |c| c.tags >= tags }
-        g.flatten!(1)  # only 1 level deep
-        g
+      def filter(*tags)
+        (f = super).name = @name
+        f
       end
-      alias_method :filter, :[]
+      alias_method :[], :filter
       
     end
     

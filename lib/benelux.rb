@@ -18,14 +18,12 @@ module Benelux
   require 'benelux/timeline'
   require 'benelux/mixins/thread'
   
-  @packed_methods = []
+  @packed_methods = SelectableArray.new
   
   class << self
     attr_reader :packed_methods
   end
   
-  @@timed_methods = {}
-  @@counted_methods = {}
   @@known_threads = []
   @@timelines = {}
   @@mutex = Mutex.new
@@ -104,13 +102,18 @@ module Benelux
     Thread.current.timeline
   end
   
-  # Make note of the class which included Benelux. 
-  def Benelux.included(klass)
-    timed_methods[klass] = [] unless timed_methods.has_key? klass
+  def Benelux.timed_method? klass, meth
+    Benelux.packed_method? klass, meth, :'Benelux::MethodTimer'
   end
   
-  def Benelux.timed_method? klass, meth
-    !timed_methods[klass].nil? && timed_methods[klass].member?(meth)
+  def Benelux.counted_method? klass, meth
+    Benelux.packed_method? klass, meth, :'Benelux::MethodCounter'
+  end
+  
+  def Benelux.packed_method? klass, meth, kind=nil
+    list = Benelux.packed_methods[klass.to_s.to_sym, meth]
+    list.filter! :kind => kind unless kind.nil?
+    !list.empty?
   end
   
 
@@ -155,12 +158,13 @@ module Benelux
   end
   
   def Benelux.timed_methods
-    @@timed_methods
+    Benelux.packed_methods[:kind => :'Benelux::MethodTimer']
+  end
+
+  def Benelux.counted_methods
+    Benelux.packed_methods[:kind => :'Benelux::MethodCounter']
   end
   
-  def Benelux.counted_methods
-    @@counted_methods
-  end
   
   def Benelux.known_threads
     @@known_threads
@@ -173,14 +177,12 @@ module Benelux
   def Benelux.add_timer klass, meth
     raise NotSupported, klass unless Benelux.supported? klass
     raise AlreadyTimed, klass if Benelux.timed_method? klass, meth
-    mp = Benelux::MethodTimer.new klass, meth
+    Benelux::MethodTimer.new klass, meth
   end
   
   def Benelux.add_counter klass, meth, &blk
     raise NotSupported, klass unless Benelux.supported? klass
-    #prepare_object klass
-    #meth_alias = rename_method klass, meth
-    #klass.module_eval generate_counter_str(meth_alias, meth, !blk.nil?), __FILE__, 261
+    Benelux::MethodCounter.new klass, meth
   end
   
   def Benelux.ld(*msg)
@@ -192,8 +194,8 @@ module Benelux
   #
   # This is an instance method for objects which have Benelux 
   # modified methods. 
-  def benelux_timers
-    Benelux.timed_methods[self.class]
+  def timed_methods
+    Benelux.timed_methods[:class => self.class.to_s.to_sym]
   end
   
   # Returns an Array of method names for the current class that
@@ -201,11 +203,9 @@ module Benelux
   #
   # This is an instance method for objects which have Benelux 
   # modified methods.
-  def benelux_counters
-    Benelux.counted_methods[self.class]
+  def counted_methods
+    Benelux.counted_methods[:class => self.class.to_s.to_sym]
   end
-  
-
 
   
 end
