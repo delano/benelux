@@ -1,33 +1,45 @@
 
 
-module Benelux
+module Selectable
+  
+  class SelectableError < RuntimeError; end
+  
+  def Selectable.normalize(*tags)
+    tags.flatten!
+    tags = tags.first if tags.first.kind_of?(Hash) || tags.first.kind_of?(Array)
+    tags
+  end
+  
+  unless method_defined? :[]
+    def []
+    end
+  end
   
   # Helper methods for objects with a @tags instance var
   #
   # e.g. 
   #
   #     class Something
-  #       include Benelux::TagHelpers
+  #       include Selectable::Object
   #     end
   #
-  module TagHelpers
+  module Object
     attr_accessor :tags
     def add_tags(tags)
-      @tags ||= Benelux::Tags.new
+      @tags ||= Selectable::Tags.new
       @tags.merge! tags
     end
     alias_method :add_tag, :add_tags
     def remove_tags(*tags)
       tags.flatten!
-      @tags ||= Benelux::Tags.new
+      @tags ||= Selectable::Tags.new
       @tags.delete_if { |n,v| tags.member?(n) }
     end
     alias_method :remove_tag, :remove_tags
     def tag_values(*tags)
       tags.flatten!
-      @tags ||= Benelux::Tags.new
+      @tags ||= Selectable::Tags.new
       ret = @tags.collect { |n,v| 
-        p [:n, v]
         v if tags.empty? || tags.member?(n) 
       }.compact
       ret
@@ -41,7 +53,7 @@ module Benelux
   
   # An example of filtering an Array of tagged objects based
   # on a provided Hash of tags or Array of tag values. +obj+
-  # in this case would be an object that includes TagHelpers.
+  # in this case would be an object that includes Taggable.
   #
   #     class Something
   #       def [](tags={})
@@ -67,7 +79,6 @@ module Benelux
     end
     
     def ==(other)
-#      other = Benelux::TagHelpers.normalize other
       if other.is_a?(Array)
         (self.values & other).sort == other.sort
       else
@@ -87,7 +98,6 @@ module Benelux
     #     a > [2, 1]                         # => false
     #
     def <=>(b)
-      #other = Benelux::TagHelpers.normalize other
       return 0 if self == b
       self.send :"compare_#{b.class}", b
     end
@@ -105,12 +115,27 @@ module Benelux
       return -1 unless (a.values_at(*b.keys) & b.values).size >= b.size
       1
     end
-    alias_method :"compare_Benelux::Tags", :compare_Hash
+    alias_method :"compare_Selectable::Tags", :compare_Hash
     
     def compare_Array(b)
       return -1 unless (self.values & b).size >= b.size
       1
     end
+    
+    def compare_forced_array(b)
+      compare_Array([b])
+    end
+    alias_method :compare_String, :compare_forced_array
+    alias_method :compare_Symbol, :compare_forced_array
+    alias_method :compare_Fixnum, :compare_forced_array
       
   end
+
+end
+
+class SelectableArray < Array
+  include Selectable
+end
+class SelectableHash < Hash
+  include Selectable
 end

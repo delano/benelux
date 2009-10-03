@@ -83,7 +83,6 @@ module Benelux
       def n()       merge.n      end
       
       def merge(tags={})
-#        tags = Benelux::TagHelpers.normalize tags
         mc = Calculator.new
         all = tags.empty? ? self : self.filter(tags)
         all.each { |calc| 
@@ -93,8 +92,8 @@ module Benelux
         mc
       end
       
-      def [](tags={})
-#        tags = Benelux::TagHelpers.normalize tags
+      def [](*tags)
+        tags = Selectable.normalize tags
         g = Benelux::Stats::Group.new @name
         g << self.select { |c| c.tags >= tags }
         g.flatten!(1)  # only 1 level deep
@@ -106,7 +105,7 @@ module Benelux
     
     # Based on Mongrel::Stats, Copyright (c) 2005 Zed A. Shaw
     class Calculator < Array
-      include Benelux::TagHelpers
+      include Selectable::Object
       
       attr_reader :sum, :sumsq, :n, :min, :max
 

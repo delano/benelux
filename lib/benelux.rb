@@ -1,6 +1,7 @@
 require 'attic'
 require 'hexoid'
 require 'thread'
+require 'selectable'
 
 module Benelux
   VERSION = "0.3.2"
@@ -10,31 +11,30 @@ module Benelux
   class NotSupported < BeneluxError; end
   class NoTrack < BeneluxError; end
   
-  require 'benelux/tags'
   require 'benelux/mark'
   require 'benelux/range'
   require 'benelux/stats'
+  require 'benelux/packer'
   require 'benelux/timeline'
   require 'benelux/mixins/thread'
   
+  @packed_methods = []
+  
+  class << self
+    attr_reader :packed_methods
+  end
+  
   @@timed_methods = {}
+  @@counted_methods = {}
   @@known_threads = []
   @@timelines = {}
   @@mutex = Mutex.new
-  @@debug = true
+  @@debug = false
+  @@logger = STDOUT
   
   def Benelux.enable_debug; @@debug = true; end
   def Benelux.disable_debug; @@debug = false; end
   def Benelux.debug?; @@debug; end
-  
-  # Returns an Array of method names for the current class that
-  # are timed by Benelux. 
-  #
-  # This is an instance method for objects which have Benelux 
-  # modified methods. 
-  def benelux_timers
-    Benelux.timed_methods[self.class]
-  end
   
   def Benelux.timeline(track=nil)
     if track.nil?
@@ -113,30 +113,6 @@ module Benelux
     !timed_methods[klass].nil? && timed_methods[klass].member?(meth)
   end
   
-  def Benelux.add_timer klass, meth
-    raise NotSupported, klass unless Benelux.supported? klass
-    raise AlreadyTimed, klass if Benelux.timed_method? klass, meth
-    prepare_object klass
-    meth_alias = rename_method klass, meth
-    timed_methods[klass] << meth
-    klass.module_eval generate_timer_str(meth_alias, meth), __FILE__, 215
-  end
-  
-  def Benelux.add_tally obj, meth
-  end
-  
-  def Benelux.name(*names)
-    names.flatten.collect { |n| n.to_s }.join('_')
-  end
-  
-  
-  def Benelux.prepare_object obj
-    obj.extend Attic  unless obj.kind_of?(Attic)
-    unless obj.kind_of?(Benelux)
-      obj.attic :timeline
-      obj.send :include, Benelux
-    end
-  end
 
   # Benelux keeps track of the threads which have timed
   # objects so it can process the timelines after all is
@@ -151,7 +127,7 @@ module Benelux
   end
   
   # Thread tags become the default for any new Mark or Range. 
-  def Benelux.add_thread_tags(args=Benelux::Tags.new)
+  def Benelux.add_thread_tags(args=Selectable::Tags.new)
     Benelux.thread_timeline.add_default_tags args
   end
   def Benelux.add_thread_tag(*args) add_thread_tags *args end
@@ -182,6 +158,10 @@ module Benelux
     @@timed_methods
   end
   
+  def Benelux.counted_methods
+    @@counted_methods
+  end
+  
   def Benelux.known_threads
     @@known_threads
   end
@@ -189,54 +169,44 @@ module Benelux
   def Benelux.timelines
     @@timelines
   end
-  
-  # Rename the method +meth+ in the object +obj+ and return
-  # the new alias. 
-  # 
-  # e.g.
-  #
-  #     Benelux.renamed(SomeClass, :execute) 
-  #       # => __benelux_execute_2151884308_2165479316
-  # 
-  def Benelux.rename_method(obj, meth)
-    ## NOTE: This is commented out so we can include  
-    ## Benelux definitions before all classes are loaded. 
-    ##unless obj.respond_to? meth
-    ##  raise NoMethodError, "undefined method `#{meth}' for #{obj}:Class"
-    ##end
-    thread_id, call_id = Thread.current.object_id.abs, obj.object_id.abs
-    meth_alias = "__benelux_#{meth}_#{thread_id}_#{call_id}"
-    obj.module_eval do
-      alias_method meth_alias, meth
-    end
-    meth_alias
-  end
 
-  # Creates a method definition (for an `eval` that) for a method
-  # named +meth+ which times a call to +meth_alias+. 
-  def Benelux.generate_timer_str(meth_alias, meth)
-    %Q{
-    def #{meth}(*args, &block)
-      call_id = "" << self.object_id.abs.to_s << args.object_id.abs.to_s
-      # We only need to do these things once.
-      if self.timeline.nil?
-        self.timeline = Benelux::Timeline.new
-        Benelux.store_thread_reference
-      end
-      mark_a = self.timeline.add_mark :'#{meth}_a'
-      mark_a.add_tag :call_id => call_id
-      tags = mark_a.tags
-      ret = #{meth_alias}(*args, &block)
-    rescue => ex
-      raise ex
-    ensure
-      mark_z = self.timeline.add_mark :'#{meth}_z'
-      mark_z.tags = tags # In case tags were added between these marks
-      range = self.timeline.add_range :'#{meth}', mark_a, mark_z
-      range.exception = ex if defined?(ex) && !ex.nil?
-    end
-    }
+  def Benelux.add_timer klass, meth
+    raise NotSupported, klass unless Benelux.supported? klass
+    raise AlreadyTimed, klass if Benelux.timed_method? klass, meth
+    mp = Benelux::MethodTimer.new klass, meth
   end
+  
+  def Benelux.add_counter klass, meth, &blk
+    raise NotSupported, klass unless Benelux.supported? klass
+    #prepare_object klass
+    #meth_alias = rename_method klass, meth
+    #klass.module_eval generate_counter_str(meth_alias, meth, !blk.nil?), __FILE__, 261
+  end
+  
+  def Benelux.ld(*msg)
+    @@logger.puts "D:  " << msg.join("#{$/}D:  ") if debug?
+  end
+  
+  # Returns an Array of method names for the current class that
+  # are timed by Benelux. 
+  #
+  # This is an instance method for objects which have Benelux 
+  # modified methods. 
+  def benelux_timers
+    Benelux.timed_methods[self.class]
+  end
+  
+  # Returns an Array of method names for the current class that
+  # are counted by Benelux. 
+  #
+  # This is an instance method for objects which have Benelux 
+  # modified methods.
+  def benelux_counters
+    Benelux.counted_methods[self.class]
+  end
+  
+
+
   
 end
 

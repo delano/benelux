@@ -24,12 +24,12 @@ module Benelux
     attr_reader :caller
     def initialize(*args)
       @caller = Kernel.caller
-      @ranges, @default_tags = [], Benelux::Tags.new
+      @ranges, @default_tags = [], Selectable::Tags.new
       @stats = Benelux::Stats.new
       add_default_tag :thread_id => Thread.current.object_id.abs
       super
     end
-    def add_default_tags(tags=Benelux::Tags.new)
+    def add_default_tags(tags=Selectable::Tags.new)
       @default_tags.merge! tags
     end
     alias_method :add_default_tag, :add_default_tags
@@ -66,7 +66,6 @@ module Benelux
     end
     
     def [](tags={})
-      #tags = Benelux::TagHelpers.normalize tags
       marks = self.select do |mark|
         mark.tags >= tags
       end
@@ -87,7 +86,7 @@ module Benelux
     #     obj.ranges(:do_request) =>
     #         [[:do_request_a, :do_request_z], [:do_request_a, ...]]
     #    
-    def ranges(name=nil, tags=Benelux::Tags.new)
+    def ranges(name=nil, tags=Selectable::Tags.new)
       return @ranges if name.nil?
       @ranges.select do |range| 
         ret = name.to_s == range.name.to_s &&
@@ -100,7 +99,7 @@ module Benelux
     #     obj.ranges(:do_request) =>
     #         [[:do_request_a, :get_body, :do_request_z], [:do_request_a, ...]]
     #
-    def regions(name=nil, tags=Benelux::Tags.new)
+    def regions(name=nil, tags=Selectable::Tags.new)
       return self if name.nil?
       self.ranges(name, tags).collect do |base_range|
         marks = self.sort.select do |mark|

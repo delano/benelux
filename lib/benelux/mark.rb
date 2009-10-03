@@ -1,17 +1,17 @@
 module Benelux
   class Mark < Time
-    include Benelux::TagHelpers
+    include Selectable::Object
     attr_accessor :name
     def self.now(n=nil)
       v = super()
-      v.tags = Benelux::Tags.new
+      v.tags = Selectable::Tags.new
       v.name = n 
       v
     end
     def track 
       @tags[:track]
     end
-    def add_tags(tags=Benelux::Tags.new)
+    def add_tags(tags=Selectable::Tags.new)
       @tags.merge! tags
     end
     alias_method :add_tag, :add_tags

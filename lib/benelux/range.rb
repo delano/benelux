@@ -1,7 +1,7 @@
 
 module Benelux
   class Range
-    include Benelux::TagHelpers
+    include Selectable::Object
     
     attr_accessor :name
     attr_accessor :from
@@ -9,7 +9,7 @@ module Benelux
     attr_accessor :exception
     def initialize(name,from,to)
       @name, @from, @to = name, from, to
-      @tags = Benelux::Tags.new
+      @tags = Selectable::Tags.new
     end
     def to_s
       "%s:%.4f" % [name, duration]
