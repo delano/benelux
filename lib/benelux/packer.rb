@@ -21,6 +21,9 @@ module Benelux
     #
     def initialize(k,m,&blk)
       Benelux.ld "%20s: %s#%s" % [self.class, k, m]
+      if Benelux.packed_method? k, m
+        raise SelectableError, "Already defined (#{k} #{m})"
+      end
       @klass, @meth, @blk = k, m, blk
       @klass.extend Attic  unless @klass.kind_of?(Attic)
       unless @klass.kind_of?(Benelux)
@@ -46,6 +49,25 @@ module Benelux
     end
     def install_method
       raise "You need to implement this method"
+    end
+    # instance_exec for Ruby 1.8 written by Mauricio Fernandez
+    # http://eigenclass.org/hiki/instance_exec
+    if RUBY_VERSION =~ /1.8/
+      module InstanceExecHelper; end
+      include InstanceExecHelper
+      def instance_exec(*args, &block) # !> method redefined; discarding old instance_exec
+        mname = "__instance_exec_#{Thread.current.object_id.abs}_#{object_id.abs}"
+        InstanceExecHelper.module_eval{ define_method(mname, &block) }
+        begin
+          ret = send(mname, *args)
+        ensure
+          InstanceExecHelper.module_eval{ undef_method(mname) } rescue nil
+        end
+        ret
+      end
+    end
+    def run_block(*args)
+      raise "must implement"
     end
   end
   
@@ -89,7 +111,9 @@ module Benelux
   end
   
   class MethodCounter < MethodPacker
+    attr_reader :counter
     def install_method
+      @counter = 0
       @klass.module_eval generate_packed_method, __FILE__, 88
     end
     
@@ -97,9 +121,19 @@ module Benelux
     def generate_packed_method(callblock=false)
       %Q{
       def #{@meth}(*args, &block)
+        pm = Benelux.packed_method #{@klass}, :#{@meth}
+        pm.run_block(*args)
         #{@aliaz}(*args, &block)
       end
       }
     end
+    
+    def run_block(*args)
+      return if @blk.nil?
+      ret = self.instance_exec *args, &blk
+      @counter += ret
+      ret
+    end
+    
   end
 end

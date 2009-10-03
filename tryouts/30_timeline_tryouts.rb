@@ -22,4 +22,32 @@ tryouts "Timelines" do
     tl[:frog][:b => :rest]
   end
 
+  dream :class, Benelux::Timeline
+  dream :size, 10 # 5 * 2 = 10 (marks are stored for the method start and end)
+  xdrill "Creates a timeline" do
+    sleeper = Sleeper.new
+    5.times { sleeper.do_something }
+    sleeper.timeline
+  end
+  
+  dream :size, 4
+  drill "Timelines are stored per object" do
+    sleeper = Sleeper.new
+    Thread.new do
+      2.times { sleeper.do_something }
+    end.join
+    sleeper.timeline
+  end
+  
+  dream :class, Benelux::Timeline
+  dream :size, 10
+  drill "Creates a timeline for the thread" do
+    Benelux.thread_timeline
+  end
+  
+  dream :class, Benelux::Timeline
+  dream :size, 14
+  drill "Creates a global timeline" do
+    Benelux.timeline
+  end
 end

@@ -174,19 +174,25 @@ module Benelux
     @@timelines
   end
 
-  def Benelux.add_timer klass, meth
+  def Benelux.add_timer klass, meth, &blk
     raise NotSupported, klass unless Benelux.supported? klass
     raise AlreadyTimed, klass if Benelux.timed_method? klass, meth
-    Benelux::MethodTimer.new klass, meth
+    Benelux::MethodTimer.new klass, meth, &blk
   end
   
   def Benelux.add_counter klass, meth, &blk
     raise NotSupported, klass unless Benelux.supported? klass
-    Benelux::MethodCounter.new klass, meth
+    Benelux::MethodCounter.new klass, meth, &blk
   end
   
   def Benelux.ld(*msg)
     @@logger.puts "D:  " << msg.join("#{$/}D:  ") if debug?
+  end
+  
+  def Benelux.packed_method(klass, meth)
+    # TODO: replace with static Hash
+    list = Benelux.packed_methods[klass.to_s.to_sym, meth]
+    list.first
   end
   
   # Returns an Array of method names for the current class that

@@ -5,7 +5,7 @@ library :benelux, 'lib'
 
 
 
-tryouts "Essentials" do
+xtryouts "Essentials" do
   
   setup do
     class ::Sleeper
@@ -16,7 +16,9 @@ tryouts "Essentials" do
   
   drill "Add timers to existing objects", true do
     Benelux.add_timer Sleeper, :do_something
-    Benelux.add_counter Sleeper, :another_method
+    Benelux.add_counter Sleeper, :another_method do 
+      p 1
+    end
     Sleeper.new.respond_to? :timeline
   end
   
@@ -46,43 +48,40 @@ tryouts "Essentials" do
   end
   
   dream :class, SelectableArray
-  xdrill "A Benelux object has a timed_methods method" do
+  drill "A Benelux object has a timed_methods method" do
     Sleeper.new.timed_methods
   end
-  
-  dream :class, Benelux::Timeline
-  dream :size, 10 # 5 * 2 = 10 (marks are stored for the method start and end)
-  xdrill "Creates a timeline" do
-    sleeper = Sleeper.new
-    5.times { sleeper.do_something }
-    sleeper.timeline
-  end
-  
-  dream :size, 4
-  xdrill "Timelines are stored per object" do
-    sleeper = Sleeper.new
-    Thread.new do
-      2.times { sleeper.do_something }
-    end.join
-    sleeper.timeline
-  end
-  
-  dream :class, Benelux::Timeline
-  dream :size, 10
-  xdrill "Creates a timeline for the thread" do
-    Benelux.thread_timeline
-  end
-  
-  dream :class, Benelux::Timeline
-  dream :size, 14
-  xdrill "Creates a global timeline" do
-    Benelux.timeline
-  end
-  
+
 end
 
+tryouts "Counters" do
+  setup do
+    class ::Sleeper
+      def   do_something()  sleep rand/3 end
+      def another_method(t) t*2          end 
+    end
+  end
+  drill "Add timers to existing objects", true do
+    Benelux.add_timer Sleeper, :do_something
+    Benelux.add_counter Sleeper, :another_method do |*args|
+      args.first
+    end
+    Sleeper.new.respond_to? :timeline
+  end
+  dream :kind_of?, Benelux::MethodPacker
+  drill "Can get specific packed method" do
+    Benelux.packed_method Sleeper, :another_method
+  end
+  
+  drill "Run counter", true do
+    a = Sleeper.new
+    a.another_method(1000)
+    pm = Benelux.packed_method Sleeper, :another_method
+    pm.counter
+  end
+end
 
-tryouts "Not supported" do
+xtryouts "Not supported" do
   
   dream :exception, Benelux::NotSupported
   drill "Class is not supported" do
