@@ -13,16 +13,16 @@ module Selectable
       end
       attr_writer :group_class
     end
-    def get_group(name)
+    def group(name)
       self.send name
     end
     # Each group
     def each(&blk)
-      @names.each { |name| blk.call(get_group(name)) }
+      @names.each { |name| blk.call(group(name)) }
     end
     # Each group name, group
     def each_pair(&blk)
-      @names.each { |name| blk.call(name, get_group(name)) }
+      @names.each { |name| blk.call(name, group(name)) }
     end
     def add_groups(*args)
       args.flatten.each do |meth|

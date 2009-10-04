@@ -6,16 +6,16 @@ module Benelux
       @names = []
       add_groups names
     end
-    def get_group(name)
+    def group(name)
       self.send name
     end
     # Each group
     def each(&blk)
-      @names.each { |name| blk.call(get_group(name)) }
+      @names.each { |name| blk.call(group(name)) }
     end
     # Each group name, group
     def each_pair(&blk)
-      @names.each { |name| blk.call(name, get_group(name)) }
+      @names.each { |name| blk.call(name, group(name)) }
     end
     def add_groups(*args)
       args.flatten.each do |meth|
@@ -82,6 +82,7 @@ module Benelux
       def mean()    merge.mean   end
       def min()     merge.min    end
       def max()     merge.max    end
+      def sum()     merge.sum    end
       def sd()      merge.sd     end
       def n()       merge.n      end
       
