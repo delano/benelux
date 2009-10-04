@@ -26,6 +26,9 @@ module Benelux
         instance_variable_set("@#{meth}", g)
       end
     end
+    def sample(name, s, tags={})
+      self.send(name).sample(s, tags)
+    end
     alias_method :add_group, :add_groups
     def has_group?(name)
       @names.member? name

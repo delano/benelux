@@ -135,9 +135,11 @@ module Benelux
     
     def add_count(name, count, tags={})
       tags = tags.merge Benelux.thread_timeline.default_tags
+      c = Benelux::Count.new(name, count)
+      c.add_tags tags
       Benelux.thread_timeline.stats.add_group(name)
-      Benelux.thread_timeline.stats.send(name).sample(count, tags)
-      count
+      Benelux.thread_timeline.stats.sample(name, count, c.tags)
+      c
     end
     
     def add_mark(name)
@@ -158,7 +160,7 @@ module Benelux
       @ranges << range
       Benelux.thread_timeline.ranges << range
       Benelux.thread_timeline.stats.add_group(name)
-      Benelux.thread_timeline.stats.send(name).sample(range.duration, range.tags)
+      Benelux.thread_timeline.stats.sample(name, range.duration, range.tags)
       range
     end
     

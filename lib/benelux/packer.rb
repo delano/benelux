@@ -115,7 +115,6 @@ module Benelux
       @klass.module_eval generate_packed_method, __FILE__, 121
     end
     
-    
     def generate_packed_method(callblock=false)
       %Q{
       @@__benelux_#{@meth}_counter = 
