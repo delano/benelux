@@ -5,7 +5,7 @@ library :benelux, 'lib'
 
 
 
-xtryouts "Essentials" do
+tryouts "Essentials" do
   
   setup do
     class ::Sleeper
@@ -16,14 +16,11 @@ xtryouts "Essentials" do
   
   drill "Add timers to existing objects", true do
     Benelux.add_timer Sleeper, :do_something
-    Benelux.add_counter Sleeper, :another_method do 
-      p 1
-    end
     Sleeper.new.respond_to? :timeline
   end
   
   dream :class, SelectableArray
-  dream :size, 2
+  dream :size, 1
   dream :proc, lambda { |obj|
     pm = obj.first
     pm.class == Benelux::MethodTimer && 
@@ -42,14 +39,11 @@ xtryouts "Essentials" do
     Benelux.timed_method? :Sleeper, :no_such_method
   end
   
-  dream [1,1]
-  drill "Knows there's one timer and one counter" do
-    [Benelux.timed_methods.size, Benelux.counted_methods.size]
-  end
-  
   dream :class, SelectableArray
   drill "A Benelux object has a timed_methods method" do
-    Sleeper.new.timed_methods
+    s = Sleeper.new
+    s.do_something
+    s.timed_methods
   end
 
 end
@@ -62,9 +56,8 @@ tryouts "Counters" do
     end
   end
   drill "Add timers to existing objects", true do
-    Benelux.add_timer Sleeper, :do_something
-    Benelux.add_counter Sleeper, :another_method do |*args|
-      args.first
+    Benelux.add_counter Sleeper, :another_method do |args,ret|
+      ret
     end
     Sleeper.new.respond_to? :timeline
   end
@@ -73,11 +66,14 @@ tryouts "Counters" do
     Benelux.packed_method Sleeper, :another_method
   end
   
-  drill "Run counter", true do
+  dream :class, Benelux::Count
+  dream :name, :another_method
+  dream :to_i, 2000
+  drill "Run counter" do
     a = Sleeper.new
     a.another_method(1000)
     pm = Benelux.packed_method Sleeper, :another_method
-    pm.counter
+    Benelux.thread_timeline.counts.first
   end
 end
 

@@ -21,12 +21,13 @@ module Benelux
     include Selectable
     
     attr_accessor :ranges
+    attr_accessor :counts
     attr_accessor :stats
     attr_accessor :default_tags
     attr_reader :caller
     def initialize(*args)
       @caller = Kernel.caller
-      @ranges, @default_tags = [], Selectable::Tags.new
+      @counts, @ranges, @default_tags = [], [], Selectable::Tags.new
       @stats = Benelux::Stats.new
       add_default_tag :thread_id => Thread.current.object_id.abs
       super
@@ -94,9 +95,17 @@ module Benelux
       end
     end
     
+    def counts(name=nil, tags=Selectable::Tags.new)
+      return @counts if name.nil?
+      @counts.select do |count| 
+        ret = name.to_s == count.name.to_s &&
+        (tags.nil? || count.tags >= tags)
+        ret
+      end
+    end
     #
-    #     obj.ranges(:do_request) =>
-    #         [[:do_request_a, :get_body, :do_request_z], [:do_request_a, ...]]
+    #     obj.regions(:do_request) =>
+    #         
     #
     def regions(name=nil, tags=Selectable::Tags.new)
       return self if name.nil?
@@ -122,6 +131,15 @@ module Benelux
       super
     end
     
+    def add_count(name, count)
+      c = Benelux::Count.new(name, count)
+      c.add_tags Benelux.thread_timeline.default_tags
+      c.add_tags self.default_tags
+      Benelux.thread_timeline.counts << c
+      @counts << c
+      c
+    end
+    
     def add_mark(name)
       mark = Benelux::Mark.now(name)
       mark.add_tags Benelux.thread_timeline.default_tags
@@ -135,11 +153,11 @@ module Benelux
       range = Benelux::Range.new(name, from, to)
       range.add_tags Benelux.thread_timeline.default_tags
       range.add_tags self.default_tags
-      @stats.add_keeper(name)
+      @stats.add_group(name)
       @stats.send(name).sample(range.duration, range.tags)
       @ranges << range
       Benelux.thread_timeline.ranges << range
-      Benelux.thread_timeline.stats.add_keeper(name)
+      Benelux.thread_timeline.stats.add_group(name)
       Benelux.thread_timeline.stats.send(name).sample(range.duration, range.tags)
       range
     end

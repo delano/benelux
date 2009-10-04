@@ -4,30 +4,30 @@ module Benelux
     attr_reader :names
     def initialize(*names)
       @names = []
-      add_keepers names
+      add_groups names
     end
-    def get_keeper(name)
+    def get_group(name)
       self.send name
     end
-    # Each keeper
+    # Each group
     def each(&blk)
-      @names.each { |name| blk.call(get_keeper(name)) }
+      @names.each { |name| blk.call(get_group(name)) }
     end
-    # Each keeper name, keeper
+    # Each group name, group
     def each_pair(&blk)
-      @names.each { |name| blk.call(name, get_keeper(name)) }
+      @names.each { |name| blk.call(name, get_group(name)) }
     end
-    def add_keepers(*args)
+    def add_groups(*args)
       args.flatten.each do |meth|
-        next if has_keeper? meth
+        next if has_group? meth
         @names << meth
         self.class.send :attr_reader, meth
         (g = Benelux::Stats::Group.new).name = meth
         instance_variable_set("@#{meth}", g)
       end
     end
-    alias_method :add_keeper, :add_keepers
-    def has_keeper?(name)
+    alias_method :add_group, :add_groups
+    def has_group?(name)
       @names.member? name
     end
     def +(other)
@@ -35,7 +35,7 @@ module Benelux
         raise TypeError, "can't convert #{other.class} into Stats" 
       end
       other.names.each do |name|
-        add_keeper name
+        add_group name
         a = self.send(name) 
         a += other.send(name)
         a

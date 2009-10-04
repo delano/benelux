@@ -12,11 +12,13 @@ module Benelux
   class NoTrack < BeneluxError; end
   
   require 'benelux/mark'
+  require 'benelux/count'
   require 'benelux/range'
   require 'benelux/stats'
   require 'benelux/packer'
   require 'benelux/timeline'
   require 'benelux/mixins/thread'
+  require 'benelux/mixins/symbol'
   
   @packed_methods = SelectableArray.new
   
@@ -28,7 +30,7 @@ module Benelux
   @@timelines = {}
   @@mutex = Mutex.new
   @@debug = false
-  @@logger = STDOUT
+  @@logger = STDERR
   
   def Benelux.enable_debug; @@debug = true; end
   def Benelux.disable_debug; @@debug = false; end
@@ -166,6 +168,19 @@ module Benelux
   end
   
   
+  def Benelux.packed_method(klass, meth)
+    # TODO: replace with static Hash
+    Benelux.packed_methods[klass.to_s.to_sym, meth].first
+  end
+  
+  def Benelux.counted_method(klass, meth)
+    Benelux.counted_methods[klass.to_s.to_sym, meth].first
+  end
+  
+  def Benelux.timed_method(klass, meth)
+    Benelux.timed_methods[klass.to_s.to_sym, meth].first
+  end
+  
   def Benelux.known_threads
     @@known_threads
   end
@@ -189,11 +204,6 @@ module Benelux
     @@logger.puts "D:  " << msg.join("#{$/}D:  ") if debug?
   end
   
-  def Benelux.packed_method(klass, meth)
-    # TODO: replace with static Hash
-    list = Benelux.packed_methods[klass.to_s.to_sym, meth]
-    list.first
-  end
   
   # Returns an Array of method names for the current class that
   # are timed by Benelux. 

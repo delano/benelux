@@ -7,9 +7,9 @@ tryouts "Calculator" do
   dream :class, Benelux::Stats::Calculator
   dream :n, 10
   drill "can keep stats" do
-    keeper = Benelux::Stats::Calculator.new
-    10.times { keeper.sample(rand) }
-    keeper
+    stat = Benelux::Stats::Calculator.new
+    10.times { stat.sample(rand) }
+    stat
   end
   
 end

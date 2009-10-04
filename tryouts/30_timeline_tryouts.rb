@@ -23,8 +23,8 @@ tryouts "Timelines" do
   end
 
   dream :class, Benelux::Timeline
-  dream :size, 10 # 5 * 2 = 10 (marks are stored for the method start and end)
-  xdrill "Creates a timeline" do
+  dream :size, 10 # 5 * 2 = 10
+  drill "Creates a timeline" do
     sleeper = Sleeper.new
     5.times { sleeper.do_something }
     sleeper.timeline
@@ -40,13 +40,13 @@ tryouts "Timelines" do
   end
   
   dream :class, Benelux::Timeline
-  dream :size, 10
+  dream :size, 13
   drill "Creates a timeline for the thread" do
     Benelux.thread_timeline
   end
   
   dream :class, Benelux::Timeline
-  dream :size, 14
+  dream :size, 17
   drill "Creates a global timeline" do
     Benelux.timeline
   end

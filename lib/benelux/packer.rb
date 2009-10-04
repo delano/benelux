@@ -76,7 +76,7 @@ module Benelux
     # generate_method. It calls <tt>@klass.module_eval</tt> 
     # with the modified line number (helpful for exceptions)
     def install_method
-      @klass.module_eval generate_packed_method, __FILE__, 56
+      @klass.module_eval generate_packed_method, __FILE__, 89
     end
     
     # Creates a method definition (for an eval). The 
@@ -98,8 +98,8 @@ module Benelux
         mark_a.add_tag :call_id => call_id
         tags = mark_a.tags
         ret = #{@aliaz}(*args, &block)
-      rescue => ex
-        raise ex
+      rescue => ex  # We do this so we can use
+        raise ex    # ex in the ensure block.
       ensure
         mark_z = self.timeline.add_mark :'#{@meth}_z'
         mark_z.tags = tags # In case tags were added between these marks
@@ -113,26 +113,32 @@ module Benelux
   class MethodCounter < MethodPacker
     attr_reader :counter
     def install_method
-      @counter = 0
-      @klass.module_eval generate_packed_method, __FILE__, 88
+      @klass.module_eval generate_packed_method, __FILE__, 121
     end
     
     
     def generate_packed_method(callblock=false)
       %Q{
+      @@__benelux_#{@meth}_counter = 
+        Benelux.counted_method #{@klass}, :#{@meth}
       def #{@meth}(*args, &block)
-        pm = Benelux.packed_method #{@klass}, :#{@meth}
-        pm.run_block(*args)
-        #{@aliaz}(*args, &block)
+        # We only need to do these things once.
+        if self.timeline.nil?
+          self.timeline = Benelux::Timeline.new
+          Benelux.store_thread_reference
+        end
+        cmd = Benelux.counted_method #{@klass}, :#{@meth}
+        ret = #{@aliaz}(*args, &block)
+        count = cmd.determine_count(args, ret)
+        self.timeline.add_count :'#{@meth}', count
+        ret
       end
       }
     end
     
-    def run_block(*args)
-      return if @blk.nil?
-      ret = self.instance_exec *args, &blk
-      @counter += ret
-      ret
+    def determine_count(args,ret)
+      return 1 if @blk.nil?
+      self.instance_exec args, ret, &blk
     end
     
   end
