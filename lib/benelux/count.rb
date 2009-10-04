@@ -1,4 +1,5 @@
 module Benelux
+  
   class Count
     include Selectable::Object
     attr_accessor :name
@@ -23,5 +24,6 @@ module Benelux
       self.tags == other.tags &&
       @count.to_i == other.to_i
     end
+
   end
 end

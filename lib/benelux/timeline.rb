@@ -27,7 +27,9 @@ module Benelux
     attr_reader :caller
     def initialize(*args)
       @caller = Kernel.caller
-      @counts, @ranges, @default_tags = [], [], Selectable::Tags.new
+      @counts = SelectableArray.new
+      @ranges = SelectableArray.new
+      @default_tags = Selectable::Tags.new
       @stats = Benelux::Stats.new
       add_default_tag :thread_id => Thread.current.object_id.abs
       super
@@ -131,13 +133,11 @@ module Benelux
       super
     end
     
-    def add_count(name, count)
-      c = Benelux::Count.new(name, count)
-      c.add_tags Benelux.thread_timeline.default_tags
-      c.add_tags self.default_tags
-      Benelux.thread_timeline.counts << c
-      @counts << c
-      c
+    def add_count(name, count, tags={})
+      tags = tags.merge Benelux.thread_timeline.default_tags
+      Benelux.thread_timeline.stats.add_group(name)
+      Benelux.thread_timeline.stats.send(name).sample(count, tags)
+      count
     end
     
     def add_mark(name)
@@ -162,24 +162,13 @@ module Benelux
       range
     end
     
-    def to_line
-      marks = self.sort
-    end
     
-    def to_line2
-      marks = self.sort
-      str, prev = [], marks.first
-      marks.each do |mark|
-        str << "%s(%s):%.4f" % [mark.name, mark.thread_id, mark.to_s(prev)]
-        prev = mark
-      end
-      str.join('; ')
-    end
     def +(other)
       self << other
       self.ranges += other.ranges
       self.stats += other.stats
-      self.counts += other.counts
+      self.counts << other.counts
+      self.counts.flatten!
       self.flatten!
       self
     end
