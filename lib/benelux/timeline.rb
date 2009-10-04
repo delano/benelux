@@ -147,7 +147,6 @@ module Benelux
       mark.add_tags Benelux.thread_timeline.default_tags
       mark.add_tags self.default_tags
       Benelux.thread_timeline << mark
-      self << mark
       mark
     end
     
@@ -155,9 +154,6 @@ module Benelux
       range = Benelux::Range.new(name, from, to)
       range.add_tags Benelux.thread_timeline.default_tags
       range.add_tags self.default_tags
-      @stats.add_group(name)
-      @stats.send(name).sample(range.duration, range.tags)
-      @ranges << range
       Benelux.thread_timeline.ranges << range
       Benelux.thread_timeline.stats.add_group(name)
       Benelux.thread_timeline.stats.sample(name, range.duration, range.tags)

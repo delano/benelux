@@ -89,20 +89,17 @@ module Benelux
       %Q{
       def #{@meth}(*args, &block)
         call_id = "" << self.object_id.abs.to_s << args.object_id.abs.to_s
-        if self.timeline.nil?  # We only need to do these things once.
-          self.timeline = Benelux::Timeline.new
-          Benelux.store_thread_reference
-        end
-        mark_a = self.timeline.add_mark :'#{@meth}_a'
+        Benelux.store_thread_reference if Benelux.thread_timeline.nil?
+        mark_a = Benelux.thread_timeline.add_mark :'#{@meth}_a'
         mark_a.add_tag :call_id => call_id
         tags = mark_a.tags
         ret = #{@aliaz}(*args, &block)
       rescue => ex  # We do this so we can use
         raise ex    # ex in the ensure block.
       ensure
-        mark_z = self.timeline.add_mark :'#{@meth}_z'
+        mark_z = Benelux.thread_timeline.add_mark :'#{@meth}_z'
         mark_z.tags = tags # In case tags were added between these marks
-        range = self.timeline.add_range :'#{@meth}', mark_a, mark_z
+        range = Benelux.thread_timeline.add_range :'#{@meth}', mark_a, mark_z
         range.exception = ex if defined?(ex) && !ex.nil?
       end
       }
@@ -120,15 +117,12 @@ module Benelux
       @@__benelux_#{@meth}_counter = 
         Benelux.counted_method #{@klass}, :#{@meth}
       def #{@meth}(*args, &block)
-        if self.timeline.nil?  # We only need to do these things once.
-          self.timeline = Benelux::Timeline.new
-          Benelux.store_thread_reference
-        end
+        Benelux.store_thread_reference if Benelux.thread_timeline.nil?
         cmd = Benelux.counted_method #{@klass}, :#{@meth}
         ret = #{@aliaz}(*args, &block)
         count = cmd.determine_count(args, ret)
         Benelux.ld "COUNT(:#{@meth}): \#{count}"
-        self.timeline.add_count :'#{@meth}', count
+        Benelux.thread_timeline.add_count :'#{@meth}', count
         ret
       end
       }
