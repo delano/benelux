@@ -1,6 +1,12 @@
 BENELUX, CHANGES
 
 
+#### 0.3.3 (2009-10-??) ###############################
+
+* CHANGE: All tag values are stored as strings. Keys can be anything.
+* ADDED: Counts
+
+
 #### 0.3.2 (2009-10-02) ###############################
 
 * CHANGE: Major performance improvement.
