@@ -85,10 +85,11 @@ module Benelux
       def merge(*tags)
         tags = Selectable.normalize tags
         mc = Calculator.new
+        mc.init_tags!
         all = tags.empty? ? self : self.filter(tags)
         all.each { |calc| 
           mc.samples calc
-          mc.add_tags calc.tags
+          mc.add_tags_quick calc.tags
         }
         mc
       end
