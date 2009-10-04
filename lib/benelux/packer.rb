@@ -89,8 +89,7 @@ module Benelux
       %Q{
       def #{@meth}(*args, &block)
         call_id = "" << self.object_id.abs.to_s << args.object_id.abs.to_s
-        # We only need to do these things once.
-        if self.timeline.nil?
+        if self.timeline.nil?  # We only need to do these things once.
           self.timeline = Benelux::Timeline.new
           Benelux.store_thread_reference
         end
@@ -122,14 +121,14 @@ module Benelux
       @@__benelux_#{@meth}_counter = 
         Benelux.counted_method #{@klass}, :#{@meth}
       def #{@meth}(*args, &block)
-        # We only need to do these things once.
-        if self.timeline.nil?
+        if self.timeline.nil?  # We only need to do these things once.
           self.timeline = Benelux::Timeline.new
           Benelux.store_thread_reference
         end
         cmd = Benelux.counted_method #{@klass}, :#{@meth}
         ret = #{@aliaz}(*args, &block)
         count = cmd.determine_count(args, ret)
+        Benelux.ld "COUNT(:#{@meth}): \#{count}"
         self.timeline.add_count :'#{@meth}', count
         ret
       end

@@ -179,6 +179,7 @@ module Benelux
       self << other
       self.ranges += other.ranges
       self.stats += other.stats
+      self.counts += other.counts
       self.flatten!
       self
     end

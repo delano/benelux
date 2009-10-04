@@ -24,14 +24,17 @@
   Rakefile
   benelux.gemspec
   lib/benelux.rb
+  lib/benelux/count.rb
   lib/benelux/mark.rb
+  lib/benelux/mixins/symbol.rb
   lib/benelux/mixins/thread.rb
+  lib/benelux/packer.rb
   lib/benelux/range.rb
   lib/benelux/stats.rb
-  lib/benelux/tags.rb
   lib/benelux/timeline.rb
+  lib/selectable.rb
   tryouts/10_stats_tryouts.rb
-  tryouts/11_tags_tryouts.rb
+  tryouts/11_selectable_tryouts.rb
   tryouts/20_class_methods_tryouts.rb
   tryouts/30_timeline_tryouts.rb
   tryouts/proofs/alias_performance.rb
