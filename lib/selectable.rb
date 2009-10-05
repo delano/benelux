@@ -50,7 +50,13 @@ module Selectable
     tags = Selectable.normalize tags
     self.delete_if { |obj|   obj.tags < tags }
   end
-
+  
+  def tags
+    t = Selectable::Tags.new
+    self.each { |o| t.merge o.tags }
+    t
+  end
+  
 end
 
 class SelectableArray < Array

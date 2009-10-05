@@ -79,6 +79,12 @@ module Benelux
         nil
       end
       
+      def tag_values(tag)
+        vals = self.collect { |calc| calc.tags[tag] }
+        Array.new vals.uniq
+      end
+      
+      def tags()    merge.tags   end
       def mean()    merge.mean   end
       def min()     merge.min    end
       def max()     merge.max    end

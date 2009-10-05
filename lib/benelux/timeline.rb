@@ -134,29 +134,29 @@ module Benelux
     end
     
     def add_count(name, count, tags={})
-      tags = tags.merge Benelux.thread_timeline.default_tags
+      tags = tags.merge self.default_tags
       c = Benelux::Count.new(name, count)
       c.add_tags tags
-      Benelux.thread_timeline.stats.add_group(name)
-      Benelux.thread_timeline.stats.sample(name, count, c.tags)
+      self.stats.add_group(name)
+      self.stats.sample(name, count, c.tags)
       c
     end
     
     def add_mark(name)
       mark = Benelux::Mark.now(name)
-      mark.add_tags Benelux.thread_timeline.default_tags
       mark.add_tags self.default_tags
-      Benelux.thread_timeline << mark
+      self << mark
       mark
     end
     
     def add_range(name, from, to)
       range = Benelux::Range.new(name, from, to)
-      range.add_tags Benelux.thread_timeline.default_tags
       range.add_tags self.default_tags
-      Benelux.thread_timeline.ranges << range
-      Benelux.thread_timeline.stats.add_group(name)
-      Benelux.thread_timeline.stats.sample(name, range.duration, range.tags)
+      range.add_tags from.tags
+      range.add_tags to.tags
+      self.ranges << range
+      self.stats.add_group(name)
+      self.stats.sample(name, range.duration, range.tags)
       range
     end
     

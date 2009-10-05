@@ -229,4 +229,22 @@ end
 
 
 
+__END__
+ %   cumulative   self              self     total
+time   seconds   seconds    calls  ms/call  ms/call  name
+33.04    40.39     40.39   832483     0.05     0.10  Selectable::Tags#==
+20.65    65.64     25.25   824759     0.03     0.04  Hash#==
+15.38    84.44     18.80     8173     2.30    12.16  Array#select
+ 6.94    92.93      8.49      101    84.06    84.06  Thread#join
+ 6.42   100.78      7.85   927328     0.01     0.01  String#==
+ 5.42   107.40      6.62   832912     0.01     0.01  Kernel.is_a?
+ 2.01   109.86      2.46    23840     0.10     5.13  Array#each
+ 0.85   110.90      1.04     9577     0.11     0.46  Selectable::Tags#>=
+ 0.83   111.92      1.02    13295     0.08     0.87  Kernel.send
+ 0.67   112.74      0.82     6348     0.13     0.18  Benelux::Stats::Calculator#update
+ 0.46   113.30      0.56      238     2.35    10.50  Kernel.require
+ 0.41   113.80      0.50    10620     0.05     0.22  Object#metaclass
+ 0.36   114.24      0.44    10776     0.04     0.15  Object#metaclass?
+ 0.35   114.67      0.43     9900     0.04     0.08  Gibbler::Digest#==
+ 0.35   115.10      0.43     6348     0.07     0.26  Benelux::Stats::Calculator#sample
 

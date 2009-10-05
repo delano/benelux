@@ -10,9 +10,12 @@ tryouts "Timelines" do
       def   do_something()  sleep rand/3 end
       def another_method(t) t*2          end 
     end
-    Benelux.current_track :poof
   end
   
+  drill "Can set thread track", :track1 do
+    Benelux.current_track :track1
+#    Thread.current.track
+  end
   
   drill "Add timers to existing objects", true do
     Benelux.add_timer Sleeper, :do_something
@@ -47,6 +50,7 @@ tryouts "Timelines" do
   dream :class, Benelux::Timeline
   dream :size, 10
   drill "Creates a global timeline" do
-    Benelux.timeline(:poof)
+    Benelux.update_all_track_timelines
+    Benelux.timeline
   end
 end
