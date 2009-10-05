@@ -1,9 +1,23 @@
-
 group "Benelux"
 
 library :benelux, 'lib'
+tryouts "Tracks" do
 
+  dream [:track1, :track1]
+  drill "Can specify current track" do
+    Benelux.current_track :track1
+    [Thread.current.track_name, Benelux.current_track.name]
+  end
+    
+  dream true
+  drill "get track name from thread" do
+    Benelux.current_track.name
+  end
+  
+end
 
+__END__
+# OLD (0.3): 
 
 tryouts "Essentials" do
   

@@ -3,5 +3,5 @@
 class Thread
   extend Attic
   attic :timeline
-  attic :track
+  attic :track_name
 end

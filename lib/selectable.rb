@@ -44,7 +44,7 @@ module Selectable
     items = self.select { |obj| obj.tags >= tags }
     self.class.new items
   end  
-    alias_method :[], :filter unless method_defined? :[]
+    
 
   def filter!(*tags)
     tags = Selectable.normalize tags
@@ -57,6 +57,11 @@ module Selectable
     t
   end
   
+  # Creates an alias for +filter+ called +[]+, but 
+  # only if [] doesn't already exist in +obj+.
+  def self.included(obj)
+    alias_method :[], :filter unless obj.method_defined? :[]
+  end
 end
 
 class SelectableArray < Array

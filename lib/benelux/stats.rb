@@ -56,13 +56,14 @@ module Benelux
           raise BeneluxError, "Cannot add #{other.name} to #{@name}"
         end
         other.each do |newcalc|
+          # Merge calculator with a like calculator in another group.
           calcs = self.select { |calc| calc.tags == newcalc.tags }
-          self << newcalc and next if calcs.empty?
           # This should only ever contain one b/c we should
           # not have several calculators with the same tags. 
           calcs.each do |calc|
             calc += newcalc
           end
+          self << newcalc
         end
         self
       end

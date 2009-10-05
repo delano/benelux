@@ -133,6 +133,7 @@ module Benelux
       super
     end
     
+    # TODO: Remove Benelux::Count. Just use Stats!
     def add_count(name, count, tags={})
       tags = tags.merge self.default_tags
       c = Benelux::Count.new(name, count)
@@ -162,12 +163,9 @@ module Benelux
     
     
     def +(other)
-      self << other
-      self.ranges += other.ranges
-      self.stats += other.stats
-      self.counts << other.counts
-      self.counts.flatten!
-      self.flatten!
+      self.push *other
+      self.ranges.push *other.ranges
+      self.stats = other.stats
       self
     end
     # Needs to compare thread id and call id. 
