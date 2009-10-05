@@ -9,9 +9,9 @@ tryouts "Tracks" do
     [Thread.current.track_name, Benelux.current_track.name]
   end
     
-  dream true
-  drill "get track name from thread" do
-    Benelux.current_track.name
+  dream :exception, Benelux::UnknownTrack
+  drill "raises exception when no track specified" do
+    Benelux.track :name
   end
   
 end

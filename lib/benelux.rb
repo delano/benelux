@@ -5,13 +5,14 @@ require 'thwait'
 require 'selectable'
 
 module Benelux
-  VERSION = "0.3.2"
+  VERSION = "0.4.0"
   NOTSUPPORTED = [Class, Object, Kernel]
   
   class BeneluxError < RuntimeError; end
   class NotSupported < BeneluxError; end
   class AlreadyTimed < BeneluxError; end
   class UnknownTrack < BeneluxError; end
+  class BadRecursion < BeneluxError; end
   
   require 'benelux/mark'
   require 'benelux/count'
@@ -19,12 +20,15 @@ module Benelux
   require 'benelux/range'
   require 'benelux/stats'
   require 'benelux/packer'
+  require 'benelux/reporter'
   require 'benelux/timeline'
   require 'benelux/mixins/thread'
   require 'benelux/mixins/symbol'
   
   @packed_methods = SelectableArray.new
   @tracks = SelectableHash.new
+  @timeline = Timeline.new
+  @reporter = Reporter.new
   
   class << self
     attr_reader :packed_methods
@@ -35,6 +39,10 @@ module Benelux
   @@debug = false
   @@logger = STDERR
   
+
+  def Benelux.reporting_wait
+    @reporter.wait
+  end
   
   # If +name+ is specified, this will associate the current
   # thread with that Track +name+ (the Track will be created

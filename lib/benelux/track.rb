@@ -8,6 +8,7 @@ module Benelux
     def initialize(n)
       @name, @thread_group = n, ThreadGroup.new
       @timeline = Benelux::Timeline.new
+      @reporter = Benelux::Reporter.new
     end
     def add_thread(t=Thread.current)
       @thread_group.add t
