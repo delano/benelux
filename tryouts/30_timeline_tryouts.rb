@@ -5,15 +5,29 @@ library :benelux, 'lib'
 tryouts "Timelines" do
   set :tl, Benelux::Timeline.new
   
+  setup do
+    class ::Sleeper
+      def   do_something()  sleep rand/3 end
+      def another_method(t) t*2          end 
+    end
+    Benelux.current_track :poof
+  end
+  
+  
+  drill "Add timers to existing objects", true do
+    Benelux.add_timer Sleeper, :do_something
+    Sleeper.new.respond_to? :timeline
+  end
+  
   dream :class, Benelux::Timeline
   dream :size, 3
   drill "create timeline with marks" do
     tl.add_default_tags :a => :frog
-    tl.add_mark(:one) and sleep rand
+    tl.add_mark(:one)
     tl.add_default_tags :b => :rest
-    tl.add_mark(:two) and sleep rand
+    tl.add_mark(:two)
     tl.add_default_tags :c => :tilt
-    tl.add_mark(:three) and sleep rand
+    tl.add_mark(:three)
     tl.marks
   end
   
@@ -24,30 +38,15 @@ tryouts "Timelines" do
 
   dream :class, Benelux::Timeline
   dream :size, 10 # 5 * 2 = 10
-  drill "Creates a timeline" do
+  drill "Creates a timeline for the thread" do
     sleeper = Sleeper.new
     5.times { sleeper.do_something }
-    sleeper.timeline
-  end
-  
-  dream :size, 4
-  drill "Timelines are stored per object" do
-    sleeper = Sleeper.new
-    Thread.new do
-      2.times { sleeper.do_something }
-    end.join
-    sleeper.timeline
-  end
-  
-  dream :class, Benelux::Timeline
-  dream :size, 13
-  drill "Creates a timeline for the thread" do
     Benelux.thread_timeline
   end
   
   dream :class, Benelux::Timeline
-  dream :size, 17
+  dream :size, 10
   drill "Creates a global timeline" do
-    Benelux.timeline
+    Benelux.timeline(:poof)
   end
 end

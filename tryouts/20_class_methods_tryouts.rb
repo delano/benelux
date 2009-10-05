@@ -13,7 +13,7 @@ tryouts "Essentials" do
       def another_method(t) t*2          end 
     end
   end
-  
+
   drill "Add timers to existing objects", true do
     Benelux.add_timer Sleeper, :do_something
     Sleeper.new.respond_to? :timeline
