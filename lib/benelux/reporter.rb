@@ -6,7 +6,6 @@ module Benelux
     def initialize(*threads)
       add_threads *threads
       @thwait = ThreadsWait.new
-      
       @done, @abort = false, false
     end
     def add_threads(*threads)

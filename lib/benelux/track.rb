@@ -12,6 +12,8 @@ module Benelux
     end
     def add_thread(t=Thread.current)
       @thread_group.add t
+      @thread_reporter.add_thread t
+      t
     end
   end
 end
