@@ -29,17 +29,34 @@ module Benelux
   @tracks = SelectableHash.new
   @timeline = Timeline.new
   @reporter = Reporter.new
+  @known_threads = []
   
   class << self
     attr_reader :packed_methods
     attr_reader :tracks
+    attr_reader :known_threads
   end
   
   @@mutex = Mutex.new
   @@debug = false
   @@logger = STDERR
   
-
+  def Benelux.known_thread?(t)
+    Benelux.known_threads.member? t
+  end
+  
+  # Benelux keeps track of the threads which have timed
+  # objects so it can process the timelines after all is
+  # said and done. 
+  def Benelux.store_thread_reference
+    return if Benelux.known_thread? Thread.current
+    @@mutex.synchronize do
+      Benelux.current_track.timeline ||= Benelux::Timeline.new
+      Benelux.known_threads << Thread.current
+      Benelux.known_threads.uniq!
+    end
+  end
+  
   def Benelux.reporting_wait
     @reporter.wait
   end
@@ -51,14 +68,14 @@ module Benelux
   # If +track+ is nil, it returns the Track object for the
   # Track associated to the current thread. 
   #
-  def Benelux.current_track(name=nil)
+  def Benelux.current_track(name=nil,group=nil)
     if name.nil?
       name = Thread.current.track_name
     else
       Thread.current.track_name = name
       Thread.current.timeline ||= Benelux::Timeline.new
-      @tracks[name] = Track.new(name) unless Benelux.track? name
-      @tracks[name].add_thread
+      @tracks[name] ||= Track.new(name, group)
+      @tracks[name].add_thread Thread.current
     end
     Benelux.track(name)
   end
@@ -70,38 +87,6 @@ module Benelux
   
   def Benelux.track?(name)
     @tracks.has_key? name
-  end
-  
-  def Benelux.timeline(track=nil)
-  end
-  
-  # Must be run in single-threaded mode (after all track threads
-  # have finished).
-  #
-  def Benelux.update_all_track_timelines
-  end
-  
-  # Must be run from the master thread in the current track. The master
-  # thread is either the first thread in a track or the one which creates
-  # additional threads for the track. 
-  #
-  def Benelux.update_track_timeline(track=nil)
-  end
-  
-  # Combine two or more timelines into a new, single Benelux::Timeline.
-  #
-  def Benelux.merge_timelines(*timelines)
-
-  end
-  
-  def Benelux.thread_timeline
-
-  end
-  
-  # Benelux keeps track of the threads which have timed
-  # objects so it can process the timelines after all is
-  # said and done. 
-  def Benelux.store_thread_reference
   end
   
   # Thread tags become the default for any new Mark or Range. 
@@ -119,7 +104,7 @@ module Benelux
     str = ["Benelux"]
     str << "tracks:" << Benelux.tracks.inspect
     str << "timers:" << Benelux.timed_methods.inspect
-    str << "timeline:" << Benelux.timeline.inspect
+    #str << "timeline:" << Benelux.timeline.inspect
     str.join $/
   end
   
@@ -128,30 +113,26 @@ module Benelux
   end
   
   def Benelux.timed_methods
-    Benelux.packed_methods[:kind => :'Benelux::MethodTimer']
+    Benelux.packed_methods.filter :kind => :'Benelux::MethodTimer'
   end
 
   def Benelux.counted_methods
-    Benelux.packed_methods[:kind => :'Benelux::MethodCounter']
+    Benelux.packed_methods.filter :kind => :'Benelux::MethodCounter'
   end
   
   
   def Benelux.packed_method(klass, meth)
     # TODO: replace with static Hash
-    Benelux.packed_methods[klass.to_s.to_sym, meth].first
+    Benelux.packed_methods.filter(klass.to_s.to_sym, meth).first
   end
   
   def Benelux.counted_method(klass, meth)
-    Benelux.counted_methods[klass.to_s.to_sym, meth].first
+    Benelux.counted_methods.filter(klass.to_s.to_sym, meth).first
   end
   
   def Benelux.timed_method(klass, meth)
-    Benelux.timed_methods[klass.to_s.to_sym, meth].first
+    Benelux.timed_methods.filter(klass.to_s.to_sym, meth).first
   end
-  
-  def Benelux.timelines
-  end
-
   
   def Benelux.timed_method? klass, meth
     Benelux.packed_method? klass, meth, :'Benelux::MethodTimer'
@@ -162,7 +143,7 @@ module Benelux
   end
   
   def Benelux.packed_method? klass, meth, kind=nil
-    list = Benelux.packed_methods[klass.to_s.to_sym, meth]
+    list = Benelux.packed_methods.filter(klass.to_s.to_sym, meth)
     list.filter! :kind => kind unless kind.nil?
     !list.empty?
   end
@@ -190,7 +171,7 @@ module Benelux
   # This is an instance method for objects which have Benelux 
   # modified methods. 
   def timed_methods
-    Benelux.timed_methods[:class => self.class.to_s.to_sym]
+    Benelux.timed_methods.filter(:class => self.class.to_s.to_sym)
   end
   
   # Returns an Array of method names for the current class that
@@ -199,7 +180,7 @@ module Benelux
   # This is an instance method for objects which have Benelux 
   # modified methods.
   def counted_methods
-    Benelux.counted_methods[:class => self.class.to_s.to_sym]
+    Benelux.counted_methods.filter(:class => self.class.to_s.to_sym)
   end
 
   
