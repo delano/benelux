@@ -15,16 +15,16 @@ tryouts "Calculator" do
 end
 
 tryouts "Stats" do
-  set :stat_names, [:execute, :request, :first_byte]
+  set :stat_groups, [:execute, :request, :first_byte]
   
-  dream stat_names
+  dream stat_groups
   drill "knows stats names" do
-    stats = Benelux::Stats.new(stat_names)
-    stats.names
+    stats = Benelux::Stats.new(*stat_groups)
+    stats.keys
   end
   
-  drill "can keep multiple stats", true do
-    stats = Benelux::Stats.new(stat_names)
+  xdrill "can keep multiple stats", true do
+    stats = Benelux::Stats.new(*stat_groups)
     stats.execute.sample(rand)
     stats.request.sample(rand*-1)
     stats.execute != stats.request
@@ -32,7 +32,7 @@ tryouts "Stats" do
   
   dream [true, true, true]
   drill "can keep stats with tags" do
-    stats = Benelux::Stats.new(stat_names)
+    stats = Benelux::Stats.new(*stat_groups)
     3.times { |i|
       stats.execute.sample(rand, :usecase => '11')
       stats.execute.sample(rand, :usecase => '11', :request => '22')

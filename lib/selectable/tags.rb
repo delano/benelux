@@ -31,7 +31,7 @@ module Selectable
     
     def ==(other)
       if other.is_a?(Array)
-        self.values.sort == other.sort
+        (self.values & other).sort == other.sort
       else
         super(other)
       end
@@ -62,8 +62,7 @@ module Selectable
     private
     
     def compare_Hash(b)
-      a = self
-      return -1 unless (a.values_at(*b.keys) & b.values).size >= b.size
+      return -1 unless (self.values_at(*b.keys) & b.values).size >= b.size
       1
     end
     alias_method :"compare_Selectable::Tags", :compare_Hash

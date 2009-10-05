@@ -1,37 +1,21 @@
 
 module Benelux
-  class Stats
-    attr_reader :names
-    def initialize(*names)
-      @names = []
-      add_groups names
+  class Stats < Hash
+    def initialize(*groups)
+      groups.each { |n| add_group(n) }
     end
-    def group(name)
-      self.send name
+    def add_group(n,v=Calculator.new)
+      self.store(n, v)
     end
-    # Each group
-    def each(&blk)
-      @names.each { |name| blk.call(group(name)) }
+    def method_missing(meth, *args)
+      return self.group(meth) if self.group?(meth)
+      super  
     end
-    # Each group name, group
-    def each_pair(&blk)
-      @names.each { |name| blk.call(name, group(name)) }
-    end
-    def add_groups(*args)
-      args.flatten.each do |meth|
-        next if has_group? meth
-        @names << meth
-        self.class.send :attr_reader, meth
-        (g = Benelux::Stats::Group.new).name = meth
-        instance_variable_set("@#{meth}", g)
-      end
-    end
+    alias_method :group?, :has_key?
+    alias_method :group, :fetch
+    alias_method :groups, :keys
     def sample(name, s, tags={})
       self.send(name).sample(s, tags)
-    end
-    alias_method :add_group, :add_groups
-    def has_group?(name)
-      @names.member? name
     end
     def +(other)
       if !other.is_a?(Benelux::Stats)
@@ -39,78 +23,13 @@ module Benelux
       end
       other.names.each do |name|
         add_group name
-        a = self.send(name) 
-        a += other.send(name)
+        a = self.group(name) 
+        a += other.group(name)
         a
       end
       self
     end
     
-    class Group < Array
-      include Selectable
-      
-      attr_accessor :name
-      
-      def +(other)
-        unless @name == other.name
-          raise BeneluxError, "Cannot add #{other.name} to #{@name}"
-        end
-        other.each do |newcalc|
-          calcs = self.select { |calc| calc.tags == newcalc.tags }
-          self << newcalc and next if calcs.empty?
-          # This should only ever contain one b/c we should
-          # not have several calculators with the same tags. 
-          calcs.each do |calc|
-            calc += newcalc
-          end
-        end
-        self
-      end
-      
-      def sample(s, tags={})
-        raise BeneluxError, "tags must be a Hash" unless tags.kind_of?(Hash)
-        calcs = self.select { |c| c.tags == tags }
-        if calcs.empty?
-          (c = Calculator.new).add_tags tags
-          self << c
-          calcs = [c]
-        end
-        calcs.each { |c| c.sample(s) }
-        nil
-      end
-      
-      def tag_values(tag)
-        vals = self.collect { |calc| calc.tags[tag] }
-        Array.new vals.uniq
-      end
-      
-      def tags()    merge.tags   end
-      def mean()    merge.mean   end
-      def min()     merge.min    end
-      def max()     merge.max    end
-      def sum()     merge.sum    end
-      def sd()      merge.sd     end
-      def n()       merge.n      end
-      
-      def merge(*tags)
-        tags = Selectable.normalize tags
-        mc = Calculator.new
-        mc.init_tags!
-        all = tags.empty? ? self : self.filter(tags)
-        all.each { |calc| 
-          mc.samples calc
-          mc.add_tags_quick calc.tags
-        }
-        mc
-      end
-      
-      def filter(*tags)
-        (f = super).name = @name
-        f
-      end
-      alias_method :[], :filter
-      
-    end
     
     # Based on Mongrel::Stats, Copyright (c) 2005 Zed A. Shaw
     class Calculator < Array
@@ -203,4 +122,73 @@ module Benelux
     
     
   end
+end
+
+
+__END__
+
+class Group < Array
+  include Selectable
+  
+  attr_accessor :name
+  
+  def +(other)
+#        p [name, other.filter('2bf1f5ebc7572115df6ea53294fe0b67037a5190', '7d43d6adcb01a18c218f05531412b35865c703ba').size]
+    other.each do |newcalc|
+      #calcs = self.select { |calc| calc.tags == newcalc.tags }
+      self << newcalc
+      # This should only ever contain one b/c we should
+      # not have several calculators with the same tags. 
+      #calcs.each do |calc|
+      #  calc += newcalc
+      #end
+    end
+    p [name, self.size]
+    #p [name, self, other]
+    self
+  end
+  
+  def sample(s, tags={})
+    raise BeneluxError, "tags must be a Hash" unless tags.kind_of?(Hash)
+    calcs = self.select { |c| c.tags == tags }
+    if calcs.empty?
+      (c = Calculator.new).add_tags tags
+      self << c
+      calcs = [c]
+    end
+    calcs.each { |c| c.sample(s) }
+    nil
+  end
+  
+  def tag_values(tag)
+    vals = self.collect { |calc| calc.tags[tag] }
+    Array.new vals.uniq
+  end
+  
+  def tags()    merge.tags   end
+  def mean()    merge.mean   end
+  def min()     merge.min    end
+  def max()     merge.max    end
+  def sum()     merge.sum    end
+  def sd()      merge.sd     end
+  def n()       merge.n      end
+  
+  def merge(*tags)
+    tags = Selectable.normalize tags
+    mc = Calculator.new
+    mc.init_tags!
+    all = tags.empty? ? self : self.filter(tags)
+    all.each { |calc| 
+      mc.samples calc
+      mc.add_tags_quick calc.tags
+    }
+    mc
+  end
+  
+  def filter(*tags)
+    (f = super).name = @name
+    f
+  end
+  alias_method :[], :filter
+  
 end

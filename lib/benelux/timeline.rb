@@ -162,12 +162,11 @@ module Benelux
     
     
     def +(other)
-      self << other
-      self.ranges += other.ranges
+      self.push *other
+      #self.sort!
+      self.ranges.push *other.ranges
+      #self.ranges.sort!
       self.stats += other.stats
-      self.counts << other.counts
-      self.counts.flatten!
-      self.flatten!
       self
     end
     # Needs to compare thread id and call id. 
