@@ -80,6 +80,7 @@ module Benelux
       end
       
       def mean()    merge.mean   end
+      def sum()    merge.sum   end
       def min()     merge.min    end
       def max()     merge.max    end
       def sd()      merge.sd     end

@@ -63,7 +63,9 @@ module Benelux
   def Benelux.update_track_timeline(track=nil)
     track = Thread.current.track if track.nil?
     threads = Benelux.known_threads.select { |t| t.track == track }
-    Benelux.timelines[track] = Benelux.merge_timelines(*threads.collect { |t| t.timeline })
+    list = threads.collect { |t| t.timeline }
+    list << Benelux.timelines[track]
+    Benelux.timelines[track] = Benelux.merge_timelines(*list)
     threads.each { |t| t.timeline.clear }
     Benelux.timelines[track]
   end
