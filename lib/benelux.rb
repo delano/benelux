@@ -9,6 +9,7 @@ module Benelux
   
   class BeneluxError < RuntimeError; end
   class NotSupported < BeneluxError; end
+  class AlreadyTimed < BeneluxError; end
   class NoTrack < BeneluxError; end
   
   require 'benelux/mark'
@@ -63,7 +64,9 @@ module Benelux
   def Benelux.update_track_timeline(track=nil)
     track = Thread.current.track if track.nil?
     threads = Benelux.known_threads.select { |t| t.track == track }
-    Benelux.timelines[track] = Benelux.merge_timelines(*threads.collect { |t| t.timeline })
+    threadgroup = threads.collect { |t| t.timeline }
+    threadgroup << Benelux.timelines[track]
+    Benelux.timelines[track] = Benelux.merge_timelines(*threadgroup)
     threads.each { |t| t.timeline.clear }
     Benelux.timelines[track]
   end
