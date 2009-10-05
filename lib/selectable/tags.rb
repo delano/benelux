@@ -31,7 +31,7 @@ module Selectable
     
     def ==(other)
       if other.is_a?(Array)
-        (self.values & other).sort == other.sort
+        self.values.sort == other.sort
       else
         super(other)
       end
@@ -74,7 +74,7 @@ module Selectable
     end
     
     def method_missing(meth, *args)
-      raise SelectableError, "#{args.first} is not a Hash or Array"
+      raise SelectableError, "#{meth}: #{args.first} is not a Hash or Array"
     end
     
     ## NOTE: This is helpful but defensive. Ponder!
