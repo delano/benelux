@@ -25,9 +25,8 @@ tryouts "Reporter" do
     reporter.thwait
   end
   
-  dream :done?, true
+  dream true
   xdrill "will wait for known threads" do
-    stash :done_before, reporter.done?
     reporter.start
     reporter
   end

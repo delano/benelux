@@ -25,40 +25,24 @@ module Benelux
   require 'benelux/mixins/thread'
   require 'benelux/mixins/symbol'
   
+  class << self
+    attr_reader :packed_methods
+    attr_reader :tracks
+    attr_reader :timeline
+    attr_reader :reporter
+  end
+  
   @packed_methods = SelectableArray.new
   @tracks = SelectableHash.new
   @timeline = Timeline.new
   @reporter = Reporter.new
-  @known_threads = []
-  
-  class << self
-    attr_reader :packed_methods
-    attr_reader :tracks
-    attr_reader :known_threads
-  end
   
   @@mutex = Mutex.new
   @@debug = false
   @@logger = STDERR
   
-  def Benelux.known_thread?(t)
-    Benelux.known_threads.member? t
-  end
-  
-  # Benelux keeps track of the threads which have timed
-  # objects so it can process the timelines after all is
-  # said and done. 
-  def Benelux.store_thread_reference
-    return if Benelux.known_thread? Thread.current
-    @@mutex.synchronize do
-      Benelux.current_track.timeline ||= Benelux::Timeline.new
-      Benelux.known_threads << Thread.current
-      Benelux.known_threads.uniq!
-    end
-  end
-  
-  def Benelux.reporting_wait
-    @reporter.wait
+  def Benelux.thread_timeline
+    Thread.current.timeline
   end
   
   # If +name+ is specified, this will associate the current
@@ -74,8 +58,11 @@ module Benelux
     else
       Thread.current.track_name = name
       Thread.current.timeline ||= Benelux::Timeline.new
-      @tracks[name] ||= Track.new(name, group)
-      @tracks[name].add_thread Thread.current
+      @@mutex.synchronize do
+        @tracks[name] ||= Track.new(name, group)
+        @tracks[name].add_thread Thread.current
+        @reporter.add_thread Thread.current
+      end
     end
     Benelux.track(name)
   end
@@ -91,11 +78,12 @@ module Benelux
   
   # Thread tags become the default for any new Mark or Range. 
   def Benelux.add_thread_tags(args=Selectable::Tags.new)
-
+    Benelux.thread_timeline.add_default_tags args
   end
   def Benelux.add_thread_tag(*args) add_thread_tags *args end
   
   def Benelux.remove_thread_tags(*args)
+    Benelux.thread_timeline.remove_default_tags *args
   end
   def Benelux.remove_thread_tag(*args) remove_thread_tags *args end
   
@@ -120,9 +108,19 @@ module Benelux
     Benelux.packed_methods.filter :kind => :'Benelux::MethodCounter'
   end
   
+  def Benelux.known_thread?(t=Thread.current)
+    @reporter.thwait.threads.member? t
+  end
+  
+  def Benelux.known_threads
+    @reporter.thwait.threads
+  end
+  
+  def Benelux.reporting_wait
+    @reporter.wait
+  end
   
   def Benelux.packed_method(klass, meth)
-    # TODO: replace with static Hash
     Benelux.packed_methods.filter(klass.to_s.to_sym, meth).first
   end
   

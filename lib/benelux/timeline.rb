@@ -161,11 +161,19 @@ module Benelux
       range
     end
     
+    def merge!(*timelines)
+      timelines.each do |tl| 
+        self.push *tl
+        self.ranges.push *tl.ranges
+        self.stats += tl.stats
+      end
+      self
+    end
     
     def +(other)
       self.push *other
       self.ranges.push *other.ranges
-      self.stats = other.stats
+      self.stats += other.stats
       self
     end
     # Needs to compare thread id and call id. 
