@@ -1,6 +1,10 @@
 BENELUX, CHANGES
 
 
+#### 0.4.1 (2009-10-??) ###############################
+
+* FIXED: Nil @thread error in reporter
+
 #### 0.4.0 (2009-10-06) ###############################
 
 * CHANGE: All tag values are stored as strings. Keys can be anything.

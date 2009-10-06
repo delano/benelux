@@ -56,7 +56,7 @@ module Benelux
       process [Thread.current.timeline]
     end
     def wait
-      if Thread.current == Thread.main
+      if @thread && Thread.current == Thread.main
         @thread.join
         force_update
       else
