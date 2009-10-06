@@ -1,7 +1,7 @@
 @spec = Gem::Specification.new do |s|
   s.name = "benelux"
   s.rubyforge_project = 'benelux'
-  s.version = "0.3.2"
+  s.version = "0.4.0"
   s.summary = "Benelux: Little freakin' timers for your Ruby codes"
   s.description = s.summary
   s.author = "Delano Mandelbaum"
@@ -30,14 +30,22 @@
   lib/benelux/mixins/thread.rb
   lib/benelux/packer.rb
   lib/benelux/range.rb
+  lib/benelux/reporter.rb
   lib/benelux/stats.rb
   lib/benelux/timeline.rb
+  lib/benelux/track.rb
   lib/selectable.rb
+  lib/selectable/global.rb
+  lib/selectable/object.rb
+  lib/selectable/tags.rb
   tryouts/10_stats_tryouts.rb
   tryouts/11_selectable_tryouts.rb
-  tryouts/20_class_methods_tryouts.rb
+  tryouts/12_selectable_global_tryouts.rb
+  tryouts/20_tracks_tryouts.rb
+  tryouts/30_reporter_tryouts.rb
   tryouts/30_timeline_tryouts.rb
   tryouts/proofs/alias_performance.rb
+  tryouts/proofs/array_performance.rb
   tryouts/proofs/timer_threading.rb
   )
 

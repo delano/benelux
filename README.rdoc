@@ -1,4 +1,4 @@
-= Benelux v0.3 (IN PROGRESS)
+= Benelux v0.4 (IN PROGRESS)
 
 <b>A madhouse of timers for your Ruby codes</b>
 

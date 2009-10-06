@@ -62,6 +62,7 @@ module Benelux
         @tracks[name] ||= Track.new(name, group)
         @tracks[name].add_thread Thread.current
         @reporter.add_thread Thread.current
+        @reporter.start
       end
     end
     Benelux.track(name)

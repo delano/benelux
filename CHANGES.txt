@@ -1,11 +1,13 @@
 BENELUX, CHANGES
 
 
-#### 0.3.3 (2009-10-??) ###############################
+#### 0.4.0 (2009-10-06) ###############################
 
 * CHANGE: All tag values are stored as strings. Keys can be anything.
 * CHANGE: Removed object-specific timelines
+* CHANGED: Stats calculators no longer keep all values
 * ADDED: Counts
+* ADDED: Reporter thread
 
 
 #### 0.3.2 (2009-10-02) ###############################

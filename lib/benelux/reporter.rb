@@ -8,7 +8,6 @@ module Benelux
       @abort, @running = false, false
       @tmerge = Benelux::Stats::Calculator.new
       add_threads *threads
-      start
     end
     def add_threads(*threads)
       threads.each do |thread|
