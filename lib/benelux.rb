@@ -5,7 +5,7 @@ require 'thwait'
 require 'selectable'
 
 module Benelux
-  VERSION = "0.4.0"
+  VERSION = "0.4.1"
   NOTSUPPORTED = [Class, Object, Kernel]
   
   class BeneluxError < RuntimeError; end
