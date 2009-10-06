@@ -45,6 +45,15 @@ module Benelux
     Thread.current.timeline
   end
   
+  def Benelux.track(name)
+    raise UnknownTrack unless track? name
+    @tracks[name]
+  end
+  
+  def Benelux.track?(name)
+    @tracks.has_key? name
+  end
+  
   # If +name+ is specified, this will associate the current
   # thread with that Track +name+ (the Track will be created
   # if necessary).
@@ -62,23 +71,15 @@ module Benelux
         @tracks[name] ||= Track.new(name, group)
         @tracks[name].add_thread Thread.current
         @reporter.add_thread Thread.current
-        @reporter.start
       end
     end
     Benelux.track(name)
   end
-  
-  def Benelux.track(name)
-    raise UnknownTrack unless track? name
-    @tracks[name]
-  end
-  
-  def Benelux.track?(name)
-    @tracks.has_key? name
-  end
+  Benelux.current_track :main
   
   # Thread tags become the default for any new Mark or Range. 
   def Benelux.add_thread_tags(args=Selectable::Tags.new)
+
     Benelux.thread_timeline.add_default_tags args
   end
   def Benelux.add_thread_tag(*args) add_thread_tags *args end

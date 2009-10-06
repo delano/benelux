@@ -3,6 +3,7 @@ module Benelux
   class Reporter
     attr_reader :thread
     attr_reader :thwait
+    @@mutex = Mutex.new
     def initialize(*threads)
       @thwait = ThreadsWait.new
       @abort, @running = false, false
@@ -15,9 +16,14 @@ module Benelux
         next if thread == Thread.main
         @thwait.join_nowait thread
       end
+      return if running?
+      @@mutex.synchronize do
+        start
+      end
     end
     alias_method :add_thread, :add_threads
     def running_threads?
+      # Any status that is not nil or false is running
       !@thwait.threads.select { |t| t.status }.empty?
     end
     
@@ -25,27 +31,34 @@ module Benelux
       return if running?
       @running = true
       @thread = Thread.new do
-        sleep 1   # Give the app time to generate threads
-        tbd = []
-        loop do
-          break if @abort
-          process(tbd) if tbd.size > 1
-          if @thwait.empty?
-            tbd.empty? ? sleep(0.1) : process(tbd)
-            running_threads? ? next : break
-          end
-          tbd << @thwait.next_wait.timeline
+        while @thwait.empty?
+          sleep 0.5   # Give the app time to generate threads
         end
+        @tbd = []
+        run_loop
       end
-      @running = false
-      @done = true unless aborted?
+      @thread.priority = -3
+    end
+    def run_loop
+      loop do
+        break if @abort
+        process(@tbd)
+        if @thwait.empty?
+          sleep 0.001
+          running_threads? ? next : break
+        end
+        t = @thwait.next_wait
+        #p [:reporter_queue, '^', t.track_name, @thread.priority]
+        @tbd << t.timeline
+      end
     end
     def process(tbd)
       return if tbd.empty?
-      start = Time.now
+      (start = Time.now)
       Benelux.timeline.merge! *tbd
-      dur = (Time.now - start).to_f
-      Benelux.ld [:processed, tbd.size, dur]
+      (endt = Time.now)
+      dur = (endt - start).to_f
+      #p [:processed, tbd.size, dur]
       tbd.clear
       @tmerge.sample dur
     end
@@ -53,11 +66,15 @@ module Benelux
     # so we need to manually force processing for
     # that thread. The reason: we 
     def force_update
-      process [Thread.current.timeline]
+      @abort = false
+      @tbd << Thread.current.timeline
+      run_loop
     end
     def wait
       if @thread && Thread.current == Thread.main
-        @thread.join
+        @abort = true
+        @thread.priority = 0
+        @thread.join if @thread.status
         force_update
       else
         msg = "Not main thread. Skipping call to wait from #{caller[0]}"
