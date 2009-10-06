@@ -21,7 +21,9 @@ tryouts "Calculator" do
     by_sample = Benelux::Stats::Calculator.new
     10.times { |i| by_sample.sample(i) }
     by_sample += base
-    by_merge = base.merge(base)
+    by_merge = Benelux::Stats::Calculator.new
+    by_merge.merge! base
+    by_merge.merge! base
     stash :sample, by_sample
     stash :merge, by_merge
     by_sample == by_merge

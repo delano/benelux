@@ -19,11 +19,11 @@ tryouts "Selectable" do
   dream :class, SelectableArray
   dream :size, 5
   drill "filter returns a new instance of the same object" do
-    base[:even => true]
+    base.filter(:even => true)
   end
   
   drill "[] and filter are the same", true do
-    base[:even => false] == base.filter[:even => false]
+    base.filter(:even => false) == base.filter(:even => false)
   end
   
   dream :class, SelectableArray
