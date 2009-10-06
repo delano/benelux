@@ -146,12 +146,17 @@ module Benelux
         args.flatten.each { |s| sample(s) }
       end
       
-      def merge!(other)
+      def merge!(other)      
+        if @sum == 0
+          @min = @max = other.mean
+        else
+          @min = other.min if other.min < @min
+          @max = other.max if other.max > @max
+        end
         @sum += other.sum
         @sumsq += other.sumsq
         @n += other.n
-        @min = other.min if other.min < @min
-        @max = other.max if other.max > @max
+
         self
       end
       
