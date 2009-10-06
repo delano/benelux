@@ -45,19 +45,19 @@
             <h2>Methods</h2>
             <h3>public instance</h3>
             <ol>
-              <li><a href="#M000087">+</a></li>
-              <li><a href="#M000099">[]</a></li>
-              <li><a href="#M000098">filter</a></li>
-              <li><a href="#M000093">max</a></li>
-              <li><a href="#M000091">mean</a></li>
-              <li><a href="#M000097">merge</a></li>
-              <li><a href="#M000092">min</a></li>
-              <li><a href="#M000096">n</a></li>
-              <li><a href="#M000088">sample</a></li>
-              <li><a href="#M000095">sd</a></li>
-              <li><a href="#M000094">sum</a></li>
-              <li><a href="#M000089">tag_values</a></li>
-              <li><a href="#M000090">tags</a></li>
+              <li><a href="#M000079">+</a></li>
+              <li><a href="#M000091">[]</a></li>
+              <li><a href="#M000090">filter</a></li>
+              <li><a href="#M000085">max</a></li>
+              <li><a href="#M000083">mean</a></li>
+              <li><a href="#M000089">merge</a></li>
+              <li><a href="#M000084">min</a></li>
+              <li><a href="#M000088">n</a></li>
+              <li><a href="#M000080">sample</a></li>
+              <li><a href="#M000087">sd</a></li>
+              <li><a href="#M000086">sum</a></li>
+              <li><a href="#M000081">tag_values</a></li>
+              <li><a href="#M000082">tags</a></li>
             </ol>
           </div>
           <div id='context'>
@@ -83,172 +83,172 @@
             </div>
             <div id='methods'>
               <h2>Public instance methods</h2>
-              <div class='public-instance method' id='method-M000087'>
-                <a name='M000087'>      </a>
+              <div class='public-instance method' id='method-M000079'>
+                <a name='M000079'>      </a>
                 <div class='synopsis'>
                   <span class='name'>+</span>
                   <span class='arguments'>(other)</span>
                 </div>
                 <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('M000087-source'); return false">
+                  <a class='source-toggle' href='#' onclick="toggleCode('M000079-source'); return false">
                     [show source]
                   </a>
-                  <pre id='M000087-source'>    <span class="ruby-comment cmt"># File lib/benelux/stats.rb, line 60</span>&#x000A;60:       <span class="ruby-keyword kw">def</span> <span class="ruby-operator">+</span>(<span class="ruby-identifier">other</span>)&#x000A;61:         <span class="ruby-keyword kw">unless</span> <span class="ruby-ivar">@name</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">other</span>.<span class="ruby-identifier">name</span>&#x000A;62:           <span class="ruby-identifier">raise</span> <span class="ruby-constant">BeneluxError</span>, <span class="ruby-node">&quot;Cannot add #{other.name} to #{@name}&quot;</span>&#x000A;63:         <span class="ruby-keyword kw">end</span>&#x000A;64:         <span class="ruby-identifier">other</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">newcalc</span><span class="ruby-operator">|</span>&#x000A;65:           <span class="ruby-comment cmt"># Merge calculator with a like calculator in another group.</span>&#x000A;66:           <span class="ruby-identifier">calcs</span> = <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">select</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">calc</span><span class="ruby-operator">|</span> <span class="ruby-identifier">calc</span>.<span class="ruby-identifier">tags</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">newcalc</span>.<span class="ruby-identifier">tags</span> }&#x000A;67:           <span class="ruby-comment cmt"># This should only ever contain one b/c we should</span>&#x000A;68:           <span class="ruby-comment cmt"># not have several calculators with the same tags. </span>&#x000A;69:           <span class="ruby-identifier">calcs</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">calc</span><span class="ruby-operator">|</span>&#x000A;70:             <span class="ruby-identifier">calc</span> <span class="ruby-operator">+=</span> <span class="ruby-identifier">newcalc</span>&#x000A;71:           <span class="ruby-keyword kw">end</span>&#x000A;72:           <span class="ruby-keyword kw">self</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">newcalc</span>&#x000A;73:         <span class="ruby-keyword kw">end</span>&#x000A;74:         <span class="ruby-keyword kw">self</span>&#x000A;75:       <span class="ruby-keyword kw">end</span></pre>
+                  <pre id='M000079-source'>    <span class="ruby-comment cmt"># File lib/benelux/stats.rb, line 60</span>&#x000A;60:       <span class="ruby-keyword kw">def</span> <span class="ruby-operator">+</span>(<span class="ruby-identifier">other</span>)&#x000A;61:         <span class="ruby-keyword kw">unless</span> <span class="ruby-ivar">@name</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">other</span>.<span class="ruby-identifier">name</span>&#x000A;62:           <span class="ruby-identifier">raise</span> <span class="ruby-constant">BeneluxError</span>, <span class="ruby-node">&quot;Cannot add #{other.name} to #{@name}&quot;</span>&#x000A;63:         <span class="ruby-keyword kw">end</span>&#x000A;64:         <span class="ruby-identifier">other</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">newcalc</span><span class="ruby-operator">|</span>&#x000A;65:           <span class="ruby-comment cmt"># Merge calculator with a like calculator in another group.</span>&#x000A;66:           <span class="ruby-identifier">calcs</span> = <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">select</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">calc</span><span class="ruby-operator">|</span> <span class="ruby-identifier">calc</span>.<span class="ruby-identifier">tags</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">newcalc</span>.<span class="ruby-identifier">tags</span> }&#x000A;67:           <span class="ruby-comment cmt"># This should only ever contain one b/c we should</span>&#x000A;68:           <span class="ruby-comment cmt"># not have several calculators with the same tags. </span>&#x000A;69:           <span class="ruby-identifier">calcs</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">calc</span><span class="ruby-operator">|</span>&#x000A;70:             <span class="ruby-identifier">calc</span> <span class="ruby-operator">+=</span> <span class="ruby-identifier">newcalc</span>&#x000A;71:           <span class="ruby-keyword kw">end</span>&#x000A;72:           <span class="ruby-keyword kw">self</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">newcalc</span>&#x000A;73:         <span class="ruby-keyword kw">end</span>&#x000A;74:         <span class="ruby-keyword kw">self</span>&#x000A;75:       <span class="ruby-keyword kw">end</span></pre>
                 </div>
               </div>
-              <div class='public-instance method' id='method-M000099'>
-                <a name='M000099'>      </a>
+              <div class='public-instance method' id='method-M000091'>
+                <a name='M000091'>      </a>
                 <div class='synopsis'>
                   <span class='name'>[]</span>
                   <span class='arguments'>(*tags)</span>
                 </div>
                 <div class='description'>
                   <p>
-                  Alias for <a href="Group.html#M000098">filter</a>
+                  Alias for <a href="Group.html#M000090">filter</a>
                   </p>
-                </div>
-              </div>
-              <div class='public-instance method' id='method-M000098'>
-                <a name='M000098'>      </a>
-                <div class='synopsis'>
-                  <span class='name'>filter</span>
-                  <span class='arguments'>(*tags)</span>
-                </div>
-                <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('M000098-source'); return false">
-                    [show source]
-                  </a>
-                  <pre id='M000098-source'>     <span class="ruby-comment cmt"># File lib/benelux/stats.rb, line 114</span>&#x000A;114:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">filter</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">tags</span>)&#x000A;115:         (<span class="ruby-identifier">f</span> = <span class="ruby-keyword kw">super</span>).<span class="ruby-identifier">name</span> = <span class="ruby-ivar">@name</span>&#x000A;116:         <span class="ruby-identifier">f</span>&#x000A;117:       <span class="ruby-keyword kw">end</span></pre>
-                </div>
-              </div>
-              <div class='public-instance method' id='method-M000093'>
-                <a name='M000093'>      </a>
-                <div class='synopsis'>
-                  <span class='name'>max</span>
-                  <span class='arguments'>()</span>
-                </div>
-                <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('M000093-source'); return false">
-                    [show source]
-                  </a>
-                  <pre id='M000093-source'>    <span class="ruby-comment cmt"># File lib/benelux/stats.rb, line 97</span>&#x000A;97:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">max</span>()     <span class="ruby-identifier">merge</span>.<span class="ruby-identifier">max</span>    <span class="ruby-keyword kw">end</span></pre>
-                </div>
-              </div>
-              <div class='public-instance method' id='method-M000091'>
-                <a name='M000091'>      </a>
-                <div class='synopsis'>
-                  <span class='name'>mean</span>
-                  <span class='arguments'>()</span>
-                </div>
-                <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('M000091-source'); return false">
-                    [show source]
-                  </a>
-                  <pre id='M000091-source'>    <span class="ruby-comment cmt"># File lib/benelux/stats.rb, line 95</span>&#x000A;95:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">mean</span>()    <span class="ruby-identifier">merge</span>.<span class="ruby-identifier">mean</span>   <span class="ruby-keyword kw">end</span></pre>
-                </div>
-              </div>
-              <div class='public-instance method' id='method-M000097'>
-                <a name='M000097'>      </a>
-                <div class='synopsis'>
-                  <span class='name'>merge</span>
-                  <span class='arguments'>(*tags)</span>
-                </div>
-                <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('M000097-source'); return false">
-                    [show source]
-                  </a>
-                  <pre id='M000097-source'>     <span class="ruby-comment cmt"># File lib/benelux/stats.rb, line 102</span>&#x000A;102:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">merge</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">tags</span>)&#x000A;103:         <span class="ruby-identifier">tags</span> = <span class="ruby-constant">Selectable</span>.<span class="ruby-identifier">normalize</span> <span class="ruby-identifier">tags</span>&#x000A;104:         <span class="ruby-identifier">mc</span> = <span class="ruby-constant">Calculator</span>.<span class="ruby-identifier">new</span>&#x000A;105:         <span class="ruby-identifier">mc</span>.<span class="ruby-identifier">init_tags!</span>&#x000A;106:         <span class="ruby-identifier">all</span> = <span class="ruby-identifier">tags</span>.<span class="ruby-identifier">empty?</span> <span class="ruby-value">? </span><span class="ruby-keyword kw">self</span> <span class="ruby-operator">:</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">filter</span>(<span class="ruby-identifier">tags</span>)&#x000A;107:         <span class="ruby-identifier">all</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">calc</span><span class="ruby-operator">|</span> &#x000A;108:           <span class="ruby-identifier">mc</span>.<span class="ruby-identifier">merge!</span> <span class="ruby-identifier">calc</span>&#x000A;109:           <span class="ruby-identifier">mc</span>.<span class="ruby-identifier">add_tags_quick</span> <span class="ruby-identifier">calc</span>.<span class="ruby-identifier">tags</span>&#x000A;110:         }&#x000A;111:         <span class="ruby-identifier">mc</span>&#x000A;112:       <span class="ruby-keyword kw">end</span></pre>
-                </div>
-              </div>
-              <div class='public-instance method' id='method-M000092'>
-                <a name='M000092'>      </a>
-                <div class='synopsis'>
-                  <span class='name'>min</span>
-                  <span class='arguments'>()</span>
-                </div>
-                <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('M000092-source'); return false">
-                    [show source]
-                  </a>
-                  <pre id='M000092-source'>    <span class="ruby-comment cmt"># File lib/benelux/stats.rb, line 96</span>&#x000A;96:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">min</span>()     <span class="ruby-identifier">merge</span>.<span class="ruby-identifier">min</span>    <span class="ruby-keyword kw">end</span></pre>
-                </div>
-              </div>
-              <div class='public-instance method' id='method-M000096'>
-                <a name='M000096'>      </a>
-                <div class='synopsis'>
-                  <span class='name'>n</span>
-                  <span class='arguments'>()</span>
-                </div>
-                <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('M000096-source'); return false">
-                    [show source]
-                  </a>
-                  <pre id='M000096-source'>     <span class="ruby-comment cmt"># File lib/benelux/stats.rb, line 100</span>&#x000A;100:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">n</span>()       <span class="ruby-identifier">merge</span>.<span class="ruby-identifier">n</span>      <span class="ruby-keyword kw">end</span></pre>
-                </div>
-              </div>
-              <div class='public-instance method' id='method-M000088'>
-                <a name='M000088'>      </a>
-                <div class='synopsis'>
-                  <span class='name'>sample</span>
-                  <span class='arguments'>(s, tags={})</span>
-                </div>
-                <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('M000088-source'); return false">
-                    [show source]
-                  </a>
-                  <pre id='M000088-source'>    <span class="ruby-comment cmt"># File lib/benelux/stats.rb, line 77</span>&#x000A;77:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">sample</span>(<span class="ruby-identifier">s</span>, <span class="ruby-identifier">tags</span>={})&#x000A;78:         <span class="ruby-identifier">raise</span> <span class="ruby-constant">BeneluxError</span>, <span class="ruby-value str">&quot;tags must be a Hash&quot;</span> <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">tags</span>.<span class="ruby-identifier">kind_of?</span>(<span class="ruby-constant">Hash</span>)&#x000A;79:         <span class="ruby-identifier">calcs</span> = <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">select</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">c</span><span class="ruby-operator">|</span> <span class="ruby-identifier">c</span>.<span class="ruby-identifier">tags</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">tags</span> }&#x000A;80:         <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">calcs</span>.<span class="ruby-identifier">empty?</span>&#x000A;81:           (<span class="ruby-identifier">c</span> = <span class="ruby-constant">Calculator</span>.<span class="ruby-identifier">new</span>).<span class="ruby-identifier">add_tags</span> <span class="ruby-identifier">tags</span>&#x000A;82:           <span class="ruby-keyword kw">self</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">c</span>&#x000A;83:           <span class="ruby-identifier">calcs</span> = [<span class="ruby-identifier">c</span>]&#x000A;84:         <span class="ruby-keyword kw">end</span>&#x000A;85:         <span class="ruby-identifier">calcs</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">c</span><span class="ruby-operator">|</span> <span class="ruby-identifier">c</span>.<span class="ruby-identifier">sample</span>(<span class="ruby-identifier">s</span>) }&#x000A;86:         <span class="ruby-keyword kw">nil</span>&#x000A;87:       <span class="ruby-keyword kw">end</span></pre>
-                </div>
-              </div>
-              <div class='public-instance method' id='method-M000095'>
-                <a name='M000095'>      </a>
-                <div class='synopsis'>
-                  <span class='name'>sd</span>
-                  <span class='arguments'>()</span>
-                </div>
-                <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('M000095-source'); return false">
-                    [show source]
-                  </a>
-                  <pre id='M000095-source'>    <span class="ruby-comment cmt"># File lib/benelux/stats.rb, line 99</span>&#x000A;99:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">sd</span>()      <span class="ruby-identifier">merge</span>.<span class="ruby-identifier">sd</span>     <span class="ruby-keyword kw">end</span></pre>
-                </div>
-              </div>
-              <div class='public-instance method' id='method-M000094'>
-                <a name='M000094'>      </a>
-                <div class='synopsis'>
-                  <span class='name'>sum</span>
-                  <span class='arguments'>()</span>
-                </div>
-                <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('M000094-source'); return false">
-                    [show source]
-                  </a>
-                  <pre id='M000094-source'>    <span class="ruby-comment cmt"># File lib/benelux/stats.rb, line 98</span>&#x000A;98:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">sum</span>()     <span class="ruby-identifier">merge</span>.<span class="ruby-identifier">sum</span>    <span class="ruby-keyword kw">end</span></pre>
-                </div>
-              </div>
-              <div class='public-instance method' id='method-M000089'>
-                <a name='M000089'>      </a>
-                <div class='synopsis'>
-                  <span class='name'>tag_values</span>
-                  <span class='arguments'>(tag)</span>
-                </div>
-                <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('M000089-source'); return false">
-                    [show source]
-                  </a>
-                  <pre id='M000089-source'>    <span class="ruby-comment cmt"># File lib/benelux/stats.rb, line 89</span>&#x000A;89:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">tag_values</span>(<span class="ruby-identifier">tag</span>)&#x000A;90:         <span class="ruby-identifier">vals</span> = <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">collect</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">calc</span><span class="ruby-operator">|</span> <span class="ruby-identifier">calc</span>.<span class="ruby-identifier">tags</span>[<span class="ruby-identifier">tag</span>] }&#x000A;91:         <span class="ruby-constant">Array</span>.<span class="ruby-identifier">new</span> <span class="ruby-identifier">vals</span>.<span class="ruby-identifier">uniq</span>&#x000A;92:       <span class="ruby-keyword kw">end</span></pre>
                 </div>
               </div>
               <div class='public-instance method' id='method-M000090'>
                 <a name='M000090'>      </a>
                 <div class='synopsis'>
-                  <span class='name'>tags</span>
-                  <span class='arguments'>()</span>
+                  <span class='name'>filter</span>
+                  <span class='arguments'>(*tags)</span>
                 </div>
                 <div class='source'>
                   <a class='source-toggle' href='#' onclick="toggleCode('M000090-source'); return false">
                     [show source]
                   </a>
-                  <pre id='M000090-source'>    <span class="ruby-comment cmt"># File lib/benelux/stats.rb, line 94</span>&#x000A;94:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">tags</span>()    <span class="ruby-identifier">merge</span>.<span class="ruby-identifier">tags</span>   <span class="ruby-keyword kw">end</span></pre>
+                  <pre id='M000090-source'>     <span class="ruby-comment cmt"># File lib/benelux/stats.rb, line 114</span>&#x000A;114:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">filter</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">tags</span>)&#x000A;115:         (<span class="ruby-identifier">f</span> = <span class="ruby-keyword kw">super</span>).<span class="ruby-identifier">name</span> = <span class="ruby-ivar">@name</span>&#x000A;116:         <span class="ruby-identifier">f</span>&#x000A;117:       <span class="ruby-keyword kw">end</span></pre>
+                </div>
+              </div>
+              <div class='public-instance method' id='method-M000085'>
+                <a name='M000085'>      </a>
+                <div class='synopsis'>
+                  <span class='name'>max</span>
+                  <span class='arguments'>()</span>
+                </div>
+                <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('M000085-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='M000085-source'>    <span class="ruby-comment cmt"># File lib/benelux/stats.rb, line 97</span>&#x000A;97:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">max</span>()     <span class="ruby-identifier">merge</span>.<span class="ruby-identifier">max</span>    <span class="ruby-keyword kw">end</span></pre>
+                </div>
+              </div>
+              <div class='public-instance method' id='method-M000083'>
+                <a name='M000083'>      </a>
+                <div class='synopsis'>
+                  <span class='name'>mean</span>
+                  <span class='arguments'>()</span>
+                </div>
+                <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('M000083-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='M000083-source'>    <span class="ruby-comment cmt"># File lib/benelux/stats.rb, line 95</span>&#x000A;95:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">mean</span>()    <span class="ruby-identifier">merge</span>.<span class="ruby-identifier">mean</span>   <span class="ruby-keyword kw">end</span></pre>
+                </div>
+              </div>
+              <div class='public-instance method' id='method-M000089'>
+                <a name='M000089'>      </a>
+                <div class='synopsis'>
+                  <span class='name'>merge</span>
+                  <span class='arguments'>(*tags)</span>
+                </div>
+                <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('M000089-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='M000089-source'>     <span class="ruby-comment cmt"># File lib/benelux/stats.rb, line 102</span>&#x000A;102:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">merge</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">tags</span>)&#x000A;103:         <span class="ruby-identifier">tags</span> = <span class="ruby-constant">Selectable</span>.<span class="ruby-identifier">normalize</span> <span class="ruby-identifier">tags</span>&#x000A;104:         <span class="ruby-identifier">mc</span> = <span class="ruby-constant">Calculator</span>.<span class="ruby-identifier">new</span>&#x000A;105:         <span class="ruby-identifier">mc</span>.<span class="ruby-identifier">init_tags!</span>&#x000A;106:         <span class="ruby-identifier">all</span> = <span class="ruby-identifier">tags</span>.<span class="ruby-identifier">empty?</span> <span class="ruby-value">? </span><span class="ruby-keyword kw">self</span> <span class="ruby-operator">:</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">filter</span>(<span class="ruby-identifier">tags</span>)&#x000A;107:         <span class="ruby-identifier">all</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">calc</span><span class="ruby-operator">|</span> &#x000A;108:           <span class="ruby-identifier">mc</span>.<span class="ruby-identifier">merge!</span> <span class="ruby-identifier">calc</span>&#x000A;109:           <span class="ruby-identifier">mc</span>.<span class="ruby-identifier">add_tags_quick</span> <span class="ruby-identifier">calc</span>.<span class="ruby-identifier">tags</span>&#x000A;110:         }&#x000A;111:         <span class="ruby-identifier">mc</span>&#x000A;112:       <span class="ruby-keyword kw">end</span></pre>
+                </div>
+              </div>
+              <div class='public-instance method' id='method-M000084'>
+                <a name='M000084'>      </a>
+                <div class='synopsis'>
+                  <span class='name'>min</span>
+                  <span class='arguments'>()</span>
+                </div>
+                <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('M000084-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='M000084-source'>    <span class="ruby-comment cmt"># File lib/benelux/stats.rb, line 96</span>&#x000A;96:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">min</span>()     <span class="ruby-identifier">merge</span>.<span class="ruby-identifier">min</span>    <span class="ruby-keyword kw">end</span></pre>
+                </div>
+              </div>
+              <div class='public-instance method' id='method-M000088'>
+                <a name='M000088'>      </a>
+                <div class='synopsis'>
+                  <span class='name'>n</span>
+                  <span class='arguments'>()</span>
+                </div>
+                <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('M000088-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='M000088-source'>     <span class="ruby-comment cmt"># File lib/benelux/stats.rb, line 100</span>&#x000A;100:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">n</span>()       <span class="ruby-identifier">merge</span>.<span class="ruby-identifier">n</span>      <span class="ruby-keyword kw">end</span></pre>
+                </div>
+              </div>
+              <div class='public-instance method' id='method-M000080'>
+                <a name='M000080'>      </a>
+                <div class='synopsis'>
+                  <span class='name'>sample</span>
+                  <span class='arguments'>(s, tags={})</span>
+                </div>
+                <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('M000080-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='M000080-source'>    <span class="ruby-comment cmt"># File lib/benelux/stats.rb, line 77</span>&#x000A;77:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">sample</span>(<span class="ruby-identifier">s</span>, <span class="ruby-identifier">tags</span>={})&#x000A;78:         <span class="ruby-identifier">raise</span> <span class="ruby-constant">BeneluxError</span>, <span class="ruby-value str">&quot;tags must be a Hash&quot;</span> <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">tags</span>.<span class="ruby-identifier">kind_of?</span>(<span class="ruby-constant">Hash</span>)&#x000A;79:         <span class="ruby-identifier">calcs</span> = <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">select</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">c</span><span class="ruby-operator">|</span> <span class="ruby-identifier">c</span>.<span class="ruby-identifier">tags</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">tags</span> }&#x000A;80:         <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">calcs</span>.<span class="ruby-identifier">empty?</span>&#x000A;81:           (<span class="ruby-identifier">c</span> = <span class="ruby-constant">Calculator</span>.<span class="ruby-identifier">new</span>).<span class="ruby-identifier">add_tags</span> <span class="ruby-identifier">tags</span>&#x000A;82:           <span class="ruby-keyword kw">self</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">c</span>&#x000A;83:           <span class="ruby-identifier">calcs</span> = [<span class="ruby-identifier">c</span>]&#x000A;84:         <span class="ruby-keyword kw">end</span>&#x000A;85:         <span class="ruby-identifier">calcs</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">c</span><span class="ruby-operator">|</span> <span class="ruby-identifier">c</span>.<span class="ruby-identifier">sample</span>(<span class="ruby-identifier">s</span>) }&#x000A;86:         <span class="ruby-keyword kw">nil</span>&#x000A;87:       <span class="ruby-keyword kw">end</span></pre>
+                </div>
+              </div>
+              <div class='public-instance method' id='method-M000087'>
+                <a name='M000087'>      </a>
+                <div class='synopsis'>
+                  <span class='name'>sd</span>
+                  <span class='arguments'>()</span>
+                </div>
+                <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('M000087-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='M000087-source'>    <span class="ruby-comment cmt"># File lib/benelux/stats.rb, line 99</span>&#x000A;99:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">sd</span>()      <span class="ruby-identifier">merge</span>.<span class="ruby-identifier">sd</span>     <span class="ruby-keyword kw">end</span></pre>
+                </div>
+              </div>
+              <div class='public-instance method' id='method-M000086'>
+                <a name='M000086'>      </a>
+                <div class='synopsis'>
+                  <span class='name'>sum</span>
+                  <span class='arguments'>()</span>
+                </div>
+                <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('M000086-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='M000086-source'>    <span class="ruby-comment cmt"># File lib/benelux/stats.rb, line 98</span>&#x000A;98:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">sum</span>()     <span class="ruby-identifier">merge</span>.<span class="ruby-identifier">sum</span>    <span class="ruby-keyword kw">end</span></pre>
+                </div>
+              </div>
+              <div class='public-instance method' id='method-M000081'>
+                <a name='M000081'>      </a>
+                <div class='synopsis'>
+                  <span class='name'>tag_values</span>
+                  <span class='arguments'>(tag)</span>
+                </div>
+                <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('M000081-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='M000081-source'>    <span class="ruby-comment cmt"># File lib/benelux/stats.rb, line 89</span>&#x000A;89:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">tag_values</span>(<span class="ruby-identifier">tag</span>)&#x000A;90:         <span class="ruby-identifier">vals</span> = <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">collect</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">calc</span><span class="ruby-operator">|</span> <span class="ruby-identifier">calc</span>.<span class="ruby-identifier">tags</span>[<span class="ruby-identifier">tag</span>] }&#x000A;91:         <span class="ruby-constant">Array</span>.<span class="ruby-identifier">new</span> <span class="ruby-identifier">vals</span>.<span class="ruby-identifier">uniq</span>&#x000A;92:       <span class="ruby-keyword kw">end</span></pre>
+                </div>
+              </div>
+              <div class='public-instance method' id='method-M000082'>
+                <a name='M000082'>      </a>
+                <div class='synopsis'>
+                  <span class='name'>tags</span>
+                  <span class='arguments'>()</span>
+                </div>
+                <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('M000082-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='M000082-source'>    <span class="ruby-comment cmt"># File lib/benelux/stats.rb, line 94</span>&#x000A;94:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">tags</span>()    <span class="ruby-identifier">merge</span>.<span class="ruby-identifier">tags</span>   <span class="ruby-keyword kw">end</span></pre>
                 </div>
               </div>
             </div>
