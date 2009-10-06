@@ -16,18 +16,15 @@ tryouts "Calculator" do
     base
   end
   
-  dream :class, Benelux::Stats::Calculator
-  #dream :n, 10
-  #dream :sum, 45
-  #dream :sumsq, 285
-  #dream :min, 0
-  #dream :max, 9
-  #dream :proc, lambda { |calc| p calc.class }
+  dream true
   drill "can add stats" do
-    other = Benelux::Stats::Calculator.new
-    10.times { |i| other.sample(i) }
-    other += base
-    other
+    by_sample = Benelux::Stats::Calculator.new
+    10.times { |i| by_sample.sample(i) }
+    by_sample += base
+    by_merge = base.merge(base)
+    stash :sample, by_sample
+    stash :merge, by_merge
+    by_sample == by_merge
   end
   
 end

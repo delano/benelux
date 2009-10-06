@@ -105,7 +105,7 @@ module Benelux
         mc.init_tags!
         all = tags.empty? ? self : self.filter(tags)
         all.each { |calc| 
-          mc.samples calc
+          mc.merge calc
           mc.add_tags_quick calc.tags
         }
         mc
@@ -120,7 +120,7 @@ module Benelux
     end
     
     # Based on Mongrel::Stats, Copyright (c) 2005 Zed A. Shaw
-    class Calculator < Array
+    class Calculator
       include Selectable::Object
       
       attr_reader :sum, :sumsq, :n, :min, :max
@@ -130,15 +130,15 @@ module Benelux
       end
   
       def +(other)
-        self.push *other
-        self.recalculate
-        self
+        #self.push *other
+        #self.recalculate
+        #self
+        merge other
       end
   
       # Resets the internal counters so you can start sampling again.
       def reset
         @n, @sum, @sumsq = 0.0, 0.0, 0.0
-        @last_time = 0.0
         @min, @max = 0.0, 0.0
       end
       
@@ -146,9 +146,18 @@ module Benelux
         args.flatten.each { |s| sample(s) }
       end
       
+      def merge(other)
+        @sum += other.sum
+        @sumsq += other.sumsq
+        @n += other.n
+        @min = other.min if other.min < @min
+        @max = other.max if other.max > @max
+        self
+      end
+      
       # Adds a sampling to the calculations.
       def sample(s)
-        self << s
+        #self << s
         update s
       end
   
@@ -198,7 +207,13 @@ module Benelux
           return 0.0
         end
       end
-  
+      
+      def ==(other)
+        a=([@sum, @min, @max, @n, @sumsq] - 
+           [other.sum, other.min, other.max, other.n, other.sumsq])
+        a.empty?
+      end
+      
       def recalculate
         reset
         self.each { |s| update(s) }
