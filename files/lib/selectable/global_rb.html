@@ -1,0 +1,58 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang='en'>
+  <head>
+    <title>File: global.rb [Benelux: Little freakin' timers for your Ruby codes]</title>
+    <meta content='text/html; charset=utf-8' http-equiv='Content-Type'>
+    <link href='../../../rdoc-style.css' media='screen' rel='stylesheet' type='text/css'>
+    <script type='text/javascript'>
+      //<![CDATA[
+        function popupCode(url) {
+          window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+        }
+        
+        function toggleCode(id) {
+          var code = document.getElementById(id)
+        
+          code.style.display = code.style.display != 'block' ? 'block' : 'none'
+          return true
+        }
+        
+        // Make codeblocks hidden by default
+        document.writeln('<' + 'style type="text/css">.method .source pre { display: none }<\/style>')
+      //]]>
+    </script>
+  </head>
+  <body class='page'>
+    <div class='file' id='wrapper'>
+      <div class='header'>
+        <h1 class='name'>global.rb</h1>
+        <div class='paths'>
+          lib/selectable/global.rb
+        </div>
+        <div class='last-update'>
+          Last Update:
+          <span class='datetime'>2009-10-05 11:54:40 -0400</span>
+        </div>
+      </div>
+      <div id='content'>
+        <div id='text'>
+          <div id='description'>
+            <p>
+            module <a href="../../../classes/Selectable.html">Selectable</a>
+            </p>
+            <pre>class Global&#x000A;  attr_reader :names&#x000A;  def initialize(*names)&#x000A;    @names = []&#x000A;    add_groups names&#x000A;  end&#x000A;  class &lt;&lt; self&#x000A;    def group_class&#x000A;      @group_class || Group&#x000A;    end&#x000A;    attr_writer :group_class&#x000A;  end&#x000A;  def group(name)&#x000A;    self.send name&#x000A;  end&#x000A;  # Each group&#x000A;  def each(&amp;blk)&#x000A;    @names.each { |name| blk.call(group(name)) }&#x000A;  end&#x000A;  # Each group name, group&#x000A;  def each_pair(&amp;blk)&#x000A;    @names.each { |name| blk.call(name, group(name)) }&#x000A;  end&#x000A;  def add_groups(*args)&#x000A;    args.flatten.each do |meth|&#x000A;      next if has_group? meth&#x000A;      @names &lt;&lt; meth&#x000A;      self.class.send :attr_reader, meth&#x000A;      (g = Group.new).name = meth&#x000A;      instance_variable_set(&quot;@#{meth}&quot;, g)&#x000A;    end&#x000A;  end&#x000A;  alias_method :add_group, :add_groups&#x000A;  def has_group?(name)&#x000A;    @names.member? name&#x000A;  end&#x000A;  def +(other)&#x000A;    if !other.is_a?(Benelux::Stats)&#x000A;      raise TypeError, &quot;can't convert #{other.class} into Stats&quot;&#x000A;    end&#x000A;    other.names.each do |name|&#x000A;      add_group name&#x000A;      a = self.send(name)&#x000A;      a += other.send(name)&#x000A;      a&#x000A;    end&#x000A;    self&#x000A;  end&#x000A;&#x000A;  class Group &lt; Array&#x000A;    include Selectable&#x000A;    attr_accessor :name&#x000A;    def self.extend(klass)&#x000A;      p 111111111111111&#x000A;    end&#x000A;  end&#x000A;&#x000A;end</pre>
+            <p>
+            end
+            </p>
+          </div>
+          <div id='section'>
+          </div>
+        </div>
+      </div>
+      <div id='footer-push'></div>
+    </div>
+    <div id='footer'>
+      <a href="http://github.com/mislav/hanna/tree/master"><strong>Hanna</strong> RDoc template</a>
+    </div>
+  </body>
+</html>

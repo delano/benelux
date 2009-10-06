@@ -1,0 +1,177 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang='en'>
+  <head>
+    <title>: Selectable [Benelux: Little freakin' timers for your Ruby codes]</title>
+    <meta content='text/html; charset=utf-8' http-equiv='Content-Type'>
+    <link href='../rdoc-style.css' media='screen' rel='stylesheet' type='text/css'>
+    <script type='text/javascript'>
+      //<![CDATA[
+        function popupCode(url) {
+          window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+        }
+        
+        function toggleCode(id) {
+          var code = document.getElementById(id)
+        
+          code.style.display = code.style.display != 'block' ? 'block' : 'none'
+          return true
+        }
+        
+        // Make codeblocks hidden by default
+        document.writeln('<' + 'style type="text/css">.method .source pre { display: none }<\/style>')
+      //]]>
+    </script>
+  </head>
+  <body class='page'>
+    <div class='class' id='wrapper'>
+      <div class='header'>
+        <div class='name'>
+          <span class='type'>Module</span>
+          Selectable
+        </div>
+        <ol class='paths'>
+          <li>
+            <a href="../files/lib/selectable/object_rb.html">lib/selectable/object.rb</a>
+          </li>
+          <li class='other'>
+            <a href="../files/lib/selectable/tags_rb.html">lib/selectable/tags.rb</a>
+          </li>
+          <li class='other'>
+            <a href="../files/lib/selectable_rb.html">lib/selectable.rb</a>
+          </li>
+          <li>
+            <a class='show' href='#' onclick='this.parentNode.parentNode.className += " expanded"; this.parentNode.removeChild(this); return false'>show all</a>
+          </li>
+        </ol>
+      </div>
+      <div id='content'>
+        <div id='text'>
+          <div id='description'>
+            <h1><a href="Selectable.html">Selectable</a></h1>
+            <p>
+            <strong>Note: Classes that include <a href="Selectable.html">Selectable</a>
+            must also subclass Array</strong>
+            </p>
+            <pre>class Something &lt; Array&#x000A;  include Selectable&#x000A;end</pre>
+          </div>
+          <div id='method-list'>
+            <h2>Methods</h2>
+            <h3>public class</h3>
+            <ol>
+              <li><a href="#M000141">included</a></li>
+              <li><a href="#M000137">normalize</a></li>
+            </ol>
+            <h3>public instance</h3>
+            <ol>
+              <li><a href="#M000138">filter</a></li>
+              <li><a href="#M000139">filter!</a></li>
+              <li><a href="#M000140">tags</a></li>
+            </ol>
+          </div>
+          <div id='section'>
+            <div id='class-list'>
+              <h2>Classes and Modules</h2>
+              Module <a href="Selectable/Object.html" class="link">Selectable::Object</a><br />
+              Class <a href="Selectable/SelectableError.html" class="link">Selectable::SelectableError</a><br />
+              Class <a href="Selectable/Tags.html" class="link">Selectable::Tags</a><br />
+              Class <a href="Selectable/TagsNotInitialized.html" class="link">Selectable::TagsNotInitialized</a><br />
+            </div>
+            <div id='methods'>
+              <h2>Public class methods</h2>
+              <div class='public-class method' id='method-M000141'>
+                <a name='M000141'>      </a>
+                <div class='synopsis'>
+                  <span class='name'>included</span>
+                  <span class='arguments'>(obj)</span>
+                </div>
+                <div class='description'>
+                  <p>
+                  Creates an alias for <tt>filter</tt> called +[]+, but only if []
+                  doesn&#8217;t already exist in <tt>obj</tt>.
+                  </p>
+                </div>
+                <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('M000141-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='M000141-source'>    <span class="ruby-comment cmt"># File lib/selectable.rb, line 62</span>&#x000A;62:   <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">included</span>(<span class="ruby-identifier">obj</span>)&#x000A;63:     <span class="ruby-identifier">alias_method</span> <span class="ruby-identifier">:[]</span>, <span class="ruby-identifier">:filter</span> <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">obj</span>.<span class="ruby-identifier">method_defined?</span> <span class="ruby-identifier">:[]</span>&#x000A;64:   <span class="ruby-keyword kw">end</span></pre>
+                </div>
+              </div>
+              <div class='public-class method' id='method-M000137'>
+                <a name='M000137'>      </a>
+                <div class='synopsis'>
+                  <span class='name'>normalize</span>
+                  <span class='arguments'>(*tags)</span>
+                </div>
+                <div class='description'>
+                  <p>
+                  Returns a Hash or Array
+                  </p>
+                </div>
+                <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('M000137-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='M000137-source'>    <span class="ruby-comment cmt"># File lib/selectable.rb, line 20</span>&#x000A;20:   <span class="ruby-keyword kw">def</span> <span class="ruby-constant">Selectable</span>.<span class="ruby-identifier">normalize</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">tags</span>)&#x000A;21:     <span class="ruby-identifier">tags</span>.<span class="ruby-identifier">flatten!</span>&#x000A;22:     <span class="ruby-identifier">tags</span> = <span class="ruby-identifier">tags</span>.<span class="ruby-identifier">first</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">tags</span>.<span class="ruby-identifier">first</span>.<span class="ruby-identifier">kind_of?</span>(<span class="ruby-constant">Hash</span>) <span class="ruby-operator">||</span> <span class="ruby-identifier">tags</span>.<span class="ruby-identifier">first</span>.<span class="ruby-identifier">kind_of?</span>(<span class="ruby-constant">Array</span>)&#x000A;23:     <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">tags</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Hash</span>)&#x000A;24:       <span class="ruby-identifier">tags</span> = <span class="ruby-constant">Hash</span>[<span class="ruby-identifier">tags</span>.<span class="ruby-identifier">collect</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">n</span>,<span class="ruby-identifier">v</span><span class="ruby-operator">|</span> [<span class="ruby-identifier">n</span>, <span class="ruby-identifier">v</span>.<span class="ruby-identifier">to_s</span>] }]&#x000A;25:     <span class="ruby-keyword kw">else</span>&#x000A;26:       <span class="ruby-identifier">tags</span>.<span class="ruby-identifier">collect!</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">v</span><span class="ruby-operator">|</span> <span class="ruby-identifier">v</span>.<span class="ruby-identifier">to_s</span> }&#x000A;27:     <span class="ruby-keyword kw">end</span>&#x000A;28:     <span class="ruby-identifier">tags</span>&#x000A;29:   <span class="ruby-keyword kw">end</span></pre>
+                </div>
+              </div>
+              <h2>Public instance methods</h2>
+              <div class='public-instance method' id='method-M000138'>
+                <a name='M000138'>      </a>
+                <div class='synopsis'>
+                  <span class='name'>filter</span>
+                  <span class='arguments'>(*tags)</span>
+                </div>
+                <div class='description'>
+                  <p>
+                  Return the objects that match the given tags. This process is optimized for
+                  speed so there as few conditions as possible. One result of that decision
+                  is that it does not gracefully handle error conditions. For example, if the
+                  tags in an object have not been initialized, you will see this error:
+                  </p>
+                  <pre>undefined method `&gt;=' for nil:NilClass</pre>
+                </div>
+                <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('M000138-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='M000138-source'>    <span class="ruby-comment cmt"># File lib/selectable.rb, line 41</span>&#x000A;41:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">filter</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">tags</span>)&#x000A;42:     <span class="ruby-identifier">tags</span> = <span class="ruby-constant">Selectable</span>.<span class="ruby-identifier">normalize</span> <span class="ruby-identifier">tags</span>&#x000A;43:     <span class="ruby-comment cmt"># select returns an Array. We want a Selectable.</span>&#x000A;44:     <span class="ruby-identifier">items</span> = <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">select</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">obj</span><span class="ruby-operator">|</span> <span class="ruby-identifier">obj</span>.<span class="ruby-identifier">tags</span> <span class="ruby-operator">&gt;=</span> <span class="ruby-identifier">tags</span> }&#x000A;45:     <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">new</span> <span class="ruby-identifier">items</span>&#x000A;46:   <span class="ruby-keyword kw">end</span></pre>
+                </div>
+              </div>
+              <div class='public-instance method' id='method-M000139'>
+                <a name='M000139'>      </a>
+                <div class='synopsis'>
+                  <span class='name'>filter!</span>
+                  <span class='arguments'>(*tags)</span>
+                </div>
+                <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('M000139-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='M000139-source'>    <span class="ruby-comment cmt"># File lib/selectable.rb, line 49</span>&#x000A;49:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">filter!</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">tags</span>)&#x000A;50:     <span class="ruby-identifier">tags</span> = <span class="ruby-constant">Selectable</span>.<span class="ruby-identifier">normalize</span> <span class="ruby-identifier">tags</span>&#x000A;51:     <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">delete_if</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">obj</span><span class="ruby-operator">|</span>   <span class="ruby-identifier">obj</span>.<span class="ruby-identifier">tags</span> <span class="ruby-operator">&lt;</span> <span class="ruby-identifier">tags</span> }&#x000A;52:   <span class="ruby-keyword kw">end</span></pre>
+                </div>
+              </div>
+              <div class='public-instance method' id='method-M000140'>
+                <a name='M000140'>      </a>
+                <div class='synopsis'>
+                  <span class='name'>tags</span>
+                  <span class='arguments'>()</span>
+                </div>
+                <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('M000140-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='M000140-source'>    <span class="ruby-comment cmt"># File lib/selectable.rb, line 54</span>&#x000A;54:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">tags</span>&#x000A;55:     <span class="ruby-identifier">t</span> = <span class="ruby-constant">Selectable</span><span class="ruby-operator">::</span><span class="ruby-constant">Tags</span>.<span class="ruby-identifier">new</span>&#x000A;56:     <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">o</span><span class="ruby-operator">|</span> <span class="ruby-identifier">t</span>.<span class="ruby-identifier">merge</span> <span class="ruby-identifier">o</span>.<span class="ruby-identifier">tags</span> }&#x000A;57:     <span class="ruby-identifier">t</span>&#x000A;58:   <span class="ruby-keyword kw">end</span></pre>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id='footer-push'></div>
+    </div>
+    <div id='footer'>
+      <a href="http://github.com/mislav/hanna/tree/master"><strong>Hanna</strong> RDoc template</a>
+    </div>
+  </body>
+</html>
