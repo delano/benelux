@@ -3,13 +3,31 @@ group "Benelux"
 
 library :benelux, 'lib'
 tryouts "Calculator" do
-  
+  set :base, Benelux::Stats::Calculator.new
   dream :class, Benelux::Stats::Calculator
   dream :n, 10
+  dream :sum, 45
+  dream :sumsq, 285
+  dream :min, 0
+  dream :max, 9
+  dream :proc, lambda { |calc| calc.sd.to_i == 3 }
   drill "can keep stats" do
-    stat = Benelux::Stats::Calculator.new
-    10.times { stat.sample(rand) }
-    stat
+    10.times { |i| base.sample(i) }
+    base
+  end
+  
+  dream :class, Benelux::Stats::Calculator
+  #dream :n, 10
+  #dream :sum, 45
+  #dream :sumsq, 285
+  #dream :min, 0
+  #dream :max, 9
+  #dream :proc, lambda { |calc| p calc.class }
+  drill "can add stats" do
+    other = Benelux::Stats::Calculator.new
+    10.times { |i| other.sample(i) }
+    other += base
+    other
   end
   
 end

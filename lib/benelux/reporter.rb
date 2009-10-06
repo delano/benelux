@@ -6,6 +6,7 @@ module Benelux
     def initialize(*threads)
       @thwait = ThreadsWait.new
       @abort, @running = false, false
+      @tmerge = Benelux::Stats::Calculator.new
       add_threads *threads
       start
     end
@@ -26,20 +27,28 @@ module Benelux
       @running = true
       @thread = Thread.new do
         sleep 1   # Give the app time to generate threads
+        tbd = []
         loop do
           break if @abort
+          process(tbd) if tbd.size > 1
           if @thwait.empty?
-            sleep 0.1
+            tbd.empty? ? sleep(0.1) : process(tbd)
             running_threads? ? next : break
           end
-          Benelux.timeline.merge! @thwait.next_wait.timeline
+          tbd << @thwait.next_wait.timeline
         end
       end
       @running = false
       @done = true unless aborted?
     end
-    def process
-    
+    def process(tbd)
+      return if tbd.empty?
+      start = Time.now
+      Benelux.timeline.merge! *tbd
+      dur = (Time.now - start).to_f
+      Benelux.ld [:processed, tbd.size, dur]
+      tbd.clear
+      @tmerge.sample dur
     end
     def force_update
       Benelux.timeline.merge! Thread.current.timeline
@@ -47,6 +56,7 @@ module Benelux
     def wait
       if Thread.current == Thread.main
         @thread.join
+        Benelux.ld [:reporter_totals, @tmerge]
       else
         msg = "Not main thread. Skipping call to wait from #{caller[0]}"
         Benelux.ld msg

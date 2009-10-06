@@ -2,12 +2,19 @@
 module Benelux
   class Stats
     attr_reader :names
+    
     def initialize(*names)
       @names = []
       add_groups names
     end
     def group(name)
-      self.send name
+      @names.member?(name) ? self.send(name) : create_zero_group(name)
+    end
+    def create_zero_group(name)
+      g = Benelux::Stats::Group.new
+      g.name = name
+      g.sample(0)
+      g
     end
     # Each group
     def each(&blk)
@@ -124,14 +131,13 @@ module Benelux
       end
   
       def +(other)
-        super(other)
+        self.push *other
         self.recalculate
         self
       end
   
       # Resets the internal counters so you can start sampling again.
       def reset
-        self.clear
         @n, @sum, @sumsq = 0.0, 0.0, 0.0
         @last_time = 0.0
         @min, @max = 0.0, 0.0
@@ -195,9 +201,9 @@ module Benelux
       end
   
       def recalculate
-        samples = self.clone
         reset
-        samples.each { |s| sample(s) }
+        self.each { |s| update(s) }
+        self
       end
   
     end
