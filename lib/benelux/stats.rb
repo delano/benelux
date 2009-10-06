@@ -105,7 +105,7 @@ module Benelux
         mc.init_tags!
         all = tags.empty? ? self : self.filter(tags)
         all.each { |calc| 
-          mc.merge calc
+          mc.merge! calc
           mc.add_tags_quick calc.tags
         }
         mc
@@ -130,10 +130,10 @@ module Benelux
       end
   
       def +(other)
-        #self.push *other
-        #self.recalculate
-        #self
-        merge other
+        c = Calculator.new
+        c.merge! self
+        c.merge! other
+        c
       end
   
       # Resets the internal counters so you can start sampling again.
@@ -146,7 +146,7 @@ module Benelux
         args.flatten.each { |s| sample(s) }
       end
       
-      def merge(other)
+      def merge!(other)
         @sum += other.sum
         @sumsq += other.sumsq
         @n += other.n
@@ -157,11 +157,6 @@ module Benelux
       
       # Adds a sampling to the calculations.
       def sample(s)
-        #self << s
-        update s
-      end
-  
-      def update(s)
         @sum += s
         @sumsq += s * s
         if @n == 0
@@ -214,12 +209,6 @@ module Benelux
         a.empty?
       end
       
-      def recalculate
-        reset
-        self.each { |s| update(s) }
-        self
-      end
-  
     end
     
     
