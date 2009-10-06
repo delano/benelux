@@ -1,6 +1,12 @@
 BENELUX, CHANGES
 
 
+#### 0.4.2 (2009-10-06) ###############################
+
+* ADDED: JRuby support
+* CHANGE: Improved performance
+
+
 #### 0.4.1 (2009-10-06) ###############################
 
 * FIXED: Nil @thread error in reporter

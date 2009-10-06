@@ -5,7 +5,7 @@ require 'thwait'
 require 'selectable'
 
 module Benelux
-  VERSION = "0.4.1"
+  VERSION = "0.4.2"
   NOTSUPPORTED = [Class, Object, Kernel]
   
   class BeneluxError < RuntimeError; end
@@ -32,7 +32,7 @@ module Benelux
     attr_reader :reporter
   end
   
-  @packed_methods = SelectableArray.new
+  @packed_methods = {}
   @tracks = SelectableHash.new
   @timeline = Timeline.new
   @reporter = Reporter.new
@@ -93,22 +93,13 @@ module Benelux
   def Benelux.inspect
     str = ["Benelux"]
     str << "tracks:" << Benelux.tracks.inspect
-    str << "timers:" << Benelux.timed_methods.inspect
-    #str << "timeline:" << Benelux.timeline.inspect
     str.join $/
   end
   
   def Benelux.supported?(klass)
     !NOTSUPPORTED.member?(klass)
   end
-  
-  def Benelux.timed_methods
-    Benelux.packed_methods.filter :kind => :'Benelux::MethodTimer'
-  end
 
-  def Benelux.counted_methods
-    Benelux.packed_methods.filter :kind => :'Benelux::MethodCounter'
-  end
   
   def Benelux.known_thread?(t=Thread.current)
     @reporter.thwait.threads.member? t
@@ -123,35 +114,17 @@ module Benelux
   end
   
   def Benelux.packed_method(klass, meth)
-    Benelux.packed_methods.filter(klass.to_s.to_sym, meth).first
+    return nil unless defined?(Benelux.packed_methods[klass][meth])
+    Benelux.packed_methods[klass][meth]
   end
   
-  def Benelux.counted_method(klass, meth)
-    Benelux.counted_methods.filter(klass.to_s.to_sym, meth).first
+  def Benelux.packed_method? klass, meth
+    !Benelux.packed_method(klass, meth).nil?
   end
-  
-  def Benelux.timed_method(klass, meth)
-    Benelux.timed_methods.filter(klass.to_s.to_sym, meth).first
-  end
-  
-  def Benelux.timed_method? klass, meth
-    Benelux.packed_method? klass, meth, :'Benelux::MethodTimer'
-  end
-  
-  def Benelux.counted_method? klass, meth
-    Benelux.packed_method? klass, meth, :'Benelux::MethodCounter'
-  end
-  
-  def Benelux.packed_method? klass, meth, kind=nil
-    list = Benelux.packed_methods.filter(klass.to_s.to_sym, meth)
-    list.filter! :kind => kind unless kind.nil?
-    !list.empty?
-  end
-  
   
   def Benelux.add_timer klass, meth, &blk
     raise NotSupported, klass unless Benelux.supported? klass
-    raise AlreadyTimed, klass if Benelux.timed_method? klass, meth
+    raise AlreadyTimed, klass if Benelux.packed_method? klass, meth
     Benelux::MethodTimer.new klass, meth, &blk
   end
   
@@ -162,25 +135,6 @@ module Benelux
   
   def Benelux.ld(*msg)
     @@logger.puts "D:  " << msg.join("#{$/}D:  ") if debug?
-  end
-  
-  
-  # Returns an Array of method names for the current class that
-  # are timed by Benelux. 
-  #
-  # This is an instance method for objects which have Benelux 
-  # modified methods. 
-  def timed_methods
-    Benelux.timed_methods.filter(:class => self.class.to_s.to_sym)
-  end
-  
-  # Returns an Array of method names for the current class that
-  # are counted by Benelux. 
-  #
-  # This is an instance method for objects which have Benelux 
-  # modified methods.
-  def counted_methods
-    Benelux.counted_methods.filter(:class => self.class.to_s.to_sym)
   end
 
   

@@ -20,11 +20,15 @@ module Selectable
   def Selectable.normalize(*tags)
     tags.flatten!
     tags = tags.first if tags.first.kind_of?(Hash) || tags.first.kind_of?(Array)
-    if tags.is_a?(Hash)
-      tags = Hash[tags.collect { |n,v| [n, v.to_s] }]
-    else
-      tags.collect! { |v| v.to_s }
-    end
+    # NOTE: The string enforcement is disabled 
+    # FOR NOW.
+    #if tags.is_a?(Hash)
+    #  #tmp = {}
+    #  #tags.each_pair { |n,v| tmp[n] = v.to_s }
+    #  #tags = tmp
+    #else
+    #  tags.collect! { |v| v.to_s }
+    #end
     tags
   end
   
@@ -38,6 +42,9 @@ module Selectable
   #
   #     undefined method `>=' for nil:NilClass
   #
+  # It also means you need be aware of the types
+  # of objects you are storing as values. If you
+  # store a Symbol, you must send a Symbol here.
   def filter(*tags)
     tags = Selectable.normalize tags
     # select returns an Array. We want a Selectable.

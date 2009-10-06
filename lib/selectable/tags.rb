@@ -31,7 +31,11 @@ module Selectable
     
     def ==(other)
       if other.is_a?(Array)
-        self.values.sort == other.sort
+        # NOTE: This resolves the issue of sorting an Array
+        # with a mix of Object types (Integers, Strings, Symbols).
+        # As in: self.values.sort == other.sort)
+        (self.values.size == other.size) &&
+        (self.values - other).empty?
       else
         super(other)
       end

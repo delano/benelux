@@ -22,10 +22,6 @@ tryouts "Selectable" do
     base.filter(:even => true)
   end
   
-  drill "[] and filter are the same", true do
-    base.filter(:even => false) == base.filter(:even => false)
-  end
-  
   dream :class, SelectableArray
   dream :object_id, base.object_id
   dream :size, 5

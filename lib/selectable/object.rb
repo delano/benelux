@@ -13,7 +13,7 @@ module Selectable
     attr_accessor :tags
     def add_tags(tags)
       init_tags!
-      @tags.merge! Selectable.normalize tags
+      @tags.merge! tags
     end
     alias_method :add_tag, :add_tags
     def add_tags_quick(tags)

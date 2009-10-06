@@ -45,7 +45,12 @@ module Benelux
       self.add_tags :class => @klass.to_s.to_sym, 
                     :meth  => @meth.to_sym,
                     :kind  => self.class.to_s.to_sym
-      Benelux.packed_methods << self
+
+      Benelux.packed_methods[@klass] ||= {}
+      Benelux.packed_methods[@klass][@meth] = self
+      Benelux.packed_methods[:all] ||= []
+      Benelux.packed_methods[:all] << self
+      
     end
     def install_method
       raise "You need to implement this method"
@@ -76,7 +81,7 @@ module Benelux
     # generate_method. It calls <tt>@klass.module_eval</tt> 
     # with the modified line number (helpful for exceptions)
     def install_method
-      @klass.module_eval generate_packed_method, __FILE__, 89
+      @klass.module_eval generate_packed_method, __FILE__, 94
     end
     
     # Creates a method definition (for an eval). The 
@@ -109,17 +114,15 @@ module Benelux
   class MethodCounter < MethodPacker
     attr_reader :counter
     def install_method
-      @klass.module_eval generate_packed_method, __FILE__, 121
+      @klass.module_eval generate_packed_method, __FILE__, 122
     end
     
     def generate_packed_method(callblock=false)
       %Q{
-      @@__benelux_#{@meth}_counter = 
-        Benelux.counted_method #{@klass}, :#{@meth}
       def #{@meth}(*args, &block)
         Benelux.current_track :global unless Benelux.known_thread?
         # Get a reference to this MethodCounter instance
-        cmd = Benelux.counted_method #{@klass}, :#{@meth}
+        cmd = Benelux.packed_method #{@klass}, :#{@meth}
         ret = #{@aliaz}(*args, &block)
         count = cmd.determine_count(args, ret)
         Benelux.ld "COUNT(:#{@meth}): \#{count}"
