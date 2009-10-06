@@ -50,13 +50,16 @@ module Benelux
       tbd.clear
       @tmerge.sample dur
     end
+    # We don't add the main thread to the wait group
+    # so we need to manually force processing for
+    # that thread. The reason: we 
     def force_update
-      Benelux.timeline.merge! Thread.current.timeline
+      process [Thread.current.timeline]
     end
     def wait
       if Thread.current == Thread.main
         @thread.join
-        Benelux.ld [:reporter_totals, @tmerge]
+        force_update
       else
         msg = "Not main thread. Skipping call to wait from #{caller[0]}"
         Benelux.ld msg

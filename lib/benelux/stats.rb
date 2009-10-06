@@ -13,7 +13,6 @@ module Benelux
     def create_zero_group(name)
       g = Benelux::Stats::Group.new
       g.name = name
-      g.sample(0)
       g
     end
     # Each group
