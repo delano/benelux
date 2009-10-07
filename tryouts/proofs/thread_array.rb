@@ -41,6 +41,9 @@ end
 p [:size,   testcase.size == baseline.size]
 p [:sorted, testcase.sort == baseline.sort]
 
+# Q: Why does the testcase Array seem to repeat perfectly?
+# [a,b,c,d,a,b,c,d,a,b,c,d]
+
 __END__
 
 Module.method_added?

@@ -31,9 +31,10 @@ module Benelux
       return if running?
       @running = true
       @thread = Thread.new do
-        while @thwait.empty?
-          sleep 0.5   # Give the app time to generate threads
-        end
+        5.times {  # Give the app 1 second to generate threads
+          break unless @thwait.empty?
+          sleep 0.2   
+        }
         @tbd = []
         run_loop
       end
@@ -64,12 +65,16 @@ module Benelux
     end
     # We don't add the main thread to the wait group
     # so we need to manually force processing for
-    # that thread. The reason: we 
+    # that thread.
     def force_update
       @abort = false
       @tbd << Thread.current.timeline
       run_loop
     end
+    # Call this once the active threads have stopped. It
+    # increases the priority of the processing thread, 
+    # waits for it to finish and then calls force_update
+    # to get the main threads stats into the timeline. 
     def wait
       if @thread && Thread.current == Thread.main
         @abort = true
