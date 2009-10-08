@@ -45,8 +45,8 @@ module Benelux
       end
       other.names.each do |name|
         add_group name
-        a = self.send(name) 
-        a += other.send(name)
+        a = self.group(name) 
+        a += other.group(name)
         a
       end
       self
@@ -209,6 +209,7 @@ module Benelux
       end
       
       def ==(other)
+        return false unless self.class == other.class
         a=([@sum, @min, @max, @n, @sumsq] - 
            [other.sum, other.min, other.max, other.n, other.sumsq])
         a.empty?
