@@ -43,13 +43,12 @@ module Benelux
       if !other.is_a?(Benelux::Stats)
         raise TypeError, "can't convert #{other.class} into Stats" 
       end
+      s = self.clone
       other.names.each do |name|
-        add_group name
-        a = self.group(name) 
-        a += other.group(name)
-        a
+        s.add_group name
+        s.group(name) << other.group(name)
       end
-      self
+      s
     end
     
     class Group < Array
@@ -61,28 +60,35 @@ module Benelux
         unless @name == other.name
           raise BeneluxError, "Cannot add #{other.name} to #{@name}"
         end
-        other.each do |newcalc|
-          # Merge calculator with a like calculator in another group.
-          calcs = self.select { |calc| calc.tags == newcalc.tags }
-          # This should only ever contain one b/c we should
-          # not have several calculators with the same tags. 
-          calcs.each do |calc|
-            calc += newcalc
-          end
-          self << newcalc
-        end
+        g = Group.new self
+        g.name = @name
+        g << other
+        g
+      end
+      
+      def <<(other)
+        self.push *other
         self
       end
       
+      def merge(*tags)
+        #tags = Selectable.normalize tags
+        mc = Calculator.new
+        mc.init_tags!
+        all = tags.empty? ? self : self.filter(tags)
+        all.each { |calc| 
+          mc.merge! calc
+          mc.add_tags_quick calc.tags
+        }    
+        mc
+      end
+      
       def sample(s, tags={})
-        raise BeneluxError, "tags must be a Hash" unless tags.kind_of?(Hash)
-        calcs = self.select { |c| c.tags == tags }
-        if calcs.empty?
-          (c = Calculator.new).add_tags tags
-          self << c
-          calcs = [c]
-        end
-        calcs.each { |c| c.sample(s) }
+        raise BeneluxError, "tags must be a Hash" unless Hash === tags
+        c = Calculator.new
+        c.add_tags tags
+        c.sample s
+        self << c
         nil
       end
       
@@ -98,18 +104,6 @@ module Benelux
       def sum()     merge.sum    end
       def sd()      merge.sd     end
       def n()       merge.n      end
-      
-      def merge(*tags)
-        tags = Selectable.normalize tags
-        mc = Calculator.new
-        mc.init_tags!
-        all = tags.empty? ? self : self.filter(tags)
-        all.each { |calc| 
-          mc.merge! calc
-          mc.add_tags_quick calc.tags
-        }
-        mc
-      end
       
       def filter(*tags)
         (f = super).name = @name
