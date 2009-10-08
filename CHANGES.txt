@@ -1,6 +1,13 @@
 BENELUX, CHANGES
 
 
+#### 0.4.3 (2009-10-08) ###############################
+
+* FIXED: Initial reporting loop waits 1 second for first threads
+* CHANGE: Huge performance improvement (no tag matching when merging stats)
+* CHANGED: Cleaned Reporter
+
+
 #### 0.4.2 (2009-10-06) ###############################
 
 * ADDED: JRuby support
