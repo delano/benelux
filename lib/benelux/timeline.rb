@@ -143,7 +143,7 @@ module Benelux
     def add_mark(name)
       mark = Benelux::Mark.now(name)
       mark.add_tags self.default_tags
-      #self << mark
+      self << mark
       mark
     end
     
@@ -152,7 +152,7 @@ module Benelux
       range.add_tags self.default_tags
       range.add_tags from.tags
       range.add_tags to.tags
-      #self.ranges << range
+      self.ranges << range
       self.stats.add_group(name)
       self.stats.sample(name, range.duration, range.tags)
       range
@@ -160,16 +160,16 @@ module Benelux
     
     def merge!(*timelines)
       timelines.each do |tl| 
-        #self.push *tl
-        #self.ranges.push *tl.ranges
+        self.push *tl
+        self.ranges.push *tl.ranges
         self.stats += tl.stats
       end
       self
     end
     
     def +(other)
-      #self.push *other
-      #self.ranges.push *other.ranges
+      self.push *other
+      self.ranges.push *other.ranges
       self.stats += other.stats
       self
     end
