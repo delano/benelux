@@ -9,47 +9,46 @@ module Benelux
       @abort, @running = false, false
       @tmerge = Benelux::Stats::Calculator.new
       add_threads *threads
+      @tbd = []
+      @thread = create_reporting_thread
+    end
+    def create_reporting_thread(priority=-3)
+      t = Thread.new do
+        5.times {  # Give the app 1 second to generate threads
+          break if @start && !@thwait.empty?
+          sleep 0.2
+        }
+        
+        run_loop
+      end
+      t.priority = priority
+      t
     end
     def add_threads(*threads)
       threads.each do |thread|
-        #raise BadRecursion, "Cannot report on self" if thread == Thread.current
+        raise BadRecursion, "Cannot report on self" if thread == @thread
         next if thread == Thread.main
         @thwait.join_nowait thread
       end
-      return if running?
-      @@mutex.synchronize do
-        start
-      end
+      @start = true
     end
     alias_method :add_thread, :add_threads
     def running_threads?
       # Any status that is not nil or false is running
       !@thwait.threads.select { |t| t.status }.empty?
     end
-    
-    def start
-      return if running?
-      @running = true
-      @thread = Thread.new do
-        5.times {  # Give the app 1 second to generate threads
-          break unless @thwait.empty?
-          sleep 0.2   
-        }
-        @tbd = []
-        run_loop
-      end
-      @thread.priority = -3
-    end
+
     def run_loop
       loop do
         break if @abort
         process(@tbd)
         if @thwait.empty?
-          sleep 0.001
+          sleep 0.001 # prevent mad thrashing. 
+          # If there are no threads running we can stop 
+          # because there are none waiting in the queue. 
           running_threads? ? next : break
         end
         t = @thwait.next_wait
-        #p [:reporter_queue, '^', t.track_name, @thread.priority]
         @tbd << t.timeline
       end
     end
