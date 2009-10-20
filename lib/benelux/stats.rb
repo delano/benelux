@@ -15,6 +15,9 @@ module Benelux
       g.name = name
       g
     end
+    def size
+      @names.size
+    end
     # Each group
     def each(&blk)
       @names.each { |name| blk.call(group(name)) }

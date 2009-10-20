@@ -82,11 +82,13 @@ module Benelux
   
   # Thread tags become the default for any new Mark or Range. 
   def Benelux.add_thread_tags(args=Selectable::Tags.new)
+    Benelux.timeline.add_default_tags args
     Benelux.thread_timeline.add_default_tags args
   end
   def Benelux.add_thread_tag(*args) add_thread_tags *args end
   
   def Benelux.remove_thread_tags(*args)
+    Benelux.timeline.remove_default_tags args
     Benelux.thread_timeline.remove_default_tags *args
   end
   def Benelux.remove_thread_tag(*args) remove_thread_tags *args end
