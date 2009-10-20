@@ -169,7 +169,14 @@ module Benelux
         end
         @n+=1
       end
-  
+      
+      def first_tick() @last_time = Time.now end
+      def tick
+        tick_time = Time.now
+        sample(tick_time - @last_time)
+        @last_time = tick_time
+      end
+      
       # Dump this Stats object with an optional additional message.
       def dump(msg = "", out=STDERR)
         out.puts "#{msg}: #{self.report}"

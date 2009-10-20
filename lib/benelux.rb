@@ -76,15 +76,23 @@ module Benelux
   end
   Benelux.current_track :main
   
+  # Only updates data from threads that are dead
+  def Benelux.update_global_timeline
+    dthreads = Benelux.known_threads.select { |t| 
+      !t.timeline.nil? && (t.nil? || !t.status)
+    }
+    # We don't need to make a special case for the 
+    # current thread b/c the current is not dead. 
+    Benelux.timeline.merge! *dthreads.collect { |t| t.timeline }
+  end
+  
   # Thread tags become the default for any new Mark or Range. 
   def Benelux.add_thread_tags(args=Selectable::Tags.new)
-    Benelux.timeline.add_default_tags args
     Benelux.thread_timeline.add_default_tags args
   end
   def Benelux.add_thread_tag(*args) add_thread_tags *args end
   
   def Benelux.remove_thread_tags(*args)
-    Benelux.timeline.remove_default_tags args
     Benelux.thread_timeline.remove_default_tags *args
   end
   def Benelux.remove_thread_tag(*args) remove_thread_tags *args end
