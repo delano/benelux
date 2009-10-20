@@ -35,7 +35,7 @@ module Benelux
     alias_method :add_thread, :add_threads
     def running_threads?
       # Any status that is not nil or false is running
-      !@thwait.threads.select { |t| t.status }.empty?
+      !@thwait.threads.select { |t| !t.nil? && t.status }.empty?
     end
 
     def run_loop
@@ -43,7 +43,7 @@ module Benelux
         break if @abort
         process(@tbd)
         if @thwait.empty?
-          sleep 0.001 # prevent mad thrashing. 
+          sleep 0.01 # prevent mad thrashing. 
           # If there are no threads running we can stop 
           # because there are none waiting in the queue. 
           running_threads? ? next : break
