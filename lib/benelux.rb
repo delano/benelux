@@ -20,7 +20,6 @@ module Benelux
   require 'benelux/range'
   require 'benelux/stats'
   require 'benelux/packer'
-  #require 'benelux/reporter'
   require 'benelux/timeline'
   require 'benelux/mixins/thread'
   require 'benelux/mixins/symbol'
@@ -29,7 +28,6 @@ module Benelux
     attr_reader :packed_methods
     attr_reader :tracks
     attr_reader :timeline
-    attr_reader :reporter
     attr_reader :known_threads
   end
   
@@ -37,7 +35,6 @@ module Benelux
   @tracks = SelectableHash.new
   @timeline = Timeline.new
   @known_threads = []
-  #@reporter = Reporter.new
   
   @@mutex = Mutex.new
   @@debug = false
@@ -73,7 +70,6 @@ module Benelux
         @tracks[name] ||= Track.new(name, group)
         @tracks[name].add_thread Thread.current
         @known_threads << Thread.current
-        #@reporter.add_thread Thread.current
       end
     end
     Benelux.track(name)
@@ -107,10 +103,6 @@ module Benelux
   
   def Benelux.known_thread?(t=Thread.current)
     Benelux.known_threads.member? t
-  end
-  
-  def Benelux.reporting_wait
-    @reporter.wait
   end
   
   def Benelux.packed_method(klass, meth)

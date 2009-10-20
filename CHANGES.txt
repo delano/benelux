@@ -1,6 +1,13 @@
 BENELUX, CHANGES
 
 
+#### 0.4.4 (2009-10-20) ###############################
+
+* CHANGE: Removed reporter
+* CHANGE: Take advantage of Ruby's accidentally thread-safe 
+  Arrays and use global timeline
+
+
 #### 0.4.3 (2009-10-08) ###############################
 
 * FIXED: Initial reporting loop waits 1 second for first threads

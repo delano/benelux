@@ -21,13 +21,11 @@ module Benelux
     include Selectable
     
     attr_accessor :ranges
-    attr_accessor :counts
     attr_accessor :stats
     attr_accessor :default_tags
     attr_reader :caller
     def initialize(*args)
       @caller = Kernel.caller
-      @counts = SelectableArray.new
       @ranges = SelectableArray.new
       @default_tags = Selectable::Tags.new
       @stats = Benelux::Stats.new
@@ -97,14 +95,6 @@ module Benelux
       end
     end
     
-    def counts(name=nil, tags=Selectable::Tags.new)
-      return @counts if name.nil?
-      @counts.select do |count| 
-        ret = name.to_s == count.name.to_s &&
-        (tags.nil? || count.tags >= tags)
-        ret
-      end
-    end
     #
     #     obj.regions(:do_request) =>
     #         
