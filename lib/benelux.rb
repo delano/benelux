@@ -20,7 +20,7 @@ module Benelux
   require 'benelux/range'
   require 'benelux/stats'
   require 'benelux/packer'
-  require 'benelux/reporter'
+  #require 'benelux/reporter'
   require 'benelux/timeline'
   require 'benelux/mixins/thread'
   require 'benelux/mixins/symbol'
@@ -30,12 +30,14 @@ module Benelux
     attr_reader :tracks
     attr_reader :timeline
     attr_reader :reporter
+    attr_reader :known_threads
   end
   
   @packed_methods = {}
   @tracks = SelectableHash.new
   @timeline = Timeline.new
-  @reporter = Reporter.new
+  @known_threads = []
+  #@reporter = Reporter.new
   
   @@mutex = Mutex.new
   @@debug = false
@@ -70,7 +72,8 @@ module Benelux
       @@mutex.synchronize do
         @tracks[name] ||= Track.new(name, group)
         @tracks[name].add_thread Thread.current
-        @reporter.add_thread Thread.current
+        @known_threads << Thread.current
+        #@reporter.add_thread Thread.current
       end
     end
     Benelux.track(name)
@@ -79,7 +82,6 @@ module Benelux
   
   # Thread tags become the default for any new Mark or Range. 
   def Benelux.add_thread_tags(args=Selectable::Tags.new)
-
     Benelux.thread_timeline.add_default_tags args
   end
   def Benelux.add_thread_tag(*args) add_thread_tags *args end
@@ -102,11 +104,7 @@ module Benelux
 
   
   def Benelux.known_thread?(t=Thread.current)
-    @reporter.thwait.threads.member? t
-  end
-  
-  def Benelux.known_threads
-    @reporter.thwait.threads
+    Benelux.known_threads.member? t
   end
   
   def Benelux.reporting_wait
