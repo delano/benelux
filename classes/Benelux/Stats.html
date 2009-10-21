@@ -45,19 +45,20 @@
             <h2>Methods</h2>
             <h3>public class</h3>
             <ol>
-              <li><a href="#M000069">new</a></li>
+              <li><a href="#M000068">new</a></li>
             </ol>
             <h3>public instance</h3>
             <ol>
               <li><a href="#M000078">+</a></li>
               <li><a href="#M000076">add_group</a></li>
               <li><a href="#M000074">add_groups</a></li>
-              <li><a href="#M000071">create_zero_group</a></li>
+              <li><a href="#M000070">create_zero_group</a></li>
               <li><a href="#M000072">each</a></li>
               <li><a href="#M000073">each_pair</a></li>
-              <li><a href="#M000070">group</a></li>
+              <li><a href="#M000069">group</a></li>
               <li><a href="#M000077">has_group?</a></li>
               <li><a href="#M000075">sample</a></li>
+              <li><a href="#M000071">size</a></li>
             </ol>
           </div>
           <div id='section'>
@@ -80,17 +81,17 @@
             </div>
             <div id='methods'>
               <h2>Public class methods</h2>
-              <div class='public-class method' id='method-M000069'>
-                <a name='M000069'>      </a>
+              <div class='public-class method' id='method-M000068'>
+                <a name='M000068'>      </a>
                 <div class='synopsis'>
                   <span class='name'>new</span>
                   <span class='arguments'>(*names)</span>
                 </div>
                 <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('M000069-source'); return false">
+                  <a class='source-toggle' href='#' onclick="toggleCode('M000068-source'); return false">
                     [show source]
                   </a>
-                  <pre id='M000069-source'>   <span class="ruby-comment cmt"># File lib/benelux/stats.rb, line 6</span>&#x000A;6:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">names</span>)&#x000A;7:       <span class="ruby-ivar">@names</span> = []&#x000A;8:       <span class="ruby-identifier">add_groups</span> <span class="ruby-identifier">names</span>&#x000A;9:     <span class="ruby-keyword kw">end</span></pre>
+                  <pre id='M000068-source'>   <span class="ruby-comment cmt"># File lib/benelux/stats.rb, line 6</span>&#x000A;6:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">names</span>)&#x000A;7:       <span class="ruby-ivar">@names</span> = []&#x000A;8:       <span class="ruby-identifier">add_groups</span> <span class="ruby-identifier">names</span>&#x000A;9:     <span class="ruby-keyword kw">end</span></pre>
                 </div>
               </div>
               <h2>Public instance methods</h2>
@@ -104,7 +105,7 @@
                   <a class='source-toggle' href='#' onclick="toggleCode('M000078-source'); return false">
                     [show source]
                   </a>
-                  <pre id='M000078-source'>    <span class="ruby-comment cmt"># File lib/benelux/stats.rb, line 42</span>&#x000A;42:     <span class="ruby-keyword kw">def</span> <span class="ruby-operator">+</span>(<span class="ruby-identifier">other</span>)&#x000A;43:       <span class="ruby-keyword kw">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">other</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Benelux</span><span class="ruby-operator">::</span><span class="ruby-constant">Stats</span>)&#x000A;44:         <span class="ruby-identifier">raise</span> <span class="ruby-constant">TypeError</span>, <span class="ruby-node">&quot;can't convert #{other.class} into Stats&quot;</span> &#x000A;45:       <span class="ruby-keyword kw">end</span>&#x000A;46:       <span class="ruby-identifier">s</span> = <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">clone</span>&#x000A;47:       <span class="ruby-identifier">other</span>.<span class="ruby-identifier">names</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">name</span><span class="ruby-operator">|</span>&#x000A;48:         <span class="ruby-identifier">s</span>.<span class="ruby-identifier">add_group</span> <span class="ruby-identifier">name</span>&#x000A;49:         <span class="ruby-identifier">s</span>.<span class="ruby-identifier">group</span>(<span class="ruby-identifier">name</span>) <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">other</span>.<span class="ruby-identifier">group</span>(<span class="ruby-identifier">name</span>)&#x000A;50:       <span class="ruby-keyword kw">end</span>&#x000A;51:       <span class="ruby-identifier">s</span>&#x000A;52:     <span class="ruby-keyword kw">end</span></pre>
+                  <pre id='M000078-source'>    <span class="ruby-comment cmt"># File lib/benelux/stats.rb, line 45</span>&#x000A;45:     <span class="ruby-keyword kw">def</span> <span class="ruby-operator">+</span>(<span class="ruby-identifier">other</span>)&#x000A;46:       <span class="ruby-keyword kw">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">other</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Benelux</span><span class="ruby-operator">::</span><span class="ruby-constant">Stats</span>)&#x000A;47:         <span class="ruby-identifier">raise</span> <span class="ruby-constant">TypeError</span>, <span class="ruby-node">&quot;can't convert #{other.class} into Stats&quot;</span> &#x000A;48:       <span class="ruby-keyword kw">end</span>&#x000A;49:       <span class="ruby-identifier">s</span> = <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">clone</span>&#x000A;50:       <span class="ruby-identifier">other</span>.<span class="ruby-identifier">names</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">name</span><span class="ruby-operator">|</span>&#x000A;51:         <span class="ruby-identifier">s</span>.<span class="ruby-identifier">add_group</span> <span class="ruby-identifier">name</span>&#x000A;52:         <span class="ruby-identifier">s</span>.<span class="ruby-identifier">group</span>(<span class="ruby-identifier">name</span>) <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">other</span>.<span class="ruby-identifier">group</span>(<span class="ruby-identifier">name</span>)&#x000A;53:       <span class="ruby-keyword kw">end</span>&#x000A;54:       <span class="ruby-identifier">s</span>&#x000A;55:     <span class="ruby-keyword kw">end</span></pre>
                 </div>
               </div>
               <div class='public-instance method' id='method-M000076'>
@@ -129,20 +130,20 @@
                   <a class='source-toggle' href='#' onclick="toggleCode('M000074-source'); return false">
                     [show source]
                   </a>
-                  <pre id='M000074-source'>    <span class="ruby-comment cmt"># File lib/benelux/stats.rb, line 26</span>&#x000A;26:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">add_groups</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">args</span>)&#x000A;27:       <span class="ruby-identifier">args</span>.<span class="ruby-identifier">flatten</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">meth</span><span class="ruby-operator">|</span>&#x000A;28:         <span class="ruby-keyword kw">next</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">has_group?</span> <span class="ruby-identifier">meth</span>&#x000A;29:         <span class="ruby-ivar">@names</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">meth</span>&#x000A;30:         <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">send</span> <span class="ruby-identifier">:attr_reader</span>, <span class="ruby-identifier">meth</span>&#x000A;31:         (<span class="ruby-identifier">g</span> = <span class="ruby-constant">Benelux</span><span class="ruby-operator">::</span><span class="ruby-constant">Stats</span><span class="ruby-operator">::</span><span class="ruby-constant">Group</span>.<span class="ruby-identifier">new</span>).<span class="ruby-identifier">name</span> = <span class="ruby-identifier">meth</span>&#x000A;32:         <span class="ruby-identifier">instance_variable_set</span>(<span class="ruby-node">&quot;@#{meth}&quot;</span>, <span class="ruby-identifier">g</span>)&#x000A;33:       <span class="ruby-keyword kw">end</span>&#x000A;34:     <span class="ruby-keyword kw">end</span></pre>
+                  <pre id='M000074-source'>    <span class="ruby-comment cmt"># File lib/benelux/stats.rb, line 29</span>&#x000A;29:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">add_groups</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">args</span>)&#x000A;30:       <span class="ruby-identifier">args</span>.<span class="ruby-identifier">flatten</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">meth</span><span class="ruby-operator">|</span>&#x000A;31:         <span class="ruby-keyword kw">next</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">has_group?</span> <span class="ruby-identifier">meth</span>&#x000A;32:         <span class="ruby-ivar">@names</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">meth</span>&#x000A;33:         <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">send</span> <span class="ruby-identifier">:attr_reader</span>, <span class="ruby-identifier">meth</span>&#x000A;34:         (<span class="ruby-identifier">g</span> = <span class="ruby-constant">Benelux</span><span class="ruby-operator">::</span><span class="ruby-constant">Stats</span><span class="ruby-operator">::</span><span class="ruby-constant">Group</span>.<span class="ruby-identifier">new</span>).<span class="ruby-identifier">name</span> = <span class="ruby-identifier">meth</span>&#x000A;35:         <span class="ruby-identifier">instance_variable_set</span>(<span class="ruby-node">&quot;@#{meth}&quot;</span>, <span class="ruby-identifier">g</span>)&#x000A;36:       <span class="ruby-keyword kw">end</span>&#x000A;37:     <span class="ruby-keyword kw">end</span></pre>
                 </div>
               </div>
-              <div class='public-instance method' id='method-M000071'>
-                <a name='M000071'>      </a>
+              <div class='public-instance method' id='method-M000070'>
+                <a name='M000070'>      </a>
                 <div class='synopsis'>
                   <span class='name'>create_zero_group</span>
                   <span class='arguments'>(name)</span>
                 </div>
                 <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('M000071-source'); return false">
+                  <a class='source-toggle' href='#' onclick="toggleCode('M000070-source'); return false">
                     [show source]
                   </a>
-                  <pre id='M000071-source'>    <span class="ruby-comment cmt"># File lib/benelux/stats.rb, line 13</span>&#x000A;13:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">create_zero_group</span>(<span class="ruby-identifier">name</span>)&#x000A;14:       <span class="ruby-identifier">g</span> = <span class="ruby-constant">Benelux</span><span class="ruby-operator">::</span><span class="ruby-constant">Stats</span><span class="ruby-operator">::</span><span class="ruby-constant">Group</span>.<span class="ruby-identifier">new</span>&#x000A;15:       <span class="ruby-identifier">g</span>.<span class="ruby-identifier">name</span> = <span class="ruby-identifier">name</span>&#x000A;16:       <span class="ruby-identifier">g</span>&#x000A;17:     <span class="ruby-keyword kw">end</span></pre>
+                  <pre id='M000070-source'>    <span class="ruby-comment cmt"># File lib/benelux/stats.rb, line 13</span>&#x000A;13:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">create_zero_group</span>(<span class="ruby-identifier">name</span>)&#x000A;14:       <span class="ruby-identifier">g</span> = <span class="ruby-constant">Benelux</span><span class="ruby-operator">::</span><span class="ruby-constant">Stats</span><span class="ruby-operator">::</span><span class="ruby-constant">Group</span>.<span class="ruby-identifier">new</span>&#x000A;15:       <span class="ruby-identifier">g</span>.<span class="ruby-identifier">name</span> = <span class="ruby-identifier">name</span>&#x000A;16:       <span class="ruby-identifier">g</span>&#x000A;17:     <span class="ruby-keyword kw">end</span></pre>
                 </div>
               </div>
               <div class='public-instance method' id='method-M000072'>
@@ -160,7 +161,7 @@
                   <a class='source-toggle' href='#' onclick="toggleCode('M000072-source'); return false">
                     [show source]
                   </a>
-                  <pre id='M000072-source'>    <span class="ruby-comment cmt"># File lib/benelux/stats.rb, line 19</span>&#x000A;19:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">each</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">blk</span>)&#x000A;20:       <span class="ruby-ivar">@names</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">name</span><span class="ruby-operator">|</span> <span class="ruby-identifier">blk</span>.<span class="ruby-identifier">call</span>(<span class="ruby-identifier">group</span>(<span class="ruby-identifier">name</span>)) }&#x000A;21:     <span class="ruby-keyword kw">end</span></pre>
+                  <pre id='M000072-source'>    <span class="ruby-comment cmt"># File lib/benelux/stats.rb, line 22</span>&#x000A;22:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">each</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">blk</span>)&#x000A;23:       <span class="ruby-ivar">@names</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">name</span><span class="ruby-operator">|</span> <span class="ruby-identifier">blk</span>.<span class="ruby-identifier">call</span>(<span class="ruby-identifier">group</span>(<span class="ruby-identifier">name</span>)) }&#x000A;24:     <span class="ruby-keyword kw">end</span></pre>
                 </div>
               </div>
               <div class='public-instance method' id='method-M000073'>
@@ -178,20 +179,20 @@
                   <a class='source-toggle' href='#' onclick="toggleCode('M000073-source'); return false">
                     [show source]
                   </a>
-                  <pre id='M000073-source'>    <span class="ruby-comment cmt"># File lib/benelux/stats.rb, line 23</span>&#x000A;23:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">each_pair</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">blk</span>)&#x000A;24:       <span class="ruby-ivar">@names</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">name</span><span class="ruby-operator">|</span> <span class="ruby-identifier">blk</span>.<span class="ruby-identifier">call</span>(<span class="ruby-identifier">name</span>, <span class="ruby-identifier">group</span>(<span class="ruby-identifier">name</span>)) }&#x000A;25:     <span class="ruby-keyword kw">end</span></pre>
+                  <pre id='M000073-source'>    <span class="ruby-comment cmt"># File lib/benelux/stats.rb, line 26</span>&#x000A;26:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">each_pair</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">blk</span>)&#x000A;27:       <span class="ruby-ivar">@names</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">name</span><span class="ruby-operator">|</span> <span class="ruby-identifier">blk</span>.<span class="ruby-identifier">call</span>(<span class="ruby-identifier">name</span>, <span class="ruby-identifier">group</span>(<span class="ruby-identifier">name</span>)) }&#x000A;28:     <span class="ruby-keyword kw">end</span></pre>
                 </div>
               </div>
-              <div class='public-instance method' id='method-M000070'>
-                <a name='M000070'>      </a>
+              <div class='public-instance method' id='method-M000069'>
+                <a name='M000069'>      </a>
                 <div class='synopsis'>
                   <span class='name'>group</span>
                   <span class='arguments'>(name)</span>
                 </div>
                 <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('M000070-source'); return false">
+                  <a class='source-toggle' href='#' onclick="toggleCode('M000069-source'); return false">
                     [show source]
                   </a>
-                  <pre id='M000070-source'>    <span class="ruby-comment cmt"># File lib/benelux/stats.rb, line 10</span>&#x000A;10:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">group</span>(<span class="ruby-identifier">name</span>)&#x000A;11:       <span class="ruby-ivar">@names</span>.<span class="ruby-identifier">member?</span>(<span class="ruby-identifier">name</span>) <span class="ruby-operator">?</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">send</span>(<span class="ruby-identifier">name</span>) <span class="ruby-operator">:</span> <span class="ruby-identifier">create_zero_group</span>(<span class="ruby-identifier">name</span>)&#x000A;12:     <span class="ruby-keyword kw">end</span></pre>
+                  <pre id='M000069-source'>    <span class="ruby-comment cmt"># File lib/benelux/stats.rb, line 10</span>&#x000A;10:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">group</span>(<span class="ruby-identifier">name</span>)&#x000A;11:       <span class="ruby-ivar">@names</span>.<span class="ruby-identifier">member?</span>(<span class="ruby-identifier">name</span>) <span class="ruby-operator">?</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">send</span>(<span class="ruby-identifier">name</span>) <span class="ruby-operator">:</span> <span class="ruby-identifier">create_zero_group</span>(<span class="ruby-identifier">name</span>)&#x000A;12:     <span class="ruby-keyword kw">end</span></pre>
                 </div>
               </div>
               <div class='public-instance method' id='method-M000077'>
@@ -204,7 +205,7 @@
                   <a class='source-toggle' href='#' onclick="toggleCode('M000077-source'); return false">
                     [show source]
                   </a>
-                  <pre id='M000077-source'>    <span class="ruby-comment cmt"># File lib/benelux/stats.rb, line 39</span>&#x000A;39:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">has_group?</span>(<span class="ruby-identifier">name</span>)&#x000A;40:       <span class="ruby-ivar">@names</span>.<span class="ruby-identifier">member?</span> <span class="ruby-identifier">name</span>&#x000A;41:     <span class="ruby-keyword kw">end</span></pre>
+                  <pre id='M000077-source'>    <span class="ruby-comment cmt"># File lib/benelux/stats.rb, line 42</span>&#x000A;42:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">has_group?</span>(<span class="ruby-identifier">name</span>)&#x000A;43:       <span class="ruby-ivar">@names</span>.<span class="ruby-identifier">member?</span> <span class="ruby-identifier">name</span>&#x000A;44:     <span class="ruby-keyword kw">end</span></pre>
                 </div>
               </div>
               <div class='public-instance method' id='method-M000075'>
@@ -217,7 +218,20 @@
                   <a class='source-toggle' href='#' onclick="toggleCode('M000075-source'); return false">
                     [show source]
                   </a>
-                  <pre id='M000075-source'>    <span class="ruby-comment cmt"># File lib/benelux/stats.rb, line 35</span>&#x000A;35:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">sample</span>(<span class="ruby-identifier">name</span>, <span class="ruby-identifier">s</span>, <span class="ruby-identifier">tags</span>={})&#x000A;36:       <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">send</span>(<span class="ruby-identifier">name</span>).<span class="ruby-identifier">sample</span>(<span class="ruby-identifier">s</span>, <span class="ruby-identifier">tags</span>)&#x000A;37:     <span class="ruby-keyword kw">end</span></pre>
+                  <pre id='M000075-source'>    <span class="ruby-comment cmt"># File lib/benelux/stats.rb, line 38</span>&#x000A;38:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">sample</span>(<span class="ruby-identifier">name</span>, <span class="ruby-identifier">s</span>, <span class="ruby-identifier">tags</span>={})&#x000A;39:       <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">send</span>(<span class="ruby-identifier">name</span>).<span class="ruby-identifier">sample</span>(<span class="ruby-identifier">s</span>, <span class="ruby-identifier">tags</span>)&#x000A;40:     <span class="ruby-keyword kw">end</span></pre>
+                </div>
+              </div>
+              <div class='public-instance method' id='method-M000071'>
+                <a name='M000071'>      </a>
+                <div class='synopsis'>
+                  <span class='name'>size</span>
+                  <span class='arguments'>()</span>
+                </div>
+                <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('M000071-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='M000071-source'>    <span class="ruby-comment cmt"># File lib/benelux/stats.rb, line 18</span>&#x000A;18:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">size</span>&#x000A;19:       <span class="ruby-ivar">@names</span>.<span class="ruby-identifier">size</span>&#x000A;20:     <span class="ruby-keyword kw">end</span></pre>
                 </div>
               </div>
             </div>
