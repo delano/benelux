@@ -1,7 +1,7 @@
 @spec = Gem::Specification.new do |s|
   s.name = "benelux"
   s.rubyforge_project = 'benelux'
-  s.version = "0.4.4"
+  s.version = "0.5.0"
   s.summary = "Benelux: Little freakin' timers for your Ruby codes"
   s.description = s.summary
   s.author = "Delano Mandelbaum"
@@ -46,6 +46,7 @@
   tryouts/30_timeline_tryouts.rb
   tryouts/proofs/alias_performance.rb
   tryouts/proofs/array_performance.rb
+  tryouts/proofs/thread_array.rb
   tryouts/proofs/timer_threading.rb
   )
 
