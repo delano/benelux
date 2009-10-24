@@ -1,5 +1,8 @@
 BENELUX, CHANGES
 
+#### 0.5.0 (2009-10-21) ###############################
+
+* CHANGE: Do not use global timeline, update from dead threads. 
 
 #### 0.4.4 (2009-10-20) ###############################
 

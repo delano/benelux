@@ -15,7 +15,6 @@ module Benelux
   class BadRecursion < BeneluxError; end
   
   require 'benelux/mark'
-  require 'benelux/count'
   require 'benelux/track'
   require 'benelux/range'
   require 'benelux/stats'
@@ -65,8 +64,8 @@ module Benelux
       name = Thread.current.track_name
     else
       Thread.current.track_name = name
-      Thread.current.timeline ||= Benelux::Timeline.new
       @@mutex.synchronize do
+        Thread.current.timeline ||= Benelux::Timeline.new
         @tracks[name] ||= Track.new(name, group)
         @tracks[name].add_thread Thread.current
         @known_threads << Thread.current
