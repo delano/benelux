@@ -19,7 +19,6 @@ module Benelux
   #
   class Timeline < Array
     include Selectable
-    
     attr_accessor :ranges
     attr_accessor :stats
     attr_accessor :default_tags

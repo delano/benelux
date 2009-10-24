@@ -66,6 +66,7 @@ module Benelux
       Thread.current.track_name = name
       @@mutex.synchronize do
         Thread.current.timeline ||= Benelux::Timeline.new
+        Thread.current.rotated_timelines ||= []
         @tracks[name] ||= Track.new(name, group)
         @tracks[name].add_thread Thread.current
         @known_threads << Thread.current
@@ -77,12 +78,26 @@ module Benelux
   
   # Only updates data from threads that are dead
   def Benelux.update_global_timeline
-    dthreads = Benelux.known_threads.select { |t| 
-      !t.timeline.nil? && (t.nil? || !t.status)
-    }
-    # We don't need to make a special case for the 
-    # current thread b/c the current is not dead. 
-    Benelux.timeline.merge! *dthreads.collect { |t| t.timeline }
+    @@mutex.synchronize do
+      dthreads = Benelux.known_threads.select { |t| 
+        !t.timeline.nil? && (t.nil? || !t.status)
+      }
+      # Threads that have rotated timelines
+      rthreads = Benelux.known_threads.select { |t|
+        !t.rotated_timelines.empty?
+      }
+      dtimelines = dthreads.collect { |t| t.timeline }
+      # Also get all rotated timelines. 
+      rthreads.each { |t| 
+        # We loop carefully through the rotated timelines
+        # incase something was added while we're working. 
+        while !t.rotated_timelines.empty?
+          dtimelines.push t.rotated_timelines.shift 
+        end
+      }
+      tl = Benelux.timeline.merge! *dtimelines
+      tl
+    end
   end
   
   # Thread tags become the default for any new Mark or Range. 
@@ -148,6 +163,50 @@ end
 
 
 __END__
+0.5.0:
+ruby -rprofile bin/stella generate -p examples/essentials/plan.rb -c 200 -d 2m localhost:3114
+Summary: 
+  max clients: 200
+  repetitions: 9
+    test time:     117.97s
+    post time:     156.50s
+
+  %   cumulative   self              self     total
+ time   seconds   seconds    calls  ms/call  ms/call  name
+ 32.38    71.88     71.88      200   359.40   359.40  Thread#join
+  9.63    93.25     21.37   166149     0.13     0.20  Selectable::Tags#==
+  8.79   112.77     19.52   166149     0.12     0.69  Selectable::Tags#>=
+  8.42   131.47     18.70   170598     0.11     0.31  Kernel.send
+  4.38   141.19      9.72   166149     0.06     0.39  Selectable::Tags#<=>
+  4.31   150.75      9.56    50641     0.19     0.25  Benelux::Stats::Calculator#merge!
+  3.74   159.06      8.31   296362     0.03     0.03  Hash#values
+  3.03   165.78      6.72   556828     0.01     0.01  Array#size
+  2.61   171.57      5.79   166150     0.03     0.05  Array#&
+  2.25   176.57      5.00    36169     0.14     0.28  Selectable::Tags#compare_Array
+  1.56   180.04      3.47   332505     0.01     0.01  Fixnum#>=
+  1.53   183.44      3.40     4224     0.80    26.52  Array#each
+  1.32   186.37      2.93   166476     0.02     0.02  Kernel.is_a?
+  0.96   188.50      2.13   172011     0.01     0.01  Kernel.class
+  0.84   190.36      1.86    50641     0.04     0.05  Selectable::Object.add_tags_quick
+  0.83   192.21      1.85    14466     0.13     0.17  Selectable::Tags#compare_Hash
+  0.80   193.98      1.77   170551     0.01     0.01  Module#to_s
+  0.79   195.73      1.75   152534     0.01     0.01  Float#+
+  0.71   197.31      1.58   166192     0.01     0.01  String#intern
+  0.64   198.74      1.43    54292     0.03     0.03  Numeric#eql?
+  0.63   200.14      1.40    83392     0.02     0.02  String#eql?
+  0.53   201.31      1.17   130778     0.01     0.01  Fixnum#==
+  0.35   202.09      0.78     7310     0.11     0.15  Enumerable.member?
+  0.32   202.81      0.72    35940     0.02     0.02  Hash#==
+  0.30   203.48      0.67      201     3.33     6.37  Thread#new
+  0.29   204.12      0.64       11    58.18    70.00  Array#collect
+  0.27   204.73      0.61    35940     0.02     0.02  Hash#size
+  0.27   205.34      0.61      201     3.03     3.03  Thread#initialize
+  0.21   205.80      0.46    13901     0.03     0.03  Fixnum#>
+  0.21   206.26      0.46      202     2.28     7.08  Kernel.require
+  0.20   206.70      0.44    50681     0.01     0.01  Hash#merge!
+  0.16   207.05      0.35     2666     0.13     0.13  Array#push
+  
+0.4.2 and Earlier:
  %   cumulative   self              self     total
 time   seconds   seconds    calls  ms/call  ms/call  name
 33.04    40.39     40.39   832483     0.05     0.10  Selectable::Tags#==
