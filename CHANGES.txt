@@ -2,6 +2,9 @@ BENELUX, CHANGES
 
 #### 0.5.1 (2009-10-??) ###############################
 
+* FIXED: Timeline#clear
+* ADDED: Thread#rotate_timeline
+* ADDED: Stats#clear
 
 #### 0.5.0 (2009-10-21) ###############################
 

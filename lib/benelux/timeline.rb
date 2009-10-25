@@ -119,6 +119,7 @@ module Benelux
     
     def clear
       @ranges.clear
+      @stats.clear
       super
     end
     

@@ -15,6 +15,10 @@ module Benelux
       g.name = name
       g
     end
+    def clear
+      each { |g| g.clear }
+      @names.clear
+    end
     def size
       @names.size
     end
