@@ -43,6 +43,10 @@ module Benelux
       @default_tags[:track]
     end
     
+    def dump
+       
+    end
+    
     def duration
       self.last - self.first
     end
