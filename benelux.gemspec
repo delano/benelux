@@ -24,7 +24,6 @@
   Rakefile
   benelux.gemspec
   lib/benelux.rb
-  lib/benelux/count.rb
   lib/benelux/mark.rb
   lib/benelux/mixins/symbol.rb
   lib/benelux/mixins/thread.rb
