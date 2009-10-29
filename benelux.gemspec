@@ -39,7 +39,6 @@
   lib/selectable/tags.rb
   tryouts/10_stats_tryouts.rb
   tryouts/11_selectable_tryouts.rb
-  tryouts/12_selectable_global_tryouts.rb
   tryouts/20_tracks_tryouts.rb
   tryouts/30_reporter_tryouts.rb
   tryouts/30_timeline_tryouts.rb
