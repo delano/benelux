@@ -51,8 +51,15 @@ module Selectable
     items = self.select { |obj| obj.tags >= tags }
     self.class.new items
   end  
-    
-
+  
+  # Reverse filter. 
+  def rfilter(*tags)
+    tags = Selectable.normalize tags
+    # select returns an Array. We want a Selectable.
+    items = self.select { |obj| obj.tags < tags }
+    self.class.new items
+  end
+  
   def filter!(*tags)
     tags = Selectable.normalize tags
     self.delete_if { |obj|   obj.tags < tags }
@@ -76,4 +83,8 @@ class SelectableArray < Array
 end
 class SelectableHash < Hash
   include Selectable
+end
+
+class TaggableString < String
+  include Selectable::Object
 end
