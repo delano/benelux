@@ -76,7 +76,8 @@ module Benelux
   end
   Benelux.current_track :main
   
-  # Only updates data from threads that are dead
+  # Only updates data from threads that 
+  # are dead and rotated timelines.
   def Benelux.update_global_timeline
     @@mutex.synchronize do
       dthreads = Benelux.known_threads.select { |t| 

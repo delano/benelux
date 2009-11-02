@@ -6,6 +6,8 @@ BENELUX, CHANGES
 * ADDED: Thread#rotate_timeline
 * ADDED: Stats#clear
 * ADDED: Selectable#rfilter
+* ADDED: Timeline#messages
+
 
 #### 0.5.0 (2009-10-21) ###############################
 

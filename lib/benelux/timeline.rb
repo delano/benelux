@@ -21,6 +21,7 @@ module Benelux
     include Selectable
     attr_accessor :ranges
     attr_accessor :stats
+    attr_accessor :messages
     attr_accessor :default_tags
     attr_reader :caller
     def initialize(*args)
@@ -28,6 +29,7 @@ module Benelux
       @ranges = SelectableArray.new
       @default_tags = Selectable::Tags.new
       @stats = Benelux::Stats.new
+      @messages = SelectableArray.new
       add_default_tag :thread_id => Thread.current.object_id.abs
       super
     end
@@ -81,6 +83,7 @@ module Benelux
         next unless stat.tags >= tags
         stats += stat
       end
+      tl.messages = messages
       tl.stats = stats
       tl
     end
@@ -121,10 +124,26 @@ module Benelux
       end
     end
     
+    def messages(tags=Selectable::Tags.new)
+      ret = @messages.select do |msg| 
+        (tags.nil? || msg.tags >= tags)
+      end
+      SelectableArray.new ret
+    end
+    
     def clear
       @ranges.clear
       @stats.clear
+      @messages.clear
       super
+    end
+    
+    def add_message(str, tags={})
+      msg = TaggableString.new str
+      msg.add_tags self.default_tags
+      msg.add_tags tags
+      @messages << msg
+      msg
     end
     
     def add_count(name, count, tags={})
@@ -155,16 +174,18 @@ module Benelux
     def merge!(*timelines)
       timelines.each do |tl| 
         self.push *tl
-        self.ranges.push *tl.ranges
-        self.stats += tl.stats
+        @ranges.push *tl.ranges
+        @messages.push *tl.messages
+        @stats += tl.stats
       end
       self
     end
     
     def +(other)
       self.push *other
-      self.ranges.push *other.ranges
-      self.stats += other.stats
+      @ranges.push *other.ranges
+      @messages.push *tl.messages
+      @stats += other.stats
       self
     end
     # Needs to compare thread id and call id. 
