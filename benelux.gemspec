@@ -1,8 +1,8 @@
 @spec = Gem::Specification.new do |s|
   s.name = "benelux"
   s.rubyforge_project = 'benelux'
-  s.version = "0.5.1"
-  s.summary = "Benelux: Little freakin' timers for your Ruby codes"
+  s.version = "0.5.2"
+  s.summary = "Benelux: A mad timeline for Ruby codes"
   s.description = s.summary
   s.author = "Delano Mandelbaum"
   s.email = "delano@solutious.com"
@@ -29,7 +29,6 @@
   lib/benelux/mixins/thread.rb
   lib/benelux/packer.rb
   lib/benelux/range.rb
-  lib/benelux/reporter.rb
   lib/benelux/stats.rb
   lib/benelux/timeline.rb
   lib/benelux/track.rb

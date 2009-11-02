@@ -1,12 +1,14 @@
-= Benelux v0.4 (IN PROGRESS)
+= Benelux v0.5
 
-<b>A madhouse of timers for your Ruby codes</b>
+<b>A mad timeline for your Ruby codes</b>
 
 
 == Features
 
 * Create timers for any Ruby method
+* Store arbitrary messages
 * Granular statistics
+* Thread-safe
 
 
 == Installation
@@ -32,7 +34,7 @@ Get it in one of the following ways:
 == Thanks 
 
 * Alexis Sellier for fielding my Ruby questions
-* Tara Dougans for the motivational speaches
+* Tara Dougans for the motivational speeches
 
 
 == License
