@@ -1,7 +1,7 @@
 BENELUX, CHANGES
 
 
-#### 0.5.3 (2009-11-02) ###############################
+#### 0.5.3 (2009-11-16) ###############################
 
 * FIXED: Process dead threads only once
 * FIXED: Copy default tags when rotating timelines

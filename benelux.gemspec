@@ -1,7 +1,7 @@
 @spec = Gem::Specification.new do |s|
   s.name = "benelux"
   s.rubyforge_project = 'benelux'
-  s.version = "0.5.2"
+  s.version = "0.5.3"
   s.summary = "Benelux: A mad timeline for Ruby codes"
   s.description = s.summary
   s.author = "Delano Mandelbaum"
