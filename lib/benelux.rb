@@ -34,6 +34,7 @@ module Benelux
   @tracks = SelectableHash.new
   @timeline = Timeline.new
   @known_threads = []
+  @processed_dead_threads = []
   
   @@mutex = Mutex.new
   @@debug = false
@@ -81,7 +82,8 @@ module Benelux
   def Benelux.update_global_timeline
     @@mutex.synchronize do
       dthreads = Benelux.known_threads.select { |t| 
-        !t.timeline.nil? && (t.nil? || !t.status)
+        !t.timeline.nil? && (t.nil? || !t.status) &&
+        !@processed_dead_threads.member?(t)
       }
       # Threads that have rotated timelines
       rthreads = Benelux.known_threads.select { |t|
@@ -96,7 +98,9 @@ module Benelux
           dtimelines.push t.rotated_timelines.shift 
         end
       }
+      Benelux.ld [:update_global_timeline, dthreads.size, rthreads.size, dtimelines.size].inspect
       tl = Benelux.timeline.merge! *dtimelines
+      @processed_dead_threads.push *dthreads
       tl
     end
   end

@@ -125,7 +125,7 @@ module Benelux
         cmd = Benelux.packed_method #{@klass}, :#{@meth}
         ret = #{@aliaz}(*args, &block)
         count = cmd.determine_count(args, ret)
-        Benelux.ld "COUNT(:#{@meth}): \#{count}"
+        #Benelux.ld "COUNT(:#{@meth}): \#{count}"
         Benelux.thread_timeline.add_count :'#{@meth}', count
         ret
       end

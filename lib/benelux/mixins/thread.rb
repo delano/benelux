@@ -6,9 +6,8 @@ class Thread
   attic :track_name
   attic :rotated_timelines
   def rotate_timeline
-    prev = self.timeline
+    self.rotated_timelines << self.timeline
     self.timeline = Benelux::Timeline.new
-    self.rotated_timelines << prev
     self.timeline
   end
 end
