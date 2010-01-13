@@ -138,8 +138,15 @@ module Benelux
       super
     end
     
-    def add_message(str, tags={})
-      msg = TaggableString.new str
+    # +msg+ is the message to store. This can be any type of
+    # object that includes Selectable::Object (so that tags
+    # can be added to the message to retreive it later). If
+    # +msg+ does not include Selectable::Object it will be
+    # converted to a TaggableString object.
+    def add_message(msg, tags={})
+      unless msg.kind_of?(Selectable::Object)
+        msg = TaggableString.new msg.to_s
+      end
       msg.add_tags self.default_tags
       msg.add_tags tags
       @messages << msg
