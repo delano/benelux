@@ -2,7 +2,6 @@
 
 require 'benelux'
 
-
 a = Benelux.bm(1000000, 5) do
   rand
 end

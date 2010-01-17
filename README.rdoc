@@ -10,21 +10,36 @@
 * Granular statistics
 * Thread-safe
 
+== Example
 
+    require 'benelux'
+
+    # Similar to Benchmark::Tms with the addition of
+    # standard deviation, mean value, and total, for 
+    # each of the times.
+    tms = Benelux.bm(1000000, 5) do
+      rand
+    end
+    
+    tms.samples              # => 5
+    tms.real                 # => 0.45
+    tms.real.sd              # => 0.04
+    tms.utime                # => 0.44
+    tms.utime.sd             # => 0.02
+    
 == Installation
 
 Get it in one of the following ways:
 
-     $ gem install benelux
+     $ gem install benelux --source http://gemcutter.org
+     $ sudo gem install benelux --source http://gemcutter.org
      $ git clone git://github.com/delano/benelux.git
-     $ gem install delano-benelux --source http://gems.github.com
 
 
 == More Information
 
 * Codes[http://github.com/delano/benelux]
 * RDocs[http://delano.github.com/benelux]
-
 
 == Credits
 
