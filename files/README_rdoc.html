@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html lang='en'>
   <head>
-    <title>File: README.rdoc [Benelux: A mad timeline for Ruby codes]</title>
+    <title>File: README.rdoc [Benelux: A mad way to time Ruby codes]</title>
     <meta content='text/html; charset=utf-8' http-equiv='Content-Type'>
     <link href='../rdoc-style.css' media='screen' rel='stylesheet' type='text/css'>
     <script type='text/javascript'>
@@ -31,7 +31,7 @@
         </div>
         <div class='last-update'>
           Last Update:
-          <span class='datetime'>2009-11-02 11:24:17 -0500</span>
+          <span class='datetime'>2010-01-16 21:17:11 -0500</span>
         </div>
       </div>
       <div id='content'>
@@ -39,7 +39,7 @@
           <div id='description'>
             <h1><a href="../classes/Benelux.html">Benelux</a> v0.5</h1>
             <p>
-            <b>A mad timeline for your Ruby codes</b>
+            <b>A mad way to time Ruby codes</b>
             </p>
             <h2>Features</h2>
             <ul>
@@ -56,11 +56,13 @@
             
             </li>
             </ul>
+            <h2>Example</h2>
+            <pre>require 'benelux'&#x000A;&#x000A;# Similar to Benchmark::Tms with the addition of&#x000A;# standard deviation, mean value, and total, for&#x000A;# each of the times.&#x000A;tms = Benelux.bm(1000000, 5) do&#x000A;  rand&#x000A;end&#x000A;&#x000A;tms.samples              # =&gt; 5&#x000A;tms.real                 # =&gt; 0.45&#x000A;tms.real.sd              # =&gt; 0.04&#x000A;tms.utime                # =&gt; 0.44&#x000A;tms.utime.sd             # =&gt; 0.02</pre>
             <h2>Installation</h2>
             <p>
             Get it in one of the following ways:
             </p>
-            <pre>$ gem install benelux&#x000A;$ git clone git://github.com/delano/benelux.git&#x000A;$ gem install delano-benelux --source http://gems.github.com</pre>
+            <pre>$ gem install benelux --source http://gemcutter.org&#x000A;$ sudo gem install benelux --source http://gemcutter.org&#x000A;$ git clone git://github.com/delano/benelux.git</pre>
             <h2>More Information</h2>
             <ul>
             <li><a href="http://github.com/delano/benelux">Codes</a>

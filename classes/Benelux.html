@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html lang='en'>
   <head>
-    <title>: Benelux [Benelux: A mad timeline for Ruby codes]</title>
+    <title>: Benelux [Benelux: A mad way to time Ruby codes]</title>
     <meta content='text/html; charset=utf-8' http-equiv='Content-Type'>
     <link href='../rdoc-style.css' media='screen' rel='stylesheet' type='text/css'>
     <script type='text/javascript'>
@@ -46,10 +46,10 @@
             <a href="../files/lib/benelux/timeline_rb.html">lib/benelux/timeline.rb</a>
           </li>
           <li class='other'>
-            <a href="../files/lib/benelux_rb.html">lib/benelux.rb</a>
+            <a href="../files/lib/benelux/track_rb.html">lib/benelux/track.rb</a>
           </li>
           <li class='other'>
-            <a href="../files/lib/benelux/track_rb.html">lib/benelux/track.rb</a>
+            <a href="../files/lib/benelux_rb.html">lib/benelux.rb</a>
           </li>
           <li>
             <a class='show' href='#' onclick='this.parentNode.parentNode.className += " expanded"; this.parentNode.removeChild(this); return false'>show all</a>
@@ -66,6 +66,7 @@
               <li><a href="#M000009">add_thread_tag</a></li>
               <li><a href="#M000008">add_thread_tags</a></li>
               <li><a href="#M000017">add_timer</a></li>
+              <li><a href="#M000023">bm</a></li>
               <li><a href="#M000006">current_track</a></li>
               <li><a href="#M000022">debug?</a></li>
               <li><a href="#M000021">disable_debug</a></li>
@@ -98,6 +99,7 @@
               Class <a href="Benelux/Range.html" class="link">Benelux::Range</a><br />
               Class <a href="Benelux/Stats.html" class="link">Benelux::Stats</a><br />
               Class <a href="Benelux/Timeline.html" class="link">Benelux::Timeline</a><br />
+              Class <a href="Benelux/Tms.html" class="link">Benelux::Tms</a><br />
               Class <a href="Benelux/Track.html" class="link">Benelux::Track</a><br />
               Class <a href="Benelux/UnknownTrack.html" class="link">Benelux::UnknownTrack</a><br />
             </div>
@@ -108,7 +110,7 @@
                   <tr class='top-aligned-row context-row'>
                     <td class='context-item-name'>VERSION</td>
                     <td>=</td>
-                    <td class='context-item-value'>&quot;0.5.4&quot;</td>
+                    <td class='context-item-value'>&quot;0.5.5&quot;</td>
                   </tr>
                   <tr class='top-aligned-row context-row'>
                     <td class='context-item-name'>NOTSUPPORTED</td>
@@ -204,6 +206,39 @@
                     [show source]
                   </a>
                   <pre id='M000017-source'>     <span class="ruby-comment cmt"># File lib/benelux.rb, line 144</span>&#x000A;144:   <span class="ruby-keyword kw">def</span> <span class="ruby-constant">Benelux</span>.<span class="ruby-identifier">add_timer</span> <span class="ruby-identifier">klass</span>, <span class="ruby-identifier">meth</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">blk</span>&#x000A;145:     <span class="ruby-identifier">raise</span> <span class="ruby-constant">NotSupported</span>, <span class="ruby-identifier">klass</span> <span class="ruby-keyword kw">unless</span> <span class="ruby-constant">Benelux</span>.<span class="ruby-identifier">supported?</span> <span class="ruby-identifier">klass</span>&#x000A;146:     <span class="ruby-identifier">raise</span> <span class="ruby-constant">AlreadyTimed</span>, <span class="ruby-identifier">klass</span> <span class="ruby-keyword kw">if</span> <span class="ruby-constant">Benelux</span>.<span class="ruby-identifier">packed_method?</span> <span class="ruby-identifier">klass</span>, <span class="ruby-identifier">meth</span>&#x000A;147:     <span class="ruby-constant">Benelux</span><span class="ruby-operator">::</span><span class="ruby-constant">MethodTimer</span>.<span class="ruby-identifier">new</span> <span class="ruby-identifier">klass</span>, <span class="ruby-identifier">meth</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">blk</span>&#x000A;148:   <span class="ruby-keyword kw">end</span></pre>
+                </div>
+              </div>
+              <div class='method public-class' id='method-M000023'>
+                <a name='M000023'>      </a>
+                <div class='synopsis'>
+                  <span class='name'>bm</span>
+                  <span class='arguments'>(n=1, reps=5, &amp;blk)</span>
+                </div>
+                <div class='description'>
+                  <p>
+                  Run a benchmark the healthy way: with a warmup run, with multiple
+                  repetitions, and standard deviation.
+                  </p>
+                  <ul>
+                  <li><tt>n</tt> Number of times to execute <tt>blk</tt> (one data sample)
+                  
+                  </li>
+                  <li><tt>reps</tt> Number of data samples to collect
+                  
+                  </li>
+                  <li><tt>blk</tt> a Ruby block to benchmark
+                  
+                  </li>
+                  </ul>
+                  <p>
+                  Returns a <a href="Benelux/Tms.html">Benelux::Tms</a> object
+                  </p>
+                </div>
+                <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('M000023-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='M000023-source'>     <span class="ruby-comment cmt"># File lib/benelux.rb, line 215</span>&#x000A;215:   <span class="ruby-keyword kw">def</span> <span class="ruby-constant">Benelux</span>.<span class="ruby-identifier">bm</span>(<span class="ruby-identifier">n</span>=<span class="ruby-value">1</span>, <span class="ruby-identifier">reps</span>=<span class="ruby-value">5</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">blk</span>) &#x000A;216:     <span class="ruby-identifier">require</span> <span class="ruby-value str">'benchmark'</span>&#x000A;217:     <span class="ruby-identifier">n</span>.<span class="ruby-identifier">times</span> <span class="ruby-operator">&amp;</span><span class="ruby-identifier">blk</span>&#x000A;218:     <span class="ruby-identifier">tms</span> = <span class="ruby-constant">Benelux</span><span class="ruby-operator">::</span><span class="ruby-constant">Tms</span>.<span class="ruby-identifier">new</span>&#x000A;219:     <span class="ruby-identifier">reps</span>.<span class="ruby-identifier">times</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">rep</span><span class="ruby-operator">|</span>&#x000A;220:       <span class="ruby-identifier">tms</span>.<span class="ruby-identifier">sample</span> <span class="ruby-constant">Benchmark</span>.<span class="ruby-identifier">measure</span>() {<span class="ruby-identifier">n</span>.<span class="ruby-identifier">times</span> <span class="ruby-operator">&amp;</span><span class="ruby-identifier">blk</span>}&#x000A;221:     <span class="ruby-keyword kw">end</span>&#x000A;222:     <span class="ruby-identifier">tms</span>&#x000A;223:   <span class="ruby-keyword kw">end</span></pre>
                 </div>
               </div>
               <div class='method public-class' id='method-M000006'>
