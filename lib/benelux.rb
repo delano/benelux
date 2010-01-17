@@ -161,7 +161,66 @@ module Benelux
   def Benelux.disable_debug; @@debug = false; end
   def Benelux.debug?; @@debug; end
   
-  
+  # Similar to Benchmark::Tms with the addition of
+  # standard deviation, mean, and total, for each of 
+  # the data times. 
+  #
+  #     tms = Benelux::Tms.new
+  #     tms.real.sd       # standard deviation
+  #     tms.utime.mean    # mean value
+  #     tms.total.n       # number of data points
+  # 
+  # See Benelux::Stats::Calculator
+  #
+  class Tms < Struct.new :label, :real, :cstime, :cutime, :stime, :utime, :total
+    attr_reader :samples
+    # +tms+ is a Benchmark::Tms object
+    def initialize tms=nil
+      @samples = 0
+      members.each_with_index { |n, index| 
+        next if n.to_s == 'label'
+        self.send("#{n}=", Stats::Calculator.new)
+      }
+      sample tms unless tms.nil?
+    end
+    def sample(tms)
+      @samples += 1
+      self.label ||= tms.label
+      members.each_with_index { |n, index| 
+        next if n.to_s == 'label'
+        self.send(n).sample tms.send(n) || 0
+      }
+    end
+    def to_s
+      total.mean
+    end
+    def inspect
+      fields = members.collect { |f| 
+        next unless Stats::Calculator === self.send(f)
+        '%s=%.2f@%.2f' % [f, self.send(f).mean, self.send(f).sd] 
+      }.compact
+      args = [self.class.to_s, self.hexoid, samples, fields.join(' ')]
+      '#<%s:%s samples=%d %s>' % args
+    end
+  end
+    
+  # Run a benchmark the healthy way: with a warmup run, with
+  # multiple repetitions, and standard deviation. 
+  # 
+  # * +n+ Number of times to execute +blk+ (one data sample)
+  # * +reps+ Number of data samples to collect
+  # * +blk+ a Ruby block to benchmark
+  #
+  # Returns a Benelux::Tms object
+  def Benelux.bm(n=1, reps=5, &blk) 
+    require 'benchmark'
+    n.times &blk
+    tms = Benelux::Tms.new
+    reps.times do |rep|
+      tms.sample Benchmark.measure() {n.times &blk}
+    end
+    tms
+  end
 end
 
 
