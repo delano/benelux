@@ -191,8 +191,14 @@ module Benelux
         self.send(n).sample tms.send(n) || 0
       }
     end
+    def to_f
+      total.mean.to_f
+    end
+    def to_i
+      total.mean.to_i
+    end
     def to_s
-      total.mean
+      total.mean.to_s
     end
     def inspect
       fields = members.collect { |f| 

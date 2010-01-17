@@ -5,6 +5,7 @@
 
 == Features
 
+* A replacement for Benchmark.measure
 * Create timers for any Ruby method
 * Store arbitrary messages
 * Granular statistics
@@ -14,19 +15,23 @@
 
     require 'benelux'
 
-    # Similar to Benchmark::Tms with the addition of
-    # standard deviation, mean value, and total, for 
-    # each of the times.
+    # Similar to Benchmark.measure but you specify the
+    # number of times to run the block and the number
+    # repetitions. 
     tms = Benelux.bm(1000000, 5) do
       rand
     end
-    
+
+    # Similar to Benchmark::Tms with the addition of
+    # standard deviation, mean value, and total, for 
+    # each of the times.    
     tms.samples              # => 5
     tms.real                 # => 0.45
     tms.real.sd              # => 0.04
     tms.utime                # => 0.44
     tms.utime.sd             # => 0.02
     
+
 == Installation
 
 Get it in one of the following ways:
