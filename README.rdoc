@@ -1,6 +1,6 @@
 = Benelux v0.5
 
-<b>A mad timeline for your Ruby codes</b>
+<b>A mad way to time Ruby codes</b>
 
 
 == Features
