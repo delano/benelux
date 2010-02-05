@@ -27,12 +27,16 @@ module Benelux
     attr_reader :packed_methods
     attr_reader :tracks
     attr_reader :timeline
+    attr_reader :timeline_chunk
+    attr_reader :timeline_updates
     attr_reader :known_threads
   end
   
   @packed_methods = {}
   @tracks = SelectableHash.new
   @timeline = Timeline.new
+  @timeline_chunk = Timeline.new  # See: update_global_timeline
+  @timeline_updates = 0
   @known_threads = []
   @processed_dead_threads = []
   
@@ -99,8 +103,12 @@ module Benelux
         end
       }
       Benelux.ld [:update_global_timeline, dthreads.size, rthreads.size, dtimelines.size].inspect
-      tl = Benelux.timeline.merge! *dtimelines
+      # Keep track of this update separately
+      @timeline_chunk = Benelux::Timeline.new
+      @timeline_chunk.merge! *dtimelines
       @processed_dead_threads.push *dthreads
+      tl = Benelux.timeline.merge! Benelux.timeline_chunk
+      @timeline_updates += 1
       tl
     end
   end
@@ -173,6 +181,7 @@ module Benelux
   # See Benelux::Stats::Calculator
   #
   class Tms < Struct.new :label, :real, :cstime, :cutime, :stime, :utime, :total
+    # TODO: integrate w/ http://github.com/copiousfreetime/hitimes
     attr_reader :samples
     # +tms+ is a Benchmark::Tms object
     def initialize tms=nil

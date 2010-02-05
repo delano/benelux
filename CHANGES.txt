@@ -3,6 +3,8 @@ BENELUX, CHANGES
 #### 0.5.6 (2010-01-??) ###############################
 
 * ADDED: Benelux::Tms#to_f
+* ADDED: Benelux.timeline_chunk, Benelux.timeline_updates
+
 
 #### 0.5.5 (2010-01-16) ###############################
 

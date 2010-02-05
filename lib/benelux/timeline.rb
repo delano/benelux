@@ -50,6 +50,7 @@ module Benelux
     end
     
     def duration
+      return 0 if self.last.nil?
       self.last - self.first
     end
     
