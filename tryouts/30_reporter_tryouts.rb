@@ -1,7 +1,7 @@
 group "Benelux"
 
 library :benelux, 'lib'
-tryouts "Reporter" do
+xtryouts "Reporter" do
   set :reporter, Benelux::Reporter.new
   
   drill "1", true do

@@ -216,6 +216,10 @@ module Benelux
         end
       end
       
+      def to_json
+        { :min => min, :mean => mean, :max => max, :sd => sd, :n => n }.to_json
+      end
+      
       def ==(other)
         return false unless self.class == other.class
         a=([@sum, @min, @max, @n, @sumsq] - 
