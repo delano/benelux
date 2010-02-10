@@ -45,12 +45,12 @@
             <h2>Methods</h2>
             <h3>public class</h3>
             <ol>
-              <li><a href="#M000115">new</a></li>
+              <li><a href="#M000117">new</a></li>
             </ol>
             <h3>public instance</h3>
             <ol>
-              <li><a href="#M000116">add_thread</a></li>
-              <li><a href="#M000117">threads</a></li>
+              <li><a href="#M000118">add_thread</a></li>
+              <li><a href="#M000119">threads</a></li>
             </ol>
           </div>
           <div id='section'>
@@ -78,44 +78,44 @@
             </div>
             <div id='methods'>
               <h2>Public class methods</h2>
-              <div class='method public-class' id='method-M000115'>
-                <a name='M000115'>      </a>
+              <div class='method public-class' id='method-M000117'>
+                <a name='M000117'>      </a>
                 <div class='synopsis'>
                   <span class='name'>new</span>
                   <span class='arguments'>(n,g=nil)</span>
                 </div>
                 <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('M000115-source'); return false">
+                  <a class='source-toggle' href='#' onclick="toggleCode('M000117-source'); return false">
                     [show source]
                   </a>
-                  <pre id='M000115-source'>    <span class="ruby-comment cmt"># File lib/benelux/track.rb, line 8</span>&#x000A; 8:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">n</span>,<span class="ruby-identifier">g</span>=<span class="ruby-keyword kw">nil</span>)&#x000A; 9:       <span class="ruby-ivar">@name</span>, <span class="ruby-ivar">@thgrp</span> = <span class="ruby-identifier">n</span>, (<span class="ruby-identifier">g</span> <span class="ruby-operator">||</span> <span class="ruby-constant">ThreadGroup</span>.<span class="ruby-identifier">new</span>)&#x000A;10:       <span class="ruby-ivar">@timeline</span> = <span class="ruby-constant">Benelux</span><span class="ruby-operator">::</span><span class="ruby-constant">Timeline</span>.<span class="ruby-identifier">new</span>&#x000A;11:     <span class="ruby-keyword kw">end</span></pre>
+                  <pre id='M000117-source'>    <span class="ruby-comment cmt"># File lib/benelux/track.rb, line 8</span>&#x000A; 8:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">n</span>,<span class="ruby-identifier">g</span>=<span class="ruby-keyword kw">nil</span>)&#x000A; 9:       <span class="ruby-ivar">@name</span>, <span class="ruby-ivar">@thgrp</span> = <span class="ruby-identifier">n</span>, (<span class="ruby-identifier">g</span> <span class="ruby-operator">||</span> <span class="ruby-constant">ThreadGroup</span>.<span class="ruby-identifier">new</span>)&#x000A;10:       <span class="ruby-ivar">@timeline</span> = <span class="ruby-constant">Benelux</span><span class="ruby-operator">::</span><span class="ruby-constant">Timeline</span>.<span class="ruby-identifier">new</span>&#x000A;11:     <span class="ruby-keyword kw">end</span></pre>
                 </div>
               </div>
               <h2>Public instance methods</h2>
-              <div class='method public-instance' id='method-M000116'>
-                <a name='M000116'>      </a>
+              <div class='method public-instance' id='method-M000118'>
+                <a name='M000118'>      </a>
                 <div class='synopsis'>
                   <span class='name'>add_thread</span>
                   <span class='arguments'>(t=Thread.current)</span>
                 </div>
                 <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('M000116-source'); return false">
+                  <a class='source-toggle' href='#' onclick="toggleCode('M000118-source'); return false">
                     [show source]
                   </a>
-                  <pre id='M000116-source'>    <span class="ruby-comment cmt"># File lib/benelux/track.rb, line 12</span>&#x000A;12:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">add_thread</span>(<span class="ruby-identifier">t</span>=<span class="ruby-constant">Thread</span>.<span class="ruby-identifier">current</span>)&#x000A;13:       <span class="ruby-ivar">@thgrp</span>.<span class="ruby-identifier">add</span> <span class="ruby-identifier">t</span>&#x000A;14:       <span class="ruby-identifier">t</span>&#x000A;15:     <span class="ruby-keyword kw">end</span></pre>
+                  <pre id='M000118-source'>    <span class="ruby-comment cmt"># File lib/benelux/track.rb, line 12</span>&#x000A;12:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">add_thread</span>(<span class="ruby-identifier">t</span>=<span class="ruby-constant">Thread</span>.<span class="ruby-identifier">current</span>)&#x000A;13:       <span class="ruby-ivar">@thgrp</span>.<span class="ruby-identifier">add</span> <span class="ruby-identifier">t</span>&#x000A;14:       <span class="ruby-identifier">t</span>&#x000A;15:     <span class="ruby-keyword kw">end</span></pre>
                 </div>
               </div>
-              <div class='method public-instance' id='method-M000117'>
-                <a name='M000117'>      </a>
+              <div class='method public-instance' id='method-M000119'>
+                <a name='M000119'>      </a>
                 <div class='synopsis'>
                   <span class='name'>threads</span>
                   <span class='arguments'>()</span>
                 </div>
                 <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('M000117-source'); return false">
+                  <a class='source-toggle' href='#' onclick="toggleCode('M000119-source'); return false">
                     [show source]
                   </a>
-                  <pre id='M000117-source'>    <span class="ruby-comment cmt"># File lib/benelux/track.rb, line 16</span>&#x000A;16:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">threads</span>&#x000A;17:       <span class="ruby-ivar">@thgrp</span>.<span class="ruby-identifier">list</span>&#x000A;18:     <span class="ruby-keyword kw">end</span></pre>
+                  <pre id='M000119-source'>    <span class="ruby-comment cmt"># File lib/benelux/track.rb, line 16</span>&#x000A;16:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">threads</span>&#x000A;17:       <span class="ruby-ivar">@thgrp</span>.<span class="ruby-identifier">list</span>&#x000A;18:     <span class="ruby-keyword kw">end</span></pre>
                 </div>
               </div>
             </div>
