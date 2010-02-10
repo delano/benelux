@@ -216,8 +216,12 @@ module Benelux
         end
       end
       
+      def to_hash
+        { :min => min, :mean => mean, :max => max, :sd => sd, :n => n }
+      end
+      
       def to_json
-        { :min => min, :mean => mean, :max => max, :sd => sd, :n => n }.to_json
+        to_hash.to_json
       end
       
       def ==(other)
