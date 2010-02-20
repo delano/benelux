@@ -55,15 +55,15 @@
             <h2>Methods</h2>
             <h3>public class</h3>
             <ol>
-              <li><a href="#M000120">new</a></li>
+              <li><a href="#M000122">new</a></li>
             </ol>
             <h3>public instance</h3>
             <ol>
-              <li><a href="#M000125">inspect</a></li>
-              <li><a href="#M000121">sample</a></li>
-              <li><a href="#M000122">to_f</a></li>
-              <li><a href="#M000123">to_i</a></li>
-              <li><a href="#M000124">to_s</a></li>
+              <li><a href="#M000127">inspect</a></li>
+              <li><a href="#M000123">sample</a></li>
+              <li><a href="#M000124">to_f</a></li>
+              <li><a href="#M000125">to_i</a></li>
+              <li><a href="#M000126">to_s</a></li>
             </ol>
           </div>
           <div id='section'>
@@ -81,8 +81,8 @@
             </div>
             <div id='methods'>
               <h2>Public class methods</h2>
-              <div class='method public-class' id='method-M000120'>
-                <a name='M000120'>      </a>
+              <div class='method public-class' id='method-M000122'>
+                <a name='M000122'>      </a>
                 <div class='synopsis'>
                   <span class='name'>new</span>
                   <span class='arguments'>(tms=nil)</span>
@@ -93,76 +93,76 @@
                   </p>
                 </div>
                 <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('M000120-source'); return false">
+                  <a class='source-toggle' href='#' onclick="toggleCode('M000122-source'); return false">
                     [show source]
                   </a>
-                  <pre id='M000120-source'>     <span class="ruby-comment cmt"># File lib/benelux.rb, line 187</span>&#x000A;187:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span> <span class="ruby-identifier">tms</span>=<span class="ruby-keyword kw">nil</span>&#x000A;188:       <span class="ruby-ivar">@samples</span> = <span class="ruby-value">0</span>&#x000A;189:       <span class="ruby-identifier">members</span>.<span class="ruby-identifier">each_with_index</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">n</span>, <span class="ruby-identifier">index</span><span class="ruby-operator">|</span> &#x000A;190:         <span class="ruby-keyword kw">next</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">n</span>.<span class="ruby-identifier">to_s</span> <span class="ruby-operator">==</span> <span class="ruby-value str">'label'</span>&#x000A;191:         <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">send</span>(<span class="ruby-node">&quot;#{n}=&quot;</span>, <span class="ruby-constant">Stats</span><span class="ruby-operator">::</span><span class="ruby-constant">Calculator</span>.<span class="ruby-identifier">new</span>)&#x000A;192:       }&#x000A;193:       <span class="ruby-identifier">sample</span> <span class="ruby-identifier">tms</span> <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">tms</span>.<span class="ruby-identifier">nil?</span>&#x000A;194:     <span class="ruby-keyword kw">end</span></pre>
+                  <pre id='M000122-source'>     <span class="ruby-comment cmt"># File lib/benelux.rb, line 185</span>&#x000A;185:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span> <span class="ruby-identifier">tms</span>=<span class="ruby-keyword kw">nil</span>&#x000A;186:       <span class="ruby-ivar">@samples</span> = <span class="ruby-value">0</span>&#x000A;187:       <span class="ruby-identifier">members</span>.<span class="ruby-identifier">each_with_index</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">n</span>, <span class="ruby-identifier">index</span><span class="ruby-operator">|</span> &#x000A;188:         <span class="ruby-keyword kw">next</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">n</span>.<span class="ruby-identifier">to_s</span> <span class="ruby-operator">==</span> <span class="ruby-value str">'label'</span>&#x000A;189:         <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">send</span>(<span class="ruby-node">&quot;#{n}=&quot;</span>, <span class="ruby-constant">Stats</span><span class="ruby-operator">::</span><span class="ruby-constant">Calculator</span>.<span class="ruby-identifier">new</span>)&#x000A;190:       }&#x000A;191:       <span class="ruby-identifier">sample</span> <span class="ruby-identifier">tms</span> <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">tms</span>.<span class="ruby-identifier">nil?</span>&#x000A;192:     <span class="ruby-keyword kw">end</span></pre>
                 </div>
               </div>
               <h2>Public instance methods</h2>
-              <div class='method public-instance' id='method-M000125'>
-                <a name='M000125'>      </a>
+              <div class='method public-instance' id='method-M000127'>
+                <a name='M000127'>      </a>
                 <div class='synopsis'>
                   <span class='name'>inspect</span>
                   <span class='arguments'>()</span>
                 </div>
                 <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('M000125-source'); return false">
+                  <a class='source-toggle' href='#' onclick="toggleCode('M000127-source'); return false">
                     [show source]
                   </a>
-                  <pre id='M000125-source'>     <span class="ruby-comment cmt"># File lib/benelux.rb, line 212</span>&#x000A;212:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">inspect</span>&#x000A;213:       <span class="ruby-identifier">fields</span> = <span class="ruby-identifier">members</span>.<span class="ruby-identifier">collect</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">f</span><span class="ruby-operator">|</span> &#x000A;214:         <span class="ruby-keyword kw">next</span> <span class="ruby-keyword kw">unless</span> <span class="ruby-constant">Stats</span><span class="ruby-operator">::</span><span class="ruby-constant">Calculator</span> <span class="ruby-operator">===</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">send</span>(<span class="ruby-identifier">f</span>)&#x000A;215:         <span class="ruby-value str">'%s=%.2f@%.2f'</span> <span class="ruby-operator">%</span> [<span class="ruby-identifier">f</span>, <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">send</span>(<span class="ruby-identifier">f</span>).<span class="ruby-identifier">mean</span>, <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">send</span>(<span class="ruby-identifier">f</span>).<span class="ruby-identifier">sd</span>] &#x000A;216:       }.<span class="ruby-identifier">compact</span>&#x000A;217:       <span class="ruby-identifier">args</span> = [<span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">to_s</span>, <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">hexoid</span>, <span class="ruby-identifier">samples</span>, <span class="ruby-identifier">fields</span>.<span class="ruby-identifier">join</span>(<span class="ruby-value str">' '</span>)]&#x000A;218:       <span class="ruby-value str">'#&lt;%s:%s samples=%d %s&gt;'</span> <span class="ruby-operator">%</span> <span class="ruby-identifier">args</span>&#x000A;219:     <span class="ruby-keyword kw">end</span></pre>
-                </div>
-              </div>
-              <div class='method public-instance' id='method-M000121'>
-                <a name='M000121'>      </a>
-                <div class='synopsis'>
-                  <span class='name'>sample</span>
-                  <span class='arguments'>(tms)</span>
-                </div>
-                <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('M000121-source'); return false">
-                    [show source]
-                  </a>
-                  <pre id='M000121-source'>     <span class="ruby-comment cmt"># File lib/benelux.rb, line 195</span>&#x000A;195:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">sample</span>(<span class="ruby-identifier">tms</span>)&#x000A;196:       <span class="ruby-ivar">@samples</span> <span class="ruby-operator">+=</span> <span class="ruby-value">1</span>&#x000A;197:       <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">label</span> <span class="ruby-operator">||=</span> <span class="ruby-identifier">tms</span>.<span class="ruby-identifier">label</span>&#x000A;198:       <span class="ruby-identifier">members</span>.<span class="ruby-identifier">each_with_index</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">n</span>, <span class="ruby-identifier">index</span><span class="ruby-operator">|</span> &#x000A;199:         <span class="ruby-keyword kw">next</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">n</span>.<span class="ruby-identifier">to_s</span> <span class="ruby-operator">==</span> <span class="ruby-value str">'label'</span>&#x000A;200:         <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">send</span>(<span class="ruby-identifier">n</span>).<span class="ruby-identifier">sample</span> <span class="ruby-identifier">tms</span>.<span class="ruby-identifier">send</span>(<span class="ruby-identifier">n</span>) <span class="ruby-operator">||</span> <span class="ruby-value">0</span>&#x000A;201:       }&#x000A;202:     <span class="ruby-keyword kw">end</span></pre>
-                </div>
-              </div>
-              <div class='method public-instance' id='method-M000122'>
-                <a name='M000122'>      </a>
-                <div class='synopsis'>
-                  <span class='name'>to_f</span>
-                  <span class='arguments'>()</span>
-                </div>
-                <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('M000122-source'); return false">
-                    [show source]
-                  </a>
-                  <pre id='M000122-source'>     <span class="ruby-comment cmt"># File lib/benelux.rb, line 203</span>&#x000A;203:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">to_f</span>&#x000A;204:       <span class="ruby-identifier">total</span>.<span class="ruby-identifier">mean</span>.<span class="ruby-identifier">to_f</span>&#x000A;205:     <span class="ruby-keyword kw">end</span></pre>
+                  <pre id='M000127-source'>     <span class="ruby-comment cmt"># File lib/benelux.rb, line 210</span>&#x000A;210:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">inspect</span>&#x000A;211:       <span class="ruby-identifier">fields</span> = <span class="ruby-identifier">members</span>.<span class="ruby-identifier">collect</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">f</span><span class="ruby-operator">|</span> &#x000A;212:         <span class="ruby-keyword kw">next</span> <span class="ruby-keyword kw">unless</span> <span class="ruby-constant">Stats</span><span class="ruby-operator">::</span><span class="ruby-constant">Calculator</span> <span class="ruby-operator">===</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">send</span>(<span class="ruby-identifier">f</span>)&#x000A;213:         <span class="ruby-value str">'%s=%.2f@%.2f'</span> <span class="ruby-operator">%</span> [<span class="ruby-identifier">f</span>, <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">send</span>(<span class="ruby-identifier">f</span>).<span class="ruby-identifier">mean</span>, <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">send</span>(<span class="ruby-identifier">f</span>).<span class="ruby-identifier">sd</span>] &#x000A;214:       }.<span class="ruby-identifier">compact</span>&#x000A;215:       <span class="ruby-identifier">args</span> = [<span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">to_s</span>, <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">hexoid</span>, <span class="ruby-identifier">samples</span>, <span class="ruby-identifier">fields</span>.<span class="ruby-identifier">join</span>(<span class="ruby-value str">' '</span>)]&#x000A;216:       <span class="ruby-value str">'#&lt;%s:%s samples=%d %s&gt;'</span> <span class="ruby-operator">%</span> <span class="ruby-identifier">args</span>&#x000A;217:     <span class="ruby-keyword kw">end</span></pre>
                 </div>
               </div>
               <div class='method public-instance' id='method-M000123'>
                 <a name='M000123'>      </a>
                 <div class='synopsis'>
-                  <span class='name'>to_i</span>
-                  <span class='arguments'>()</span>
+                  <span class='name'>sample</span>
+                  <span class='arguments'>(tms)</span>
                 </div>
                 <div class='source'>
                   <a class='source-toggle' href='#' onclick="toggleCode('M000123-source'); return false">
                     [show source]
                   </a>
-                  <pre id='M000123-source'>     <span class="ruby-comment cmt"># File lib/benelux.rb, line 206</span>&#x000A;206:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">to_i</span>&#x000A;207:       <span class="ruby-identifier">total</span>.<span class="ruby-identifier">mean</span>.<span class="ruby-identifier">to_i</span>&#x000A;208:     <span class="ruby-keyword kw">end</span></pre>
+                  <pre id='M000123-source'>     <span class="ruby-comment cmt"># File lib/benelux.rb, line 193</span>&#x000A;193:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">sample</span>(<span class="ruby-identifier">tms</span>)&#x000A;194:       <span class="ruby-ivar">@samples</span> <span class="ruby-operator">+=</span> <span class="ruby-value">1</span>&#x000A;195:       <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">label</span> <span class="ruby-operator">||=</span> <span class="ruby-identifier">tms</span>.<span class="ruby-identifier">label</span>&#x000A;196:       <span class="ruby-identifier">members</span>.<span class="ruby-identifier">each_with_index</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">n</span>, <span class="ruby-identifier">index</span><span class="ruby-operator">|</span> &#x000A;197:         <span class="ruby-keyword kw">next</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">n</span>.<span class="ruby-identifier">to_s</span> <span class="ruby-operator">==</span> <span class="ruby-value str">'label'</span>&#x000A;198:         <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">send</span>(<span class="ruby-identifier">n</span>).<span class="ruby-identifier">sample</span> <span class="ruby-identifier">tms</span>.<span class="ruby-identifier">send</span>(<span class="ruby-identifier">n</span>) <span class="ruby-operator">||</span> <span class="ruby-value">0</span>&#x000A;199:       }&#x000A;200:     <span class="ruby-keyword kw">end</span></pre>
                 </div>
               </div>
               <div class='method public-instance' id='method-M000124'>
                 <a name='M000124'>      </a>
                 <div class='synopsis'>
-                  <span class='name'>to_s</span>
+                  <span class='name'>to_f</span>
                   <span class='arguments'>()</span>
                 </div>
                 <div class='source'>
                   <a class='source-toggle' href='#' onclick="toggleCode('M000124-source'); return false">
                     [show source]
                   </a>
-                  <pre id='M000124-source'>     <span class="ruby-comment cmt"># File lib/benelux.rb, line 209</span>&#x000A;209:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">to_s</span>&#x000A;210:       <span class="ruby-identifier">total</span>.<span class="ruby-identifier">mean</span>.<span class="ruby-identifier">to_s</span>&#x000A;211:     <span class="ruby-keyword kw">end</span></pre>
+                  <pre id='M000124-source'>     <span class="ruby-comment cmt"># File lib/benelux.rb, line 201</span>&#x000A;201:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">to_f</span>&#x000A;202:       <span class="ruby-identifier">total</span>.<span class="ruby-identifier">mean</span>.<span class="ruby-identifier">to_f</span>&#x000A;203:     <span class="ruby-keyword kw">end</span></pre>
+                </div>
+              </div>
+              <div class='method public-instance' id='method-M000125'>
+                <a name='M000125'>      </a>
+                <div class='synopsis'>
+                  <span class='name'>to_i</span>
+                  <span class='arguments'>()</span>
+                </div>
+                <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('M000125-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='M000125-source'>     <span class="ruby-comment cmt"># File lib/benelux.rb, line 204</span>&#x000A;204:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">to_i</span>&#x000A;205:       <span class="ruby-identifier">total</span>.<span class="ruby-identifier">mean</span>.<span class="ruby-identifier">to_i</span>&#x000A;206:     <span class="ruby-keyword kw">end</span></pre>
+                </div>
+              </div>
+              <div class='method public-instance' id='method-M000126'>
+                <a name='M000126'>      </a>
+                <div class='synopsis'>
+                  <span class='name'>to_s</span>
+                  <span class='arguments'>()</span>
+                </div>
+                <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('M000126-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='M000126-source'>     <span class="ruby-comment cmt"># File lib/benelux.rb, line 207</span>&#x000A;207:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">to_s</span>&#x000A;208:       <span class="ruby-identifier">total</span>.<span class="ruby-identifier">mean</span>.<span class="ruby-identifier">to_s</span>&#x000A;209:     <span class="ruby-keyword kw">end</span></pre>
                 </div>
               </div>
             </div>
