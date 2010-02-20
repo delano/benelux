@@ -1,7 +1,7 @@
 @spec = Gem::Specification.new do |s|
   s.name = "benelux"
   s.rubyforge_project = 'benelux'
-  s.version = "0.5.6"
+  s.version = "0.5.7"
   s.summary = "Benelux: A mad way to time Ruby codes"
   s.description = s.summary
   s.author = "Delano Mandelbaum"
@@ -13,8 +13,6 @@
   s.rdoc_options = ["--line-numbers", "--title", s.summary, "--main", "README.rdoc"]
   s.require_paths = %w[lib]
   
-  s.add_dependency 'hexoid'
-  
   # = MANIFEST =
   # git ls-files
   s.files = %w(
@@ -25,8 +23,7 @@
   benelux.gemspec
   lib/benelux.rb
   lib/benelux/mark.rb
-  lib/benelux/mixins/symbol.rb
-  lib/benelux/mixins/thread.rb
+  lib/benelux/mixins.rb
   lib/benelux/packer.rb
   lib/benelux/range.rb
   lib/benelux/stats.rb
@@ -41,6 +38,7 @@
   tryouts/20_tracks_tryouts.rb
   tryouts/30_reporter_tryouts.rb
   tryouts/30_timeline_tryouts.rb
+  tryouts/benelux_bm.rb
   tryouts/proofs/alias_performance.rb
   tryouts/proofs/array_performance.rb
   tryouts/proofs/thread_array.rb

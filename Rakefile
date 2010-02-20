@@ -1,13 +1,16 @@
 
 require 'rake/clean'
 require 'rake/gempackagetask'
-require 'hanna/rdoctask'
 require 'rake/testtask'
-require 'shoulda/tasks'
 require 'rake/runtest'
-require 'monkeyspecdoc'  # http://jgre.org/2008/09/03/monkeyspecdoc/
 require 'fileutils'
 include FileUtils
+
+begin
+  require 'hanna/rdoctask'
+rescue LoadError
+  require 'rake/rdoctask'
+end
  
 task :default => :test
 

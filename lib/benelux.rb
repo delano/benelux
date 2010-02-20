@@ -1,11 +1,10 @@
 require 'attic'
-require 'hexoid'
 require 'thread'
 require 'thwait'
 require 'selectable'
 
 module Benelux
-  VERSION = "0.5.6"
+  VERSION = "0.5.7"
   NOTSUPPORTED = [Class, Object, Kernel]
   
   class BeneluxError < RuntimeError; end
@@ -18,10 +17,9 @@ module Benelux
   require 'benelux/track'
   require 'benelux/range'
   require 'benelux/stats'
+  require 'benelux/mixins'
   require 'benelux/packer'
   require 'benelux/timeline'
-  require 'benelux/mixins/thread'
-  require 'benelux/mixins/symbol'
   
   class << self
     attr_reader :packed_methods

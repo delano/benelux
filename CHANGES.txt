@@ -1,5 +1,12 @@
 BENELUX, CHANGES
 
+#### 0.5.7 (2010-02-20) ###############################
+
+* CHANGE: Remove hanna dependency
+* CHANGE: Remove hexoid dependency
+* CHANGE: Combine mixins to single file
+
+
 #### 0.5.6 (2010-02-10) ###############################
 
 * ADDED: Benelux::Tms#to_f
