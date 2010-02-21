@@ -1,5 +1,9 @@
 BENELUX, CHANGES
 
+#### 0.5.8 (2010-02-22) ###############################
+
+* CHANGE: Added sum and sumsq to Benelux::Stats::Calculator#to_hash
+
 #### 0.5.7 (2010-02-20) ###############################
 
 * CHANGE: Remove hanna dependency
@@ -12,6 +16,7 @@ BENELUX, CHANGES
 * ADDED: Benelux::Tms#to_f
 * ADDED: Benelux.timeline_chunk, Benelux.timeline_updates
 * ADDED: Calculator#to_json
+
 
 #### 0.5.5 (2010-01-16) ###############################
 
