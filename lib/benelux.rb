@@ -147,15 +147,15 @@ module Benelux
     !Benelux.packed_method(klass, meth).nil?
   end
   
-  def Benelux.add_timer klass, meth, &blk
+  def Benelux.add_timer klass, meth, aliaz=nil, &blk
     raise NotSupported, klass unless Benelux.supported? klass
     raise AlreadyTimed, klass if Benelux.packed_method? klass, meth
-    Benelux::MethodTimer.new klass, meth, &blk
+    Benelux::MethodTimer.new klass, meth, aliaz, &blk
   end
   
-  def Benelux.add_counter klass, meth, &blk
+  def Benelux.add_counter klass, meth, aliaz=nil, &blk
     raise NotSupported, klass unless Benelux.supported? klass
-    Benelux::MethodCounter.new klass, meth, &blk
+    Benelux::MethodCounter.new klass, meth, aliaz, &blk
   end
   
   def Benelux.ld(*msg)

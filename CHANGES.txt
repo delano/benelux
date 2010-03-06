@@ -1,5 +1,9 @@
 BENELUX, CHANGES
 
+#### 0.5.9 (2010-03-05) ###############################
+
+* ADDED: Support for timer and counter aliases
+
 #### 0.5.8 (2010-02-22) ###############################
 
 * CHANGE: Added sum and sumsq to Benelux::Stats::Calculator#to_hash

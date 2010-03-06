@@ -4,6 +4,7 @@ module Benelux
   class MethodPacker
     include Selectable::Object
     
+    attr_accessor :methorig
     attr_accessor :aliaz
     attr_reader   :klass
     attr_reader   :meth
@@ -11,7 +12,8 @@ module Benelux
     
     # * +k+ is a class
     # * +m+ is the name of an instance method in +k+
-    # 
+    # * +aliaz+ is an optional name for 
+    #
     # This method makes the following changes to class +k+. 
     #
     # * Add a timeline attic to and include +Benelux+ 
@@ -19,12 +21,13 @@ module Benelux
     #   __benelux_execute_2151884308_2165479316
     # * Install a new method with the name +m+.
     #
-    def initialize(k,m,&blk)
+    def initialize(k,m,aliaz,&blk)
       Benelux.ld "%20s: %s#%s" % [self.class, k, m]
       if Benelux.packed_method? k, m
         raise SelectableError, "Already defined (#{k} #{m})"
       end
-      @klass, @meth, @blk = k, m, blk
+      @klass, @meth, @aliaz, @blk = k, m, aliaz, blk
+      @aliaz ||= meth
       @klass.extend Attic  unless @klass.kind_of?(Attic)
       unless @klass.kind_of?(Benelux)
         @klass.attic :timeline
@@ -36,10 +39,10 @@ module Benelux
       ##  raise NoMethodError, "undefined method `#{meth}' for #{obj}:Class"
       ##end
       thread_id, call_id = Thread.current.object_id.abs, @klass.object_id.abs
-      @aliaz = a = :"__benelux_#{@meth}_#{thread_id}_#{call_id}"
-      Benelux.ld "%20s: %s" % ['Alias', @aliaz] 
+      @methorig = methorig = :"__benelux_#{@meth}_#{thread_id}_#{call_id}"
+      Benelux.ld "%20s: %s" % ['Alias', @methorig] 
       @klass.module_eval do
-        alias_method a, m  # Can't use the instance variables
+        alias_method methorig, m  # Can't use the instance variables
       end
       install_method  # see generate_packed_method
       self.add_tags :class => @klass.to_s.to_sym, 
@@ -85,7 +88,7 @@ module Benelux
     end
     
     # Creates a method definition (for an eval). The 
-    # method is named +@meth+ and it calls +@aliaz+.
+    # method is named +@meth+ and it calls +@methorig+.
     #
     # The new method adds a Mark to the thread timeline
     # before and after +@alias+ is called. It also adds
@@ -95,16 +98,16 @@ module Benelux
       def #{@meth}(*args, &block)
         call_id = "" << self.object_id.abs.to_s << args.object_id.abs.to_s
         Benelux.current_track :global unless Benelux.known_thread?
-        mark_a = Benelux.thread_timeline.add_mark :'#{@meth}_a'
+        mark_a = Benelux.thread_timeline.add_mark :'#{@aliaz}_a'
         mark_a.add_tag :call_id => call_id
         tags = mark_a.tags
-        ret = #{@aliaz}(*args, &block)
+        ret = #{@methorig}(*args, &block)
       rescue => ex  # We do this so we can use
         raise ex    # ex in the ensure block.
       ensure
-        mark_z = Benelux.thread_timeline.add_mark :'#{@meth}_z'
+        mark_z = Benelux.thread_timeline.add_mark :'#{@aliaz}_z'
         mark_z.tags = tags # In case tags were added between these marks
-        range = Benelux.thread_timeline.add_range :'#{@meth}', mark_a, mark_z
+        range = Benelux.thread_timeline.add_range :'#{@aliaz}', mark_a, mark_z
         range.exception = ex if defined?(ex) && !ex.nil?
       end
       }
@@ -123,7 +126,7 @@ module Benelux
         Benelux.current_track :global unless Benelux.known_thread?
         # Get a reference to this MethodCounter instance
         cmd = Benelux.packed_method #{@klass}, :#{@meth}
-        ret = #{@aliaz}(*args, &block)
+        ret = #{@methorig}(*args, &block)
         count = cmd.determine_count(args, ret)
         #Benelux.ld "COUNT(:#{@meth}): \#{count}"
         Benelux.thread_timeline.add_count :'#{@meth}', count

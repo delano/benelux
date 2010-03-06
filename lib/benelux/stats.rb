@@ -157,7 +157,6 @@ module Benelux
         @sum += other.sum
         @sumsq += other.sumsq
         @n += other.n
-
         self
       end
       
@@ -210,7 +209,7 @@ module Benelux
         return 0.0 if @n <= 1
         # (sqrt( ((s).sumsq - ( (s).sum * (s).sum / (s).n)) / ((s).n-1) ))
         begin
-          return Math.sqrt( (@sumsq - ( @sum * @sum / @n)) / (@n-1) )
+          return Math.sqrt( (@sumsq - (@sum * @sum / @n)) / (@n-1) )
         rescue Errno::EDOM
           return 0.0
         end
