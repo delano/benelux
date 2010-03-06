@@ -110,7 +110,7 @@
                   <tr class='top-aligned-row context-row'>
                     <td class='context-item-name'>VERSION</td>
                     <td>=</td>
-                    <td class='context-item-value'>&quot;0.5.7&quot;</td>
+                    <td class='context-item-value'>&quot;0.5.8&quot;</td>
                   </tr>
                   <tr class='top-aligned-row context-row'>
                     <td class='context-item-name'>NOTSUPPORTED</td>
@@ -163,13 +163,13 @@
                 <a name='M000020'>      </a>
                 <div class='synopsis'>
                   <span class='name'>add_counter</span>
-                  <span class='arguments'>(klass, meth, &amp;blk)</span>
+                  <span class='arguments'>(klass, meth, aliaz=nil, &amp;blk)</span>
                 </div>
                 <div class='source'>
                   <a class='source-toggle' href='#' onclick="toggleCode('M000020-source'); return false">
                     [show source]
                   </a>
-                  <pre id='M000020-source'>     <span class="ruby-comment cmt"># File lib/benelux.rb, line 156</span>&#x000A;156:   <span class="ruby-keyword kw">def</span> <span class="ruby-constant">Benelux</span>.<span class="ruby-identifier">add_counter</span> <span class="ruby-identifier">klass</span>, <span class="ruby-identifier">meth</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">blk</span>&#x000A;157:     <span class="ruby-identifier">raise</span> <span class="ruby-constant">NotSupported</span>, <span class="ruby-identifier">klass</span> <span class="ruby-keyword kw">unless</span> <span class="ruby-constant">Benelux</span>.<span class="ruby-identifier">supported?</span> <span class="ruby-identifier">klass</span>&#x000A;158:     <span class="ruby-constant">Benelux</span><span class="ruby-operator">::</span><span class="ruby-constant">MethodCounter</span>.<span class="ruby-identifier">new</span> <span class="ruby-identifier">klass</span>, <span class="ruby-identifier">meth</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">blk</span>&#x000A;159:   <span class="ruby-keyword kw">end</span></pre>
+                  <pre id='M000020-source'>     <span class="ruby-comment cmt"># File lib/benelux.rb, line 156</span>&#x000A;156:   <span class="ruby-keyword kw">def</span> <span class="ruby-constant">Benelux</span>.<span class="ruby-identifier">add_counter</span> <span class="ruby-identifier">klass</span>, <span class="ruby-identifier">meth</span>, <span class="ruby-identifier">aliaz</span>=<span class="ruby-keyword kw">nil</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">blk</span>&#x000A;157:     <span class="ruby-identifier">raise</span> <span class="ruby-constant">NotSupported</span>, <span class="ruby-identifier">klass</span> <span class="ruby-keyword kw">unless</span> <span class="ruby-constant">Benelux</span>.<span class="ruby-identifier">supported?</span> <span class="ruby-identifier">klass</span>&#x000A;158:     <span class="ruby-constant">Benelux</span><span class="ruby-operator">::</span><span class="ruby-constant">MethodCounter</span>.<span class="ruby-identifier">new</span> <span class="ruby-identifier">klass</span>, <span class="ruby-identifier">meth</span>, <span class="ruby-identifier">aliaz</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">blk</span>&#x000A;159:   <span class="ruby-keyword kw">end</span></pre>
                 </div>
               </div>
               <div class='method public-class' id='method-M000011'>
@@ -209,13 +209,13 @@
                 <a name='M000019'>      </a>
                 <div class='synopsis'>
                   <span class='name'>add_timer</span>
-                  <span class='arguments'>(klass, meth, &amp;blk)</span>
+                  <span class='arguments'>(klass, meth, aliaz=nil, &amp;blk)</span>
                 </div>
                 <div class='source'>
                   <a class='source-toggle' href='#' onclick="toggleCode('M000019-source'); return false">
                     [show source]
                   </a>
-                  <pre id='M000019-source'>     <span class="ruby-comment cmt"># File lib/benelux.rb, line 150</span>&#x000A;150:   <span class="ruby-keyword kw">def</span> <span class="ruby-constant">Benelux</span>.<span class="ruby-identifier">add_timer</span> <span class="ruby-identifier">klass</span>, <span class="ruby-identifier">meth</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">blk</span>&#x000A;151:     <span class="ruby-identifier">raise</span> <span class="ruby-constant">NotSupported</span>, <span class="ruby-identifier">klass</span> <span class="ruby-keyword kw">unless</span> <span class="ruby-constant">Benelux</span>.<span class="ruby-identifier">supported?</span> <span class="ruby-identifier">klass</span>&#x000A;152:     <span class="ruby-identifier">raise</span> <span class="ruby-constant">AlreadyTimed</span>, <span class="ruby-identifier">klass</span> <span class="ruby-keyword kw">if</span> <span class="ruby-constant">Benelux</span>.<span class="ruby-identifier">packed_method?</span> <span class="ruby-identifier">klass</span>, <span class="ruby-identifier">meth</span>&#x000A;153:     <span class="ruby-constant">Benelux</span><span class="ruby-operator">::</span><span class="ruby-constant">MethodTimer</span>.<span class="ruby-identifier">new</span> <span class="ruby-identifier">klass</span>, <span class="ruby-identifier">meth</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">blk</span>&#x000A;154:   <span class="ruby-keyword kw">end</span></pre>
+                  <pre id='M000019-source'>     <span class="ruby-comment cmt"># File lib/benelux.rb, line 150</span>&#x000A;150:   <span class="ruby-keyword kw">def</span> <span class="ruby-constant">Benelux</span>.<span class="ruby-identifier">add_timer</span> <span class="ruby-identifier">klass</span>, <span class="ruby-identifier">meth</span>, <span class="ruby-identifier">aliaz</span>=<span class="ruby-keyword kw">nil</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">blk</span>&#x000A;151:     <span class="ruby-identifier">raise</span> <span class="ruby-constant">NotSupported</span>, <span class="ruby-identifier">klass</span> <span class="ruby-keyword kw">unless</span> <span class="ruby-constant">Benelux</span>.<span class="ruby-identifier">supported?</span> <span class="ruby-identifier">klass</span>&#x000A;152:     <span class="ruby-identifier">raise</span> <span class="ruby-constant">AlreadyTimed</span>, <span class="ruby-identifier">klass</span> <span class="ruby-keyword kw">if</span> <span class="ruby-constant">Benelux</span>.<span class="ruby-identifier">packed_method?</span> <span class="ruby-identifier">klass</span>, <span class="ruby-identifier">meth</span>&#x000A;153:     <span class="ruby-constant">Benelux</span><span class="ruby-operator">::</span><span class="ruby-constant">MethodTimer</span>.<span class="ruby-identifier">new</span> <span class="ruby-identifier">klass</span>, <span class="ruby-identifier">meth</span>, <span class="ruby-identifier">aliaz</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">blk</span>&#x000A;154:   <span class="ruby-keyword kw">end</span></pre>
                 </div>
               </div>
               <div class='method public-class' id='method-M000025'>
