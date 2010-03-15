@@ -108,6 +108,7 @@ module Benelux
       def mean()    merge.mean   end
       def min()     merge.min    end
       def max()     merge.max    end
+      def sumsq()   merge.sumsq  end
       def sum()     merge.sum    end
       def sd()      merge.sd     end
       def n()       merge.n      end
@@ -217,6 +218,16 @@ module Benelux
       
       def to_hash
         { :min => min, :mean => mean, :max => max, :sd => sd, :n => n, :sum => @sum, :sumsq => @sumsq }
+      end
+      
+      def self.from_hash(hash={})
+        me = new
+        me.instance_variable_set '@min', hash[:min] || hash['min']
+        me.instance_variable_set '@max', hash[:max] || hash['max']
+        me.instance_variable_set '@n', hash[:n] || hash['n']
+        me.instance_variable_set '@sum', hash[:sum] || hash['sum']
+        me.instance_variable_set '@sumsq', hash[:sumsq] || hash['sumsq']
+        me
       end
       
       def to_json
