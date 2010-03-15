@@ -1,6 +1,10 @@
 BENELUX, CHANGES
 
-#### 0.5.9 (2010-03-05) ###############################
+#### 0.5.10 (2010-03-15) ###############################
+
+* ADDED: Benelux.reset
+
+#### 0.5.9 (2010-03-14) ###############################
 
 * ADDED: Benelux::Stats::Calculator#from_hash
 * ADDED: Benelux::Stats::Group#sumsq

@@ -4,7 +4,7 @@ require 'thwait'
 require 'selectable'
 
 module Benelux
-  VERSION = "0.5.9"
+  VERSION = "0.5.10"
   NOTSUPPORTED = [Class, Object, Kernel]
   
   class BeneluxError < RuntimeError; end
@@ -30,13 +30,16 @@ module Benelux
     attr_reader :known_threads
   end
   
-  @packed_methods = {}
-  @tracks = SelectableHash.new
-  @timeline = Timeline.new
-  @timeline_chunk = Timeline.new  # See: update_global_timeline
-  @timeline_updates = 0
-  @known_threads = []
-  @processed_dead_threads = []
+  def Benelux.reset
+    @packed_methods = {}
+    @tracks = SelectableHash.new
+    @timeline = Timeline.new
+    @timeline_chunk = Timeline.new  # See: update_global_timeline
+    @timeline_updates = 0
+    @known_threads = []
+    @processed_dead_threads = []
+  end
+  reset
   
   @@mutex = Mutex.new
   @@debug = false
