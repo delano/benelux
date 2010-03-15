@@ -4,7 +4,7 @@ require 'thwait'
 require 'selectable'
 
 module Benelux
-  VERSION = "0.5.10"
+  VERSION = "0.5.11"
   NOTSUPPORTED = [Class, Object, Kernel]
   
   class BeneluxError < RuntimeError; end
@@ -21,6 +21,7 @@ module Benelux
   require 'benelux/packer'
   require 'benelux/timeline'
   
+  @packed_methods = {}
   class << self
     attr_reader :packed_methods
     attr_reader :tracks
@@ -31,7 +32,6 @@ module Benelux
   end
   
   def Benelux.reset
-    @packed_methods = {}
     @tracks = SelectableHash.new
     @timeline = Timeline.new
     @timeline_chunk = Timeline.new  # See: update_global_timeline
