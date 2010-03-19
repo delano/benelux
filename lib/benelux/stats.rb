@@ -150,7 +150,7 @@ module Benelux
       
       def merge!(other)    
         if @sum == 0
-          @min = @max = other.mean
+          @min, @max = other.min, other.max
         else
           @min = other.min if other.min < @min
           @max = other.max if other.max > @max
@@ -202,9 +202,13 @@ module Benelux
       def to_f; mean.to_f; end
       def to_i; mean.to_i; end
   
+      # NOTE: This is an alias for average. We don't store values
+      # so we can't return the actual mean
+      def mean;    avg() end
+      def average; avg() end
       # Calculates and returns the mean for the data passed so far.
-      def mean; return 0.0 unless @n > 0; @sum / @n; end
-
+      def avg; return 0.0 unless @n > 0; @sum / @n; end
+      
       # Calculates the standard deviation of the data so far.
       def sd
         return 0.0 if @n <= 1

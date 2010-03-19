@@ -1,5 +1,13 @@
 BENELUX, CHANGES
 
+#### 0.5.12 (2010-03-19) ##############################
+
+* CHANGE: When merging Benelux::Stats::Calculator objects into one that has 0 samples, 
+  use the values of min and max rather than averages for all. 
+* CHANGE: Benelux::Stats::Calculator#mean is now an alias for #avg since
+  we don't actual return the mean anyway (we don't keep the sample values)
+
+
 #### 0.5.11 (2010-03-15) ##############################
 
 * FIXED: Don't reset packed_methods!
