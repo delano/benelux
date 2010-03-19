@@ -45,9 +45,9 @@
             <h2>Methods</h2>
             <h3>public instance</h3>
             <ol>
-              <li><a href="#M000053">determine_count</a></li>
-              <li><a href="#M000052">generate_packed_method</a></li>
-              <li><a href="#M000051">install_method</a></li>
+              <li><a href="#M000102">determine_count</a></li>
+              <li><a href="#M000101">generate_packed_method</a></li>
+              <li><a href="#M000100">install_method</a></li>
             </ol>
           </div>
           <div id='section'>
@@ -65,43 +65,43 @@
             </div>
             <div id='methods'>
               <h2>Public instance methods</h2>
-              <div class='method public-instance' id='method-M000053'>
-                <a name='M000053'>      </a>
+              <div class='method public-instance' id='method-M000102'>
+                <a name='M000102'>      </a>
                 <div class='synopsis'>
                   <span class='name'>determine_count</span>
                   <span class='arguments'>(args,ret)</span>
                 </div>
                 <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('M000053-source'); return false">
+                  <a class='source-toggle' href='#' onclick="toggleCode('M000102-source'); return false">
                     [show source]
                   </a>
-                  <pre id='M000053-source'>     <span class="ruby-comment cmt"># File lib/benelux/packer.rb, line 138</span>&#x000A;138:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">determine_count</span>(<span class="ruby-identifier">args</span>,<span class="ruby-identifier">ret</span>)&#x000A;139:       <span class="ruby-keyword kw">return</span> <span class="ruby-value">1</span> <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@blk</span>.<span class="ruby-identifier">nil?</span>&#x000A;140:       <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">instance_exec</span> <span class="ruby-identifier">args</span>, <span class="ruby-identifier">ret</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">blk</span>&#x000A;141:     <span class="ruby-keyword kw">end</span></pre>
+                  <pre id='M000102-source'>     <span class="ruby-comment cmt"># File lib/benelux/packer.rb, line 138</span>&#x000A;138:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">determine_count</span>(<span class="ruby-identifier">args</span>,<span class="ruby-identifier">ret</span>)&#x000A;139:       <span class="ruby-keyword kw">return</span> <span class="ruby-value">1</span> <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@blk</span>.<span class="ruby-identifier">nil?</span>&#x000A;140:       <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">instance_exec</span> <span class="ruby-identifier">args</span>, <span class="ruby-identifier">ret</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">blk</span>&#x000A;141:     <span class="ruby-keyword kw">end</span></pre>
                 </div>
               </div>
-              <div class='method public-instance' id='method-M000052'>
-                <a name='M000052'>      </a>
+              <div class='method public-instance' id='method-M000101'>
+                <a name='M000101'>      </a>
                 <div class='synopsis'>
                   <span class='name'>generate_packed_method</span>
                   <span class='arguments'>(callblock=false)</span>
                 </div>
                 <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('M000052-source'); return false">
+                  <a class='source-toggle' href='#' onclick="toggleCode('M000101-source'); return false">
                     [show source]
                   </a>
-                  <pre id='M000052-source'>     <span class="ruby-comment cmt"># File lib/benelux/packer.rb, line 123</span>&#x000A;123:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">generate_packed_method</span>(<span class="ruby-identifier">callblock</span>=<span class="ruby-keyword kw">false</span>)&#x000A;124:       <span class="ruby-node">%Q{&#x000A;125:       def #{@meth}(*args, &amp;block)&#x000A;126:         Benelux.current_track :global unless Benelux.known_thread?&#x000A;127:         # Get a reference to this MethodCounter instance&#x000A;128:         cmd = Benelux.packed_method #{@klass}, :#{@meth}&#x000A;129:         ret = #{@methorig}(*args, &amp;block)&#x000A;130:         count = cmd.determine_count(args, ret)&#x000A;131:         #Benelux.ld &quot;COUNT(:#{@meth}): \#{count}&quot;&#x000A;132:         Benelux.thread_timeline.add_count :'#{@meth}', count&#x000A;133:         ret&#x000A;134:       end&#x000A;135:       }</span>&#x000A;136:     <span class="ruby-keyword kw">end</span></pre>
+                  <pre id='M000101-source'>     <span class="ruby-comment cmt"># File lib/benelux/packer.rb, line 123</span>&#x000A;123:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">generate_packed_method</span>(<span class="ruby-identifier">callblock</span>=<span class="ruby-keyword kw">false</span>)&#x000A;124:       <span class="ruby-node">%Q{&#x000A;125:       def #{@meth}(*args, &amp;block)&#x000A;126:         Benelux.current_track :global unless Benelux.known_thread?&#x000A;127:         # Get a reference to this MethodCounter instance&#x000A;128:         cmd = Benelux.packed_method #{@klass}, :#{@meth}&#x000A;129:         ret = #{@methorig}(*args, &amp;block)&#x000A;130:         count = cmd.determine_count(args, ret)&#x000A;131:         #Benelux.ld &quot;COUNT(:#{@meth}): \#{count}&quot;&#x000A;132:         Benelux.thread_timeline.add_count :'#{@meth}', count&#x000A;133:         ret&#x000A;134:       end&#x000A;135:       }</span>&#x000A;136:     <span class="ruby-keyword kw">end</span></pre>
                 </div>
               </div>
-              <div class='method public-instance' id='method-M000051'>
-                <a name='M000051'>      </a>
+              <div class='method public-instance' id='method-M000100'>
+                <a name='M000100'>      </a>
                 <div class='synopsis'>
                   <span class='name'>install_method</span>
                   <span class='arguments'>()</span>
                 </div>
                 <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('M000051-source'); return false">
+                  <a class='source-toggle' href='#' onclick="toggleCode('M000100-source'); return false">
                     [show source]
                   </a>
-                  <pre id='M000051-source'>     <span class="ruby-comment cmt"># File lib/benelux/packer.rb, line 119</span>&#x000A;119:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">install_method</span>&#x000A;120:       <span class="ruby-ivar">@klass</span>.<span class="ruby-identifier">module_eval</span> <span class="ruby-identifier">generate_packed_method</span>, <span class="ruby-keyword kw">__FILE__</span>, <span class="ruby-value">122</span>&#x000A;121:     <span class="ruby-keyword kw">end</span></pre>
+                  <pre id='M000100-source'>     <span class="ruby-comment cmt"># File lib/benelux/packer.rb, line 119</span>&#x000A;119:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">install_method</span>&#x000A;120:       <span class="ruby-ivar">@klass</span>.<span class="ruby-identifier">module_eval</span> <span class="ruby-identifier">generate_packed_method</span>, <span class="ruby-keyword kw">__FILE__</span>, <span class="ruby-value">122</span>&#x000A;121:     <span class="ruby-keyword kw">end</span></pre>
                 </div>
               </div>
             </div>
