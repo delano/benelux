@@ -149,7 +149,7 @@ module Benelux
       end
       
       def merge!(other)    
-        if @sum == 0
+        if @n == 0
           @min, @max = other.min, other.max
         else
           @min = other.min if other.min < @min

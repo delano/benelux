@@ -1,5 +1,10 @@
 BENELUX, CHANGES
 
+#### 0.5.13 (2010-03-??) ##############################
+
+* FIXED: Benelux::Stats::Calculator#merge! checks @n instead of @sum
+
+
 #### 0.5.12 (2010-03-19) ##############################
 
 * CHANGE: When merging Benelux::Stats::Calculator objects into one that has 0 samples, 
