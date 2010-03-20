@@ -3,6 +3,7 @@ BENELUX, CHANGES
 #### 0.5.13 (2010-03-??) ##############################
 
 * FIXED: Benelux::Stats::Calculator#merge! checks @n instead of @sum
+* CHANGE: Don't merge when the other Calculator has 0 samples. 
 
 
 #### 0.5.12 (2010-03-19) ##############################
