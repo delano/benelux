@@ -1,10 +1,17 @@
 BENELUX, CHANGES
 
-#### 0.5.13 (2010-03-??) ##############################
+
+#### 0.5.14 (2010-03-23) ##############################
+
+New dependency: storable >= 0.6.5
+
+* CHANGE: Stats::Calculator now uses Storable 
+
+#### 0.5.13 (2010-03-20) ##############################
 
 * FIXED: Benelux::Stats::Calculator#merge! checks @n instead of @sum
 * CHANGE: Don't merge when the other Calculator has 0 samples. 
-* CHANGE: Stats::Calculator now uses Storable 
+
 
 #### 0.5.12 (2010-03-19) ##############################
 
