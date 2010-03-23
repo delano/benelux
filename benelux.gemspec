@@ -13,6 +13,8 @@
   s.rdoc_options = ["--line-numbers", "--title", s.summary, "--main", "README.rdoc"]
   s.require_paths = %w[lib]
   
+  s.add_dependency("storable", [">= 0.6.4"])
+  
   # = MANIFEST =
   # git ls-files
   s.files = %w(

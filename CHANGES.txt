@@ -4,7 +4,7 @@ BENELUX, CHANGES
 
 * FIXED: Benelux::Stats::Calculator#merge! checks @n instead of @sum
 * CHANGE: Don't merge when the other Calculator has 0 samples. 
-
+* CHANGE: Stats::Calculator now uses Storable 
 
 #### 0.5.12 (2010-03-19) ##############################
 

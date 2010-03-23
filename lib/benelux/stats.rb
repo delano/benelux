@@ -122,10 +122,16 @@ module Benelux
     end
     
     # Based on Mongrel::Stats, Copyright (c) 2005 Zed A. Shaw
-    class Calculator
+    class Calculator < Storable
       include Selectable::Object
       
-      attr_reader :sum, :sumsq, :n, :min, :max
+      field :mean => Float
+      field :sd => Float
+      field :sum => Float
+      field :sumsq => Float
+      field :n => Integer
+      field :min => Float
+      field :max => Float
 
       def initialize
         reset
@@ -219,24 +225,6 @@ module Benelux
         rescue Errno::EDOM
           return 0.0
         end
-      end
-      
-      def to_hash
-        { :min => min, :mean => mean, :max => max, :sd => sd, :n => n, :sum => @sum, :sumsq => @sumsq }
-      end
-      
-      def self.from_hash(hash={})
-        me = new
-        me.instance_variable_set '@min', hash[:min] || hash['min']
-        me.instance_variable_set '@max', hash[:max] || hash['max']
-        me.instance_variable_set '@n', hash[:n] || hash['n']
-        me.instance_variable_set '@sum', hash[:sum] || hash['sum']
-        me.instance_variable_set '@sumsq', hash[:sumsq] || hash['sumsq']
-        me
-      end
-      
-      def to_json
-        to_hash.to_json
       end
       
       def ==(other)
