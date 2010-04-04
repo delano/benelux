@@ -2,9 +2,10 @@ require 'attic'
 require 'thread'
 require 'thwait'
 require 'selectable'
+require 'storable'
 
 module Benelux
-  VERSION = "0.5.14"
+  VERSION = "0.5.15"
   NOTSUPPORTED = [Class, Object, Kernel]
   
   class BeneluxError < RuntimeError; end

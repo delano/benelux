@@ -1,6 +1,10 @@
 BENELUX, CHANGES
 
 
+#### 0.5.15 (2010-04-03) ##############################
+
+* FIXED: require 'storable'. Rookie!
+
 #### 0.5.14 (2010-03-23) ##############################
 
 New dependency: storable >= 0.6.5
