@@ -41,8 +41,18 @@ module Benelux
       thread_id, call_id = Thread.current.object_id.abs, @klass.object_id.abs
       @methorig = methorig = :"__benelux_#{@meth}_#{thread_id}_#{call_id}"
       Benelux.ld "%20s: %s" % ['Alias', @methorig] 
+      
       @klass.module_eval do
-        alias_method methorig, m  # Can't use the instance variables
+        Benelux.ld [:def, self, m, 
+          MethodPacker.method_defined?(self, m),
+          MethodPacker.class_method_defined?(self, m)].inspect
+        if MethodPacker.method_defined?(self, m)
+          alias_method methorig, m  # Can't use the instance variables
+        elsif MethodPacker.class_method_defined?(self, m)
+          eval "class << self; alias #{methorig} #{m}; end"
+        else
+          raise BeneluxError, "No such method: #{self}.#{m}"
+        end
       end
       install_method  # see generate_packed_method
       self.add_tags :class => @klass.to_s.to_sym, 
@@ -54,6 +64,16 @@ module Benelux
       Benelux.packed_methods[:all] ||= []
       Benelux.packed_methods[:all] << self
       
+    end
+    def self.method_defined?(klass, meth)
+      meth &&= meth.to_s if RUBY_VERSION < "1.9"
+      klass.method_defined?(meth) || 
+      klass.private_method_defined?(meth) ||
+      klass.protected_method_defined?(meth)
+    end
+    def self.class_method_defined?(klass, meth)
+      meth &&= meth.to_s if RUBY_VERSION < "1.9"
+      klass.singleton_methods.member? meth
     end
     def install_method
       raise "You need to implement this method"

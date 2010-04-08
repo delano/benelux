@@ -1,6 +1,11 @@
 BENELUX, CHANGES
 
 
+#### 0.5.16 (2010-04-??) ##############################
+
+* ADDED: Support for timing class methods.
+
+
 #### 0.5.15 (2010-04-03) ##############################
 
 * FIXED: require 'storable'. Rookie!
