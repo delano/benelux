@@ -1,9 +1,10 @@
 BENELUX, CHANGES
 
 
-#### 0.5.16 (2010-04-??) ##############################
+#### 0.5.16 (2010-06-08) ##############################
 
 * ADDED: Support for timing class methods.
+* ADDED: New Calculator attribute: time
 
 
 #### 0.5.15 (2010-04-03) ##############################

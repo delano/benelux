@@ -132,7 +132,8 @@ module Benelux
       field :n => Integer
       field :min => Float
       field :max => Float
-
+      field :time => Float
+      
       def initialize
         reset
       end
