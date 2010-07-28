@@ -155,7 +155,7 @@ module Benelux
         args.flatten.each { |s| sample(s) }
       end
       
-      def merge!(other)    
+      def merge!(other)
         return self if other.n == 0
         if @n == 0
           @min, @max = other.min, other.max

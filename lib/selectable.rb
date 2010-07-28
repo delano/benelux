@@ -87,4 +87,8 @@ end
 
 class TaggableString < String
   include Selectable::Object
+  def initialize(str, tags={})
+    super(str)
+    add_tags tags unless tags.empty?
+  end
 end
