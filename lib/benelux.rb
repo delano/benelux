@@ -5,7 +5,7 @@ require 'selectable'
 require 'storable'
 
 module Benelux
-  VERSION = "0.5.16"
+  VERSION = "0.6.0"
   NOTSUPPORTED = [Class, Object, Kernel]
   
   class BeneluxError < RuntimeError; end
@@ -66,15 +66,13 @@ module Benelux
   # If +track+ is nil, it returns the Track object for the
   # Track associated to the current thread. 
   #
-  def Benelux.current_track(name=nil,group=nil)
+  def Benelux.current_track(name=nil,timeline=nil)
     if name.nil?
       name = Thread.current.track_name
     else
       Thread.current.track_name = name
       @@mutex.synchronize do
-        Thread.current.timeline ||= Benelux::Timeline.new
-        Thread.current.rotated_timelines ||= []
-        @tracks[name] ||= Track.new(name, group)
+        @tracks[name] ||= Track.new(name, timeline || Thread.current.timeline || Benelux::Timeline.new)
         @tracks[name].add_thread Thread.current
         @known_threads << Thread.current
       end
@@ -82,6 +80,14 @@ module Benelux
     Benelux.track(name)
   end
   Benelux.current_track :main
+  
+  def Benelux.merge_tracks
+    tl = Benelux::Timeline.new
+    tracks.each_pair do |trackid,track|
+      tl.merge! track.timeline
+    end
+    tl
+  end
   
   # Only updates data from threads that 
   # are dead and rotated timelines.
@@ -115,18 +121,6 @@ module Benelux
     end
   end
   
-  # Thread tags become the default for any new Mark or Range. 
-  def Benelux.add_thread_tags(args=Selectable::Tags.new)
-    Benelux.thread_timeline.add_default_tags args
-  end
-  def Benelux.add_thread_tag(*args) add_thread_tags *args end
-  
-  def Benelux.remove_thread_tags(*args)
-    Benelux.thread_timeline.remove_default_tags *args
-  end
-  def Benelux.remove_thread_tag(*args) remove_thread_tags *args end
-  
-
   def Benelux.inspect
     str = ["Benelux"]
     str << "tracks:" << Benelux.tracks.inspect

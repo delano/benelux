@@ -116,18 +116,21 @@ module Benelux
     def generate_packed_method
       %Q{
       def #{@meth}(*args, &block)
+        #p ["#{@meth} 1"]
         call_id = "" << self.object_id.abs.to_s << args.object_id.abs.to_s
         Benelux.current_track :global unless Benelux.known_thread?
-        mark_a = Benelux.thread_timeline.add_mark :'#{@aliaz}_a'
+        mark_a = Benelux.current_track.timeline.add_mark :'#{@aliaz}_a'
         mark_a.add_tag :call_id => call_id
         tags = mark_a.tags
         ret = #{@methorig}(*args, &block)
+        #p ["#{@meth} 2"]
+        ret
       rescue => ex  # We do this so we can use
         raise ex    # ex in the ensure block.
       ensure
-        mark_z = Benelux.thread_timeline.add_mark :'#{@aliaz}_z'
+        mark_z = Benelux.current_track.timeline.add_mark :'#{@aliaz}_z'
         mark_z.tags = tags # In case tags were added between these marks
-        range = Benelux.thread_timeline.add_range :'#{@aliaz}', mark_a, mark_z
+        range = Benelux.current_track.timeline.add_range :'#{@aliaz}', mark_a, mark_z
         range.exception = ex if defined?(ex) && !ex.nil?
       end
       }
@@ -149,7 +152,7 @@ module Benelux
         ret = #{@methorig}(*args, &block)
         count = cmd.determine_count(args, ret)
         #Benelux.ld "COUNT(:#{@meth}): \#{count}"
-        Benelux.thread_timeline.add_count :'#{@meth}', count
+        Benelux.current_track.timeline.add_count :'#{@meth}', count
         ret
       end
       }

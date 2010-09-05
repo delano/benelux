@@ -151,7 +151,7 @@ module Benelux
         @min, @max = 0.0, 0.0
       end
       
-      def samples(*args)
+      def samples(*args)  
         args.flatten.each { |s| sample(s) }
       end
       

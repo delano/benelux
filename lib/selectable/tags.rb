@@ -78,7 +78,7 @@ module Selectable
     end
     
     def method_missing(meth, *args)
-      raise SelectableError, "#{meth}: #{args.first} is not a Hash or Array"
+      raise SelectableError, "#{meth}: #{args.first} is not a Hash or Array #{self}"
     end
     
     ## NOTE: This is helpful but defensive. Ponder!

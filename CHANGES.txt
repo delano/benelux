@@ -1,6 +1,10 @@
 BENELUX, CHANGES
 
 
+#### 0.6.0 (2010-09-05) ##############################
+
+* CHANGE: Thread now belongs to Track (previously reversed)
+
 #### 0.5.16 (2010-06-08) ##############################
 
 * ADDED: Support for timing class methods.
