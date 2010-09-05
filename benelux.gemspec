@@ -35,16 +35,6 @@
   lib/selectable/global.rb
   lib/selectable/object.rb
   lib/selectable/tags.rb
-  tryouts/10_stats_tryouts.rb
-  tryouts/11_selectable_tryouts.rb
-  tryouts/20_tracks_tryouts.rb
-  tryouts/30_reporter_tryouts.rb
-  tryouts/30_timeline_tryouts.rb
-  tryouts/benelux_bm.rb
-  tryouts/proofs/alias_performance.rb
-  tryouts/proofs/array_performance.rb
-  tryouts/proofs/thread_array.rb
-  tryouts/proofs/timer_threading.rb
   )
 
   
