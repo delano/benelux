@@ -62,28 +62,25 @@
             <h2>Methods</h2>
             <h3>public class</h3>
             <ol>
-              <li><a href="#M000021">add_counter</a></li>
-              <li><a href="#M000012">add_thread_tag</a></li>
-              <li><a href="#M000011">add_thread_tags</a></li>
-              <li><a href="#M000020">add_timer</a></li>
-              <li><a href="#M000026">bm</a></li>
-              <li><a href="#M000009">current_track</a></li>
-              <li><a href="#M000025">debug?</a></li>
-              <li><a href="#M000024">disable_debug</a></li>
-              <li><a href="#M000023">enable_debug</a></li>
-              <li><a href="#M000015">inspect</a></li>
-              <li><a href="#M000017">known_thread?</a></li>
-              <li><a href="#M000022">ld</a></li>
-              <li><a href="#M000018">packed_method</a></li>
-              <li><a href="#M000019">packed_method?</a></li>
-              <li><a href="#M000014">remove_thread_tag</a></li>
-              <li><a href="#M000013">remove_thread_tags</a></li>
-              <li><a href="#M000005">reset</a></li>
-              <li><a href="#M000016">supported?</a></li>
-              <li><a href="#M000006">thread_timeline</a></li>
-              <li><a href="#M000007">track</a></li>
-              <li><a href="#M000008">track?</a></li>
-              <li><a href="#M000010">update_global_timeline</a></li>
+              <li><a href="#M000019">add_counter</a></li>
+              <li><a href="#M000018">add_timer</a></li>
+              <li><a href="#M000024">bm</a></li>
+              <li><a href="#M000010">current_track</a></li>
+              <li><a href="#M000023">debug?</a></li>
+              <li><a href="#M000022">disable_debug</a></li>
+              <li><a href="#M000021">enable_debug</a></li>
+              <li><a href="#M000013">inspect</a></li>
+              <li><a href="#M000015">known_thread?</a></li>
+              <li><a href="#M000020">ld</a></li>
+              <li><a href="#M000011">merge_tracks</a></li>
+              <li><a href="#M000016">packed_method</a></li>
+              <li><a href="#M000017">packed_method?</a></li>
+              <li><a href="#M000006">reset</a></li>
+              <li><a href="#M000014">supported?</a></li>
+              <li><a href="#M000007">thread_timeline</a></li>
+              <li><a href="#M000008">track</a></li>
+              <li><a href="#M000009">track?</a></li>
+              <li><a href="#M000012">update_global_timeline</a></li>
             </ol>
           </div>
           <div id='section'>
@@ -111,7 +108,7 @@
                   <tr class='top-aligned-row context-row'>
                     <td class='context-item-name'>VERSION</td>
                     <td>=</td>
-                    <td class='context-item-value'>&quot;0.5.16&quot;</td>
+                    <td class='context-item-value'>&quot;0.6.0&quot;</td>
                   </tr>
                   <tr class='top-aligned-row context-row'>
                     <td class='context-item-name'>NOTSUPPORTED</td>
@@ -160,67 +157,34 @@
             </div>
             <div id='methods'>
               <h2>Public class methods</h2>
-              <div class='method public-class' id='method-M000021'>
-                <a name='M000021'>      </a>
+              <div class='method public-class' id='method-M000019'>
+                <a name='M000019'>      </a>
                 <div class='synopsis'>
                   <span class='name'>add_counter</span>
                   <span class='arguments'>(klass, meth, aliaz=nil, &amp;blk)</span>
                 </div>
                 <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('M000021-source'); return false">
+                  <a class='source-toggle' href='#' onclick="toggleCode('M000019-source'); return false">
                     [show source]
                   </a>
-                  <pre id='M000021-source'>     <span class="ruby-comment cmt"># File lib/benelux.rb, line 160</span>&#x000A;160:   <span class="ruby-keyword kw">def</span> <span class="ruby-constant">Benelux</span>.<span class="ruby-identifier">add_counter</span> <span class="ruby-identifier">klass</span>, <span class="ruby-identifier">meth</span>, <span class="ruby-identifier">aliaz</span>=<span class="ruby-keyword kw">nil</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">blk</span>&#x000A;161:     <span class="ruby-identifier">raise</span> <span class="ruby-constant">NotSupported</span>, <span class="ruby-identifier">klass</span> <span class="ruby-keyword kw">unless</span> <span class="ruby-constant">Benelux</span>.<span class="ruby-identifier">supported?</span> <span class="ruby-identifier">klass</span>&#x000A;162:     <span class="ruby-constant">Benelux</span><span class="ruby-operator">::</span><span class="ruby-constant">MethodCounter</span>.<span class="ruby-identifier">new</span> <span class="ruby-identifier">klass</span>, <span class="ruby-identifier">meth</span>, <span class="ruby-identifier">aliaz</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">blk</span>&#x000A;163:   <span class="ruby-keyword kw">end</span></pre>
+                  <pre id='M000019-source'>     <span class="ruby-comment cmt"># File lib/benelux.rb, line 154</span>&#x000A;154:   <span class="ruby-keyword kw">def</span> <span class="ruby-constant">Benelux</span>.<span class="ruby-identifier">add_counter</span> <span class="ruby-identifier">klass</span>, <span class="ruby-identifier">meth</span>, <span class="ruby-identifier">aliaz</span>=<span class="ruby-keyword kw">nil</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">blk</span>&#x000A;155:     <span class="ruby-identifier">raise</span> <span class="ruby-constant">NotSupported</span>, <span class="ruby-identifier">klass</span> <span class="ruby-keyword kw">unless</span> <span class="ruby-constant">Benelux</span>.<span class="ruby-identifier">supported?</span> <span class="ruby-identifier">klass</span>&#x000A;156:     <span class="ruby-constant">Benelux</span><span class="ruby-operator">::</span><span class="ruby-constant">MethodCounter</span>.<span class="ruby-identifier">new</span> <span class="ruby-identifier">klass</span>, <span class="ruby-identifier">meth</span>, <span class="ruby-identifier">aliaz</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">blk</span>&#x000A;157:   <span class="ruby-keyword kw">end</span></pre>
                 </div>
               </div>
-              <div class='method public-class' id='method-M000012'>
-                <a name='M000012'>      </a>
-                <div class='synopsis'>
-                  <span class='name'>add_thread_tag</span>
-                  <span class='arguments'>(*args)</span>
-                </div>
-                <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('M000012-source'); return false">
-                    [show source]
-                  </a>
-                  <pre id='M000012-source'>     <span class="ruby-comment cmt"># File lib/benelux.rb, line 122</span>&#x000A;122:   <span class="ruby-keyword kw">def</span> <span class="ruby-constant">Benelux</span>.<span class="ruby-identifier">add_thread_tag</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">args</span>) <span class="ruby-identifier">add_thread_tags</span> <span class="ruby-operator">*</span><span class="ruby-identifier">args</span> <span class="ruby-keyword kw">end</span></pre>
-                </div>
-              </div>
-              <div class='method public-class' id='method-M000011'>
-                <a name='M000011'>      </a>
-                <div class='synopsis'>
-                  <span class='name'>add_thread_tags</span>
-                  <span class='arguments'>(args=Selectable::Tags.new)</span>
-                </div>
-                <div class='description'>
-                  <p>
-                  <a href="Thread.html">Thread</a> tags become the default for any new <a
-                  href="Benelux/Mark.html">Mark</a> or <a
-                  href="Benelux/Range.html">Range</a>.
-                  </p>
-                </div>
-                <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('M000011-source'); return false">
-                    [show source]
-                  </a>
-                  <pre id='M000011-source'>     <span class="ruby-comment cmt"># File lib/benelux.rb, line 119</span>&#x000A;119:   <span class="ruby-keyword kw">def</span> <span class="ruby-constant">Benelux</span>.<span class="ruby-identifier">add_thread_tags</span>(<span class="ruby-identifier">args</span>=<span class="ruby-constant">Selectable</span><span class="ruby-operator">::</span><span class="ruby-constant">Tags</span>.<span class="ruby-identifier">new</span>)&#x000A;120:     <span class="ruby-constant">Benelux</span>.<span class="ruby-identifier">thread_timeline</span>.<span class="ruby-identifier">add_default_tags</span> <span class="ruby-identifier">args</span>&#x000A;121:   <span class="ruby-keyword kw">end</span></pre>
-                </div>
-              </div>
-              <div class='method public-class' id='method-M000020'>
-                <a name='M000020'>      </a>
+              <div class='method public-class' id='method-M000018'>
+                <a name='M000018'>      </a>
                 <div class='synopsis'>
                   <span class='name'>add_timer</span>
                   <span class='arguments'>(klass, meth, aliaz=nil, &amp;blk)</span>
                 </div>
                 <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('M000020-source'); return false">
+                  <a class='source-toggle' href='#' onclick="toggleCode('M000018-source'); return false">
                     [show source]
                   </a>
-                  <pre id='M000020-source'>     <span class="ruby-comment cmt"># File lib/benelux.rb, line 154</span>&#x000A;154:   <span class="ruby-keyword kw">def</span> <span class="ruby-constant">Benelux</span>.<span class="ruby-identifier">add_timer</span> <span class="ruby-identifier">klass</span>, <span class="ruby-identifier">meth</span>, <span class="ruby-identifier">aliaz</span>=<span class="ruby-keyword kw">nil</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">blk</span>&#x000A;155:     <span class="ruby-identifier">raise</span> <span class="ruby-constant">NotSupported</span>, <span class="ruby-identifier">klass</span> <span class="ruby-keyword kw">unless</span> <span class="ruby-constant">Benelux</span>.<span class="ruby-identifier">supported?</span> <span class="ruby-identifier">klass</span>&#x000A;156:     <span class="ruby-identifier">raise</span> <span class="ruby-constant">AlreadyTimed</span>, <span class="ruby-identifier">klass</span> <span class="ruby-keyword kw">if</span> <span class="ruby-constant">Benelux</span>.<span class="ruby-identifier">packed_method?</span> <span class="ruby-identifier">klass</span>, <span class="ruby-identifier">meth</span>&#x000A;157:     <span class="ruby-constant">Benelux</span><span class="ruby-operator">::</span><span class="ruby-constant">MethodTimer</span>.<span class="ruby-identifier">new</span> <span class="ruby-identifier">klass</span>, <span class="ruby-identifier">meth</span>, <span class="ruby-identifier">aliaz</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">blk</span>&#x000A;158:   <span class="ruby-keyword kw">end</span></pre>
+                  <pre id='M000018-source'>     <span class="ruby-comment cmt"># File lib/benelux.rb, line 148</span>&#x000A;148:   <span class="ruby-keyword kw">def</span> <span class="ruby-constant">Benelux</span>.<span class="ruby-identifier">add_timer</span> <span class="ruby-identifier">klass</span>, <span class="ruby-identifier">meth</span>, <span class="ruby-identifier">aliaz</span>=<span class="ruby-keyword kw">nil</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">blk</span>&#x000A;149:     <span class="ruby-identifier">raise</span> <span class="ruby-constant">NotSupported</span>, <span class="ruby-identifier">klass</span> <span class="ruby-keyword kw">unless</span> <span class="ruby-constant">Benelux</span>.<span class="ruby-identifier">supported?</span> <span class="ruby-identifier">klass</span>&#x000A;150:     <span class="ruby-identifier">raise</span> <span class="ruby-constant">AlreadyTimed</span>, <span class="ruby-identifier">klass</span> <span class="ruby-keyword kw">if</span> <span class="ruby-constant">Benelux</span>.<span class="ruby-identifier">packed_method?</span> <span class="ruby-identifier">klass</span>, <span class="ruby-identifier">meth</span>&#x000A;151:     <span class="ruby-constant">Benelux</span><span class="ruby-operator">::</span><span class="ruby-constant">MethodTimer</span>.<span class="ruby-identifier">new</span> <span class="ruby-identifier">klass</span>, <span class="ruby-identifier">meth</span>, <span class="ruby-identifier">aliaz</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">blk</span>&#x000A;152:   <span class="ruby-keyword kw">end</span></pre>
                 </div>
               </div>
-              <div class='method public-class' id='method-M000026'>
-                <a name='M000026'>      </a>
+              <div class='method public-class' id='method-M000024'>
+                <a name='M000024'>      </a>
                 <div class='synopsis'>
                   <span class='name'>bm</span>
                   <span class='arguments'>(n=1, reps=5, &amp;blk)</span>
@@ -246,17 +210,17 @@
                   </p>
                 </div>
                 <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('M000026-source'); return false">
+                  <a class='source-toggle' href='#' onclick="toggleCode('M000024-source'); return false">
                     [show source]
                   </a>
-                  <pre id='M000026-source'>     <span class="ruby-comment cmt"># File lib/benelux.rb, line 232</span>&#x000A;232:   <span class="ruby-keyword kw">def</span> <span class="ruby-constant">Benelux</span>.<span class="ruby-identifier">bm</span>(<span class="ruby-identifier">n</span>=<span class="ruby-value">1</span>, <span class="ruby-identifier">reps</span>=<span class="ruby-value">5</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">blk</span>) &#x000A;233:     <span class="ruby-identifier">require</span> <span class="ruby-value str">'benchmark'</span>&#x000A;234:     <span class="ruby-identifier">n</span>.<span class="ruby-identifier">times</span> <span class="ruby-operator">&amp;</span><span class="ruby-identifier">blk</span>&#x000A;235:     <span class="ruby-identifier">tms</span> = <span class="ruby-constant">Benelux</span><span class="ruby-operator">::</span><span class="ruby-constant">Tms</span>.<span class="ruby-identifier">new</span>&#x000A;236:     <span class="ruby-identifier">reps</span>.<span class="ruby-identifier">times</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">rep</span><span class="ruby-operator">|</span>&#x000A;237:       <span class="ruby-identifier">tms</span>.<span class="ruby-identifier">sample</span> <span class="ruby-constant">Benchmark</span>.<span class="ruby-identifier">measure</span>() {<span class="ruby-identifier">n</span>.<span class="ruby-identifier">times</span> <span class="ruby-operator">&amp;</span><span class="ruby-identifier">blk</span>}&#x000A;238:     <span class="ruby-keyword kw">end</span>&#x000A;239:     <span class="ruby-identifier">tms</span>&#x000A;240:   <span class="ruby-keyword kw">end</span></pre>
+                  <pre id='M000024-source'>     <span class="ruby-comment cmt"># File lib/benelux.rb, line 226</span>&#x000A;226:   <span class="ruby-keyword kw">def</span> <span class="ruby-constant">Benelux</span>.<span class="ruby-identifier">bm</span>(<span class="ruby-identifier">n</span>=<span class="ruby-value">1</span>, <span class="ruby-identifier">reps</span>=<span class="ruby-value">5</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">blk</span>) &#x000A;227:     <span class="ruby-identifier">require</span> <span class="ruby-value str">'benchmark'</span>&#x000A;228:     <span class="ruby-identifier">n</span>.<span class="ruby-identifier">times</span> <span class="ruby-operator">&amp;</span><span class="ruby-identifier">blk</span>&#x000A;229:     <span class="ruby-identifier">tms</span> = <span class="ruby-constant">Benelux</span><span class="ruby-operator">::</span><span class="ruby-constant">Tms</span>.<span class="ruby-identifier">new</span>&#x000A;230:     <span class="ruby-identifier">reps</span>.<span class="ruby-identifier">times</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">rep</span><span class="ruby-operator">|</span>&#x000A;231:       <span class="ruby-identifier">tms</span>.<span class="ruby-identifier">sample</span> <span class="ruby-constant">Benchmark</span>.<span class="ruby-identifier">measure</span>() {<span class="ruby-identifier">n</span>.<span class="ruby-identifier">times</span> <span class="ruby-operator">&amp;</span><span class="ruby-identifier">blk</span>}&#x000A;232:     <span class="ruby-keyword kw">end</span>&#x000A;233:     <span class="ruby-identifier">tms</span>&#x000A;234:   <span class="ruby-keyword kw">end</span></pre>
                 </div>
               </div>
-              <div class='method public-class' id='method-M000009'>
-                <a name='M000009'>      </a>
+              <div class='method public-class' id='method-M000010'>
+                <a name='M000010'>      </a>
                 <div class='synopsis'>
                   <span class='name'>current_track</span>
-                  <span class='arguments'>(name=nil,group=nil)</span>
+                  <span class='arguments'>(name=nil,timeline=nil)</span>
                 </div>
                 <div class='description'>
                   <p>
@@ -271,209 +235,196 @@
                   </p>
                 </div>
                 <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('M000009-source'); return false">
+                  <a class='source-toggle' href='#' onclick="toggleCode('M000010-source'); return false">
                     [show source]
                   </a>
-                  <pre id='M000009-source'>    <span class="ruby-comment cmt"># File lib/benelux.rb, line 69</span>&#x000A;69:   <span class="ruby-keyword kw">def</span> <span class="ruby-constant">Benelux</span>.<span class="ruby-identifier">current_track</span>(<span class="ruby-identifier">name</span>=<span class="ruby-keyword kw">nil</span>,<span class="ruby-identifier">group</span>=<span class="ruby-keyword kw">nil</span>)&#x000A;70:     <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">name</span>.<span class="ruby-identifier">nil?</span>&#x000A;71:       <span class="ruby-identifier">name</span> = <span class="ruby-constant">Thread</span>.<span class="ruby-identifier">current</span>.<span class="ruby-identifier">track_name</span>&#x000A;72:     <span class="ruby-keyword kw">else</span>&#x000A;73:       <span class="ruby-constant">Thread</span>.<span class="ruby-identifier">current</span>.<span class="ruby-identifier">track_name</span> = <span class="ruby-identifier">name</span>&#x000A;74:       <span class="ruby-ivar">@@mutex</span>.<span class="ruby-identifier">synchronize</span> <span class="ruby-keyword kw">do</span>&#x000A;75:         <span class="ruby-constant">Thread</span>.<span class="ruby-identifier">current</span>.<span class="ruby-identifier">timeline</span> <span class="ruby-operator">||=</span> <span class="ruby-constant">Benelux</span><span class="ruby-operator">::</span><span class="ruby-constant">Timeline</span>.<span class="ruby-identifier">new</span>&#x000A;76:         <span class="ruby-constant">Thread</span>.<span class="ruby-identifier">current</span>.<span class="ruby-identifier">rotated_timelines</span> <span class="ruby-operator">||=</span> []&#x000A;77:         <span class="ruby-ivar">@tracks</span>[<span class="ruby-identifier">name</span>] <span class="ruby-operator">||=</span> <span class="ruby-constant">Track</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">name</span>, <span class="ruby-identifier">group</span>)&#x000A;78:         <span class="ruby-ivar">@tracks</span>[<span class="ruby-identifier">name</span>].<span class="ruby-identifier">add_thread</span> <span class="ruby-constant">Thread</span>.<span class="ruby-identifier">current</span>&#x000A;79:         <span class="ruby-ivar">@known_threads</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">Thread</span>.<span class="ruby-identifier">current</span>&#x000A;80:       <span class="ruby-keyword kw">end</span>&#x000A;81:     <span class="ruby-keyword kw">end</span>&#x000A;82:     <span class="ruby-constant">Benelux</span>.<span class="ruby-identifier">track</span>(<span class="ruby-identifier">name</span>)&#x000A;83:   <span class="ruby-keyword kw">end</span></pre>
-                </div>
-              </div>
-              <div class='method public-class' id='method-M000025'>
-                <a name='M000025'>      </a>
-                <div class='synopsis'>
-                  <span class='name'>debug?</span>
-                  <span class='arguments'>()</span>
-                </div>
-                <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('M000025-source'); return false">
-                    [show source]
-                  </a>
-                  <pre id='M000025-source'>     <span class="ruby-comment cmt"># File lib/benelux.rb, line 172</span>&#x000A;172:   <span class="ruby-keyword kw">def</span> <span class="ruby-constant">Benelux</span>.<span class="ruby-identifier">debug?</span>; <span class="ruby-ivar">@@debug</span>; <span class="ruby-keyword kw">end</span></pre>
-                </div>
-              </div>
-              <div class='method public-class' id='method-M000024'>
-                <a name='M000024'>      </a>
-                <div class='synopsis'>
-                  <span class='name'>disable_debug</span>
-                  <span class='arguments'>()</span>
-                </div>
-                <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('M000024-source'); return false">
-                    [show source]
-                  </a>
-                  <pre id='M000024-source'>     <span class="ruby-comment cmt"># File lib/benelux.rb, line 171</span>&#x000A;171:   <span class="ruby-keyword kw">def</span> <span class="ruby-constant">Benelux</span>.<span class="ruby-identifier">disable_debug</span>; <span class="ruby-ivar">@@debug</span> = <span class="ruby-keyword kw">false</span>; <span class="ruby-keyword kw">end</span></pre>
+                  <pre id='M000010-source'>    <span class="ruby-comment cmt"># File lib/benelux.rb, line 69</span>&#x000A;69:   <span class="ruby-keyword kw">def</span> <span class="ruby-constant">Benelux</span>.<span class="ruby-identifier">current_track</span>(<span class="ruby-identifier">name</span>=<span class="ruby-keyword kw">nil</span>,<span class="ruby-identifier">timeline</span>=<span class="ruby-keyword kw">nil</span>)&#x000A;70:     <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">name</span>.<span class="ruby-identifier">nil?</span>&#x000A;71:       <span class="ruby-identifier">name</span> = <span class="ruby-constant">Thread</span>.<span class="ruby-identifier">current</span>.<span class="ruby-identifier">track_name</span>&#x000A;72:     <span class="ruby-keyword kw">else</span>&#x000A;73:       <span class="ruby-constant">Thread</span>.<span class="ruby-identifier">current</span>.<span class="ruby-identifier">track_name</span> = <span class="ruby-identifier">name</span>&#x000A;74:       <span class="ruby-ivar">@@mutex</span>.<span class="ruby-identifier">synchronize</span> <span class="ruby-keyword kw">do</span>&#x000A;75:         <span class="ruby-ivar">@tracks</span>[<span class="ruby-identifier">name</span>] <span class="ruby-operator">||=</span> <span class="ruby-constant">Track</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">name</span>, <span class="ruby-identifier">timeline</span> <span class="ruby-operator">||</span> <span class="ruby-constant">Thread</span>.<span class="ruby-identifier">current</span>.<span class="ruby-identifier">timeline</span> <span class="ruby-operator">||</span> <span class="ruby-constant">Benelux</span><span class="ruby-operator">::</span><span class="ruby-constant">Timeline</span>.<span class="ruby-identifier">new</span>)&#x000A;76:         <span class="ruby-ivar">@tracks</span>[<span class="ruby-identifier">name</span>].<span class="ruby-identifier">add_thread</span> <span class="ruby-constant">Thread</span>.<span class="ruby-identifier">current</span>&#x000A;77:         <span class="ruby-ivar">@known_threads</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">Thread</span>.<span class="ruby-identifier">current</span>&#x000A;78:       <span class="ruby-keyword kw">end</span>&#x000A;79:     <span class="ruby-keyword kw">end</span>&#x000A;80:     <span class="ruby-constant">Benelux</span>.<span class="ruby-identifier">track</span>(<span class="ruby-identifier">name</span>)&#x000A;81:   <span class="ruby-keyword kw">end</span></pre>
                 </div>
               </div>
               <div class='method public-class' id='method-M000023'>
                 <a name='M000023'>      </a>
                 <div class='synopsis'>
-                  <span class='name'>enable_debug</span>
+                  <span class='name'>debug?</span>
                   <span class='arguments'>()</span>
                 </div>
                 <div class='source'>
                   <a class='source-toggle' href='#' onclick="toggleCode('M000023-source'); return false">
                     [show source]
                   </a>
-                  <pre id='M000023-source'>     <span class="ruby-comment cmt"># File lib/benelux.rb, line 170</span>&#x000A;170:   <span class="ruby-keyword kw">def</span> <span class="ruby-constant">Benelux</span>.<span class="ruby-identifier">enable_debug</span>; <span class="ruby-ivar">@@debug</span> = <span class="ruby-keyword kw">true</span>; <span class="ruby-keyword kw">end</span></pre>
-                </div>
-              </div>
-              <div class='method public-class' id='method-M000015'>
-                <a name='M000015'>      </a>
-                <div class='synopsis'>
-                  <span class='name'>inspect</span>
-                  <span class='arguments'>()</span>
-                </div>
-                <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('M000015-source'); return false">
-                    [show source]
-                  </a>
-                  <pre id='M000015-source'>     <span class="ruby-comment cmt"># File lib/benelux.rb, line 130</span>&#x000A;130:   <span class="ruby-keyword kw">def</span> <span class="ruby-constant">Benelux</span>.<span class="ruby-identifier">inspect</span>&#x000A;131:     <span class="ruby-identifier">str</span> = [<span class="ruby-value str">&quot;Benelux&quot;</span>]&#x000A;132:     <span class="ruby-identifier">str</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value str">&quot;tracks:&quot;</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">Benelux</span>.<span class="ruby-identifier">tracks</span>.<span class="ruby-identifier">inspect</span>&#x000A;133:     <span class="ruby-identifier">str</span>.<span class="ruby-identifier">join</span> <span class="ruby-identifier">$/</span>&#x000A;134:   <span class="ruby-keyword kw">end</span></pre>
-                </div>
-              </div>
-              <div class='method public-class' id='method-M000017'>
-                <a name='M000017'>      </a>
-                <div class='synopsis'>
-                  <span class='name'>known_thread?</span>
-                  <span class='arguments'>(t=Thread.current)</span>
-                </div>
-                <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('M000017-source'); return false">
-                    [show source]
-                  </a>
-                  <pre id='M000017-source'>     <span class="ruby-comment cmt"># File lib/benelux.rb, line 141</span>&#x000A;141:   <span class="ruby-keyword kw">def</span> <span class="ruby-constant">Benelux</span>.<span class="ruby-identifier">known_thread?</span>(<span class="ruby-identifier">t</span>=<span class="ruby-constant">Thread</span>.<span class="ruby-identifier">current</span>)&#x000A;142:     <span class="ruby-constant">Benelux</span>.<span class="ruby-identifier">known_threads</span>.<span class="ruby-identifier">member?</span> <span class="ruby-identifier">t</span>&#x000A;143:   <span class="ruby-keyword kw">end</span></pre>
+                  <pre id='M000023-source'>     <span class="ruby-comment cmt"># File lib/benelux.rb, line 166</span>&#x000A;166:   <span class="ruby-keyword kw">def</span> <span class="ruby-constant">Benelux</span>.<span class="ruby-identifier">debug?</span>; <span class="ruby-ivar">@@debug</span>; <span class="ruby-keyword kw">end</span></pre>
                 </div>
               </div>
               <div class='method public-class' id='method-M000022'>
                 <a name='M000022'>      </a>
                 <div class='synopsis'>
-                  <span class='name'>ld</span>
-                  <span class='arguments'>(*msg)</span>
+                  <span class='name'>disable_debug</span>
+                  <span class='arguments'>()</span>
                 </div>
                 <div class='source'>
                   <a class='source-toggle' href='#' onclick="toggleCode('M000022-source'); return false">
                     [show source]
                   </a>
-                  <pre id='M000022-source'>     <span class="ruby-comment cmt"># File lib/benelux.rb, line 165</span>&#x000A;165:   <span class="ruby-keyword kw">def</span> <span class="ruby-constant">Benelux</span>.<span class="ruby-identifier">ld</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">msg</span>)&#x000A;166:     <span class="ruby-ivar">@@logger</span>.<span class="ruby-identifier">puts</span> <span class="ruby-value str">&quot;D:  &quot;</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">msg</span>.<span class="ruby-identifier">join</span>(<span class="ruby-node">&quot;#{$/}D:  &quot;</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">debug?</span>&#x000A;167:   <span class="ruby-keyword kw">end</span></pre>
+                  <pre id='M000022-source'>     <span class="ruby-comment cmt"># File lib/benelux.rb, line 165</span>&#x000A;165:   <span class="ruby-keyword kw">def</span> <span class="ruby-constant">Benelux</span>.<span class="ruby-identifier">disable_debug</span>; <span class="ruby-ivar">@@debug</span> = <span class="ruby-keyword kw">false</span>; <span class="ruby-keyword kw">end</span></pre>
                 </div>
               </div>
-              <div class='method public-class' id='method-M000018'>
-                <a name='M000018'>      </a>
+              <div class='method public-class' id='method-M000021'>
+                <a name='M000021'>      </a>
                 <div class='synopsis'>
-                  <span class='name'>packed_method</span>
-                  <span class='arguments'>(klass, meth)</span>
+                  <span class='name'>enable_debug</span>
+                  <span class='arguments'>()</span>
                 </div>
                 <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('M000018-source'); return false">
+                  <a class='source-toggle' href='#' onclick="toggleCode('M000021-source'); return false">
                     [show source]
                   </a>
-                  <pre id='M000018-source'>     <span class="ruby-comment cmt"># File lib/benelux.rb, line 145</span>&#x000A;145:   <span class="ruby-keyword kw">def</span> <span class="ruby-constant">Benelux</span>.<span class="ruby-identifier">packed_method</span>(<span class="ruby-identifier">klass</span>, <span class="ruby-identifier">meth</span>)&#x000A;146:     <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">nil</span> <span class="ruby-keyword kw">unless</span> <span class="ruby-keyword kw">defined?</span>(<span class="ruby-constant">Benelux</span>.<span class="ruby-identifier">packed_methods</span>[<span class="ruby-identifier">klass</span>][<span class="ruby-identifier">meth</span>])&#x000A;147:     <span class="ruby-constant">Benelux</span>.<span class="ruby-identifier">packed_methods</span>[<span class="ruby-identifier">klass</span>][<span class="ruby-identifier">meth</span>]&#x000A;148:   <span class="ruby-keyword kw">end</span></pre>
-                </div>
-              </div>
-              <div class='method public-class' id='method-M000019'>
-                <a name='M000019'>      </a>
-                <div class='synopsis'>
-                  <span class='name'>packed_method?</span>
-                  <span class='arguments'>(klass, meth)</span>
-                </div>
-                <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('M000019-source'); return false">
-                    [show source]
-                  </a>
-                  <pre id='M000019-source'>     <span class="ruby-comment cmt"># File lib/benelux.rb, line 150</span>&#x000A;150:   <span class="ruby-keyword kw">def</span> <span class="ruby-constant">Benelux</span>.<span class="ruby-identifier">packed_method?</span> <span class="ruby-identifier">klass</span>, <span class="ruby-identifier">meth</span>&#x000A;151:     <span class="ruby-operator">!</span><span class="ruby-constant">Benelux</span>.<span class="ruby-identifier">packed_method</span>(<span class="ruby-identifier">klass</span>, <span class="ruby-identifier">meth</span>).<span class="ruby-identifier">nil?</span>&#x000A;152:   <span class="ruby-keyword kw">end</span></pre>
-                </div>
-              </div>
-              <div class='method public-class' id='method-M000014'>
-                <a name='M000014'>      </a>
-                <div class='synopsis'>
-                  <span class='name'>remove_thread_tag</span>
-                  <span class='arguments'>(*args)</span>
-                </div>
-                <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('M000014-source'); return false">
-                    [show source]
-                  </a>
-                  <pre id='M000014-source'>     <span class="ruby-comment cmt"># File lib/benelux.rb, line 127</span>&#x000A;127:   <span class="ruby-keyword kw">def</span> <span class="ruby-constant">Benelux</span>.<span class="ruby-identifier">remove_thread_tag</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">args</span>) <span class="ruby-identifier">remove_thread_tags</span> <span class="ruby-operator">*</span><span class="ruby-identifier">args</span> <span class="ruby-keyword kw">end</span></pre>
+                  <pre id='M000021-source'>     <span class="ruby-comment cmt"># File lib/benelux.rb, line 164</span>&#x000A;164:   <span class="ruby-keyword kw">def</span> <span class="ruby-constant">Benelux</span>.<span class="ruby-identifier">enable_debug</span>; <span class="ruby-ivar">@@debug</span> = <span class="ruby-keyword kw">true</span>; <span class="ruby-keyword kw">end</span></pre>
                 </div>
               </div>
               <div class='method public-class' id='method-M000013'>
                 <a name='M000013'>      </a>
                 <div class='synopsis'>
-                  <span class='name'>remove_thread_tags</span>
-                  <span class='arguments'>(*args)</span>
+                  <span class='name'>inspect</span>
+                  <span class='arguments'>()</span>
                 </div>
                 <div class='source'>
                   <a class='source-toggle' href='#' onclick="toggleCode('M000013-source'); return false">
                     [show source]
                   </a>
-                  <pre id='M000013-source'>     <span class="ruby-comment cmt"># File lib/benelux.rb, line 124</span>&#x000A;124:   <span class="ruby-keyword kw">def</span> <span class="ruby-constant">Benelux</span>.<span class="ruby-identifier">remove_thread_tags</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">args</span>)&#x000A;125:     <span class="ruby-constant">Benelux</span>.<span class="ruby-identifier">thread_timeline</span>.<span class="ruby-identifier">remove_default_tags</span> <span class="ruby-operator">*</span><span class="ruby-identifier">args</span>&#x000A;126:   <span class="ruby-keyword kw">end</span></pre>
+                  <pre id='M000013-source'>     <span class="ruby-comment cmt"># File lib/benelux.rb, line 124</span>&#x000A;124:   <span class="ruby-keyword kw">def</span> <span class="ruby-constant">Benelux</span>.<span class="ruby-identifier">inspect</span>&#x000A;125:     <span class="ruby-identifier">str</span> = [<span class="ruby-value str">&quot;Benelux&quot;</span>]&#x000A;126:     <span class="ruby-identifier">str</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value str">&quot;tracks:&quot;</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">Benelux</span>.<span class="ruby-identifier">tracks</span>.<span class="ruby-identifier">inspect</span>&#x000A;127:     <span class="ruby-identifier">str</span>.<span class="ruby-identifier">join</span> <span class="ruby-identifier">$/</span>&#x000A;128:   <span class="ruby-keyword kw">end</span></pre>
                 </div>
               </div>
-              <div class='method public-class' id='method-M000005'>
-                <a name='M000005'>      </a>
+              <div class='method public-class' id='method-M000015'>
+                <a name='M000015'>      </a>
                 <div class='synopsis'>
-                  <span class='name'>reset</span>
+                  <span class='name'>known_thread?</span>
+                  <span class='arguments'>(t=Thread.current)</span>
+                </div>
+                <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('M000015-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='M000015-source'>     <span class="ruby-comment cmt"># File lib/benelux.rb, line 135</span>&#x000A;135:   <span class="ruby-keyword kw">def</span> <span class="ruby-constant">Benelux</span>.<span class="ruby-identifier">known_thread?</span>(<span class="ruby-identifier">t</span>=<span class="ruby-constant">Thread</span>.<span class="ruby-identifier">current</span>)&#x000A;136:     <span class="ruby-constant">Benelux</span>.<span class="ruby-identifier">known_threads</span>.<span class="ruby-identifier">member?</span> <span class="ruby-identifier">t</span>&#x000A;137:   <span class="ruby-keyword kw">end</span></pre>
+                </div>
+              </div>
+              <div class='method public-class' id='method-M000020'>
+                <a name='M000020'>      </a>
+                <div class='synopsis'>
+                  <span class='name'>ld</span>
+                  <span class='arguments'>(*msg)</span>
+                </div>
+                <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('M000020-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='M000020-source'>     <span class="ruby-comment cmt"># File lib/benelux.rb, line 159</span>&#x000A;159:   <span class="ruby-keyword kw">def</span> <span class="ruby-constant">Benelux</span>.<span class="ruby-identifier">ld</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">msg</span>)&#x000A;160:     <span class="ruby-ivar">@@logger</span>.<span class="ruby-identifier">puts</span> <span class="ruby-value str">&quot;D:  &quot;</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">msg</span>.<span class="ruby-identifier">join</span>(<span class="ruby-node">&quot;#{$/}D:  &quot;</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">debug?</span>&#x000A;161:   <span class="ruby-keyword kw">end</span></pre>
+                </div>
+              </div>
+              <div class='method public-class' id='method-M000011'>
+                <a name='M000011'>      </a>
+                <div class='synopsis'>
+                  <span class='name'>merge_tracks</span>
                   <span class='arguments'>()</span>
                 </div>
                 <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('M000005-source'); return false">
+                  <a class='source-toggle' href='#' onclick="toggleCode('M000011-source'); return false">
                     [show source]
                   </a>
-                  <pre id='M000005-source'>    <span class="ruby-comment cmt"># File lib/benelux.rb, line 35</span>&#x000A;35:   <span class="ruby-keyword kw">def</span> <span class="ruby-constant">Benelux</span>.<span class="ruby-identifier">reset</span>&#x000A;36:     <span class="ruby-ivar">@tracks</span> = <span class="ruby-constant">SelectableHash</span>.<span class="ruby-identifier">new</span>&#x000A;37:     <span class="ruby-ivar">@timeline</span> = <span class="ruby-constant">Timeline</span>.<span class="ruby-identifier">new</span>&#x000A;38:     <span class="ruby-ivar">@timeline_chunk</span> = <span class="ruby-constant">Timeline</span>.<span class="ruby-identifier">new</span>  <span class="ruby-comment cmt"># See: update_global_timeline</span>&#x000A;39:     <span class="ruby-ivar">@timeline_updates</span> = <span class="ruby-value">0</span>&#x000A;40:     <span class="ruby-ivar">@known_threads</span> = []&#x000A;41:     <span class="ruby-ivar">@processed_dead_threads</span> = []&#x000A;42:   <span class="ruby-keyword kw">end</span></pre>
+                  <pre id='M000011-source'>    <span class="ruby-comment cmt"># File lib/benelux.rb, line 84</span>&#x000A;84:   <span class="ruby-keyword kw">def</span> <span class="ruby-constant">Benelux</span>.<span class="ruby-identifier">merge_tracks</span>&#x000A;85:     <span class="ruby-identifier">tl</span> = <span class="ruby-constant">Benelux</span><span class="ruby-operator">::</span><span class="ruby-constant">Timeline</span>.<span class="ruby-identifier">new</span>&#x000A;86:     <span class="ruby-identifier">tracks</span>.<span class="ruby-identifier">each_pair</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">trackid</span>,<span class="ruby-identifier">track</span><span class="ruby-operator">|</span>&#x000A;87:       <span class="ruby-identifier">tl</span>.<span class="ruby-identifier">merge!</span> <span class="ruby-identifier">track</span>.<span class="ruby-identifier">timeline</span>&#x000A;88:     <span class="ruby-keyword kw">end</span>&#x000A;89:     <span class="ruby-identifier">tl</span>&#x000A;90:   <span class="ruby-keyword kw">end</span></pre>
                 </div>
               </div>
               <div class='method public-class' id='method-M000016'>
                 <a name='M000016'>      </a>
                 <div class='synopsis'>
-                  <span class='name'>supported?</span>
-                  <span class='arguments'>(klass)</span>
+                  <span class='name'>packed_method</span>
+                  <span class='arguments'>(klass, meth)</span>
                 </div>
                 <div class='source'>
                   <a class='source-toggle' href='#' onclick="toggleCode('M000016-source'); return false">
                     [show source]
                   </a>
-                  <pre id='M000016-source'>     <span class="ruby-comment cmt"># File lib/benelux.rb, line 136</span>&#x000A;136:   <span class="ruby-keyword kw">def</span> <span class="ruby-constant">Benelux</span>.<span class="ruby-identifier">supported?</span>(<span class="ruby-identifier">klass</span>)&#x000A;137:     <span class="ruby-operator">!</span><span class="ruby-constant">NOTSUPPORTED</span>.<span class="ruby-identifier">member?</span>(<span class="ruby-identifier">klass</span>)&#x000A;138:   <span class="ruby-keyword kw">end</span></pre>
+                  <pre id='M000016-source'>     <span class="ruby-comment cmt"># File lib/benelux.rb, line 139</span>&#x000A;139:   <span class="ruby-keyword kw">def</span> <span class="ruby-constant">Benelux</span>.<span class="ruby-identifier">packed_method</span>(<span class="ruby-identifier">klass</span>, <span class="ruby-identifier">meth</span>)&#x000A;140:     <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">nil</span> <span class="ruby-keyword kw">unless</span> <span class="ruby-keyword kw">defined?</span>(<span class="ruby-constant">Benelux</span>.<span class="ruby-identifier">packed_methods</span>[<span class="ruby-identifier">klass</span>][<span class="ruby-identifier">meth</span>])&#x000A;141:     <span class="ruby-constant">Benelux</span>.<span class="ruby-identifier">packed_methods</span>[<span class="ruby-identifier">klass</span>][<span class="ruby-identifier">meth</span>]&#x000A;142:   <span class="ruby-keyword kw">end</span></pre>
+                </div>
+              </div>
+              <div class='method public-class' id='method-M000017'>
+                <a name='M000017'>      </a>
+                <div class='synopsis'>
+                  <span class='name'>packed_method?</span>
+                  <span class='arguments'>(klass, meth)</span>
+                </div>
+                <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('M000017-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='M000017-source'>     <span class="ruby-comment cmt"># File lib/benelux.rb, line 144</span>&#x000A;144:   <span class="ruby-keyword kw">def</span> <span class="ruby-constant">Benelux</span>.<span class="ruby-identifier">packed_method?</span> <span class="ruby-identifier">klass</span>, <span class="ruby-identifier">meth</span>&#x000A;145:     <span class="ruby-operator">!</span><span class="ruby-constant">Benelux</span>.<span class="ruby-identifier">packed_method</span>(<span class="ruby-identifier">klass</span>, <span class="ruby-identifier">meth</span>).<span class="ruby-identifier">nil?</span>&#x000A;146:   <span class="ruby-keyword kw">end</span></pre>
                 </div>
               </div>
               <div class='method public-class' id='method-M000006'>
                 <a name='M000006'>      </a>
                 <div class='synopsis'>
-                  <span class='name'>thread_timeline</span>
+                  <span class='name'>reset</span>
                   <span class='arguments'>()</span>
                 </div>
                 <div class='source'>
                   <a class='source-toggle' href='#' onclick="toggleCode('M000006-source'); return false">
                     [show source]
                   </a>
-                  <pre id='M000006-source'>    <span class="ruby-comment cmt"># File lib/benelux.rb, line 49</span>&#x000A;49:   <span class="ruby-keyword kw">def</span> <span class="ruby-constant">Benelux</span>.<span class="ruby-identifier">thread_timeline</span>&#x000A;50:     <span class="ruby-constant">Thread</span>.<span class="ruby-identifier">current</span>.<span class="ruby-identifier">timeline</span>&#x000A;51:   <span class="ruby-keyword kw">end</span></pre>
+                  <pre id='M000006-source'>    <span class="ruby-comment cmt"># File lib/benelux.rb, line 35</span>&#x000A;35:   <span class="ruby-keyword kw">def</span> <span class="ruby-constant">Benelux</span>.<span class="ruby-identifier">reset</span>&#x000A;36:     <span class="ruby-ivar">@tracks</span> = <span class="ruby-constant">SelectableHash</span>.<span class="ruby-identifier">new</span>&#x000A;37:     <span class="ruby-ivar">@timeline</span> = <span class="ruby-constant">Timeline</span>.<span class="ruby-identifier">new</span>&#x000A;38:     <span class="ruby-ivar">@timeline_chunk</span> = <span class="ruby-constant">Timeline</span>.<span class="ruby-identifier">new</span>  <span class="ruby-comment cmt"># See: update_global_timeline</span>&#x000A;39:     <span class="ruby-ivar">@timeline_updates</span> = <span class="ruby-value">0</span>&#x000A;40:     <span class="ruby-ivar">@known_threads</span> = []&#x000A;41:     <span class="ruby-ivar">@processed_dead_threads</span> = []&#x000A;42:   <span class="ruby-keyword kw">end</span></pre>
+                </div>
+              </div>
+              <div class='method public-class' id='method-M000014'>
+                <a name='M000014'>      </a>
+                <div class='synopsis'>
+                  <span class='name'>supported?</span>
+                  <span class='arguments'>(klass)</span>
+                </div>
+                <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('M000014-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='M000014-source'>     <span class="ruby-comment cmt"># File lib/benelux.rb, line 130</span>&#x000A;130:   <span class="ruby-keyword kw">def</span> <span class="ruby-constant">Benelux</span>.<span class="ruby-identifier">supported?</span>(<span class="ruby-identifier">klass</span>)&#x000A;131:     <span class="ruby-operator">!</span><span class="ruby-constant">NOTSUPPORTED</span>.<span class="ruby-identifier">member?</span>(<span class="ruby-identifier">klass</span>)&#x000A;132:   <span class="ruby-keyword kw">end</span></pre>
                 </div>
               </div>
               <div class='method public-class' id='method-M000007'>
                 <a name='M000007'>      </a>
                 <div class='synopsis'>
-                  <span class='name'>track</span>
-                  <span class='arguments'>(name)</span>
+                  <span class='name'>thread_timeline</span>
+                  <span class='arguments'>()</span>
                 </div>
                 <div class='source'>
                   <a class='source-toggle' href='#' onclick="toggleCode('M000007-source'); return false">
                     [show source]
                   </a>
-                  <pre id='M000007-source'>    <span class="ruby-comment cmt"># File lib/benelux.rb, line 53</span>&#x000A;53:   <span class="ruby-keyword kw">def</span> <span class="ruby-constant">Benelux</span>.<span class="ruby-identifier">track</span>(<span class="ruby-identifier">name</span>)&#x000A;54:     <span class="ruby-identifier">raise</span> <span class="ruby-constant">UnknownTrack</span> <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">track?</span> <span class="ruby-identifier">name</span>&#x000A;55:     <span class="ruby-ivar">@tracks</span>[<span class="ruby-identifier">name</span>]&#x000A;56:   <span class="ruby-keyword kw">end</span></pre>
+                  <pre id='M000007-source'>    <span class="ruby-comment cmt"># File lib/benelux.rb, line 49</span>&#x000A;49:   <span class="ruby-keyword kw">def</span> <span class="ruby-constant">Benelux</span>.<span class="ruby-identifier">thread_timeline</span>&#x000A;50:     <span class="ruby-constant">Thread</span>.<span class="ruby-identifier">current</span>.<span class="ruby-identifier">timeline</span>&#x000A;51:   <span class="ruby-keyword kw">end</span></pre>
                 </div>
               </div>
               <div class='method public-class' id='method-M000008'>
                 <a name='M000008'>      </a>
                 <div class='synopsis'>
-                  <span class='name'>track?</span>
+                  <span class='name'>track</span>
                   <span class='arguments'>(name)</span>
                 </div>
                 <div class='source'>
                   <a class='source-toggle' href='#' onclick="toggleCode('M000008-source'); return false">
                     [show source]
                   </a>
-                  <pre id='M000008-source'>    <span class="ruby-comment cmt"># File lib/benelux.rb, line 58</span>&#x000A;58:   <span class="ruby-keyword kw">def</span> <span class="ruby-constant">Benelux</span>.<span class="ruby-identifier">track?</span>(<span class="ruby-identifier">name</span>)&#x000A;59:     <span class="ruby-ivar">@tracks</span>.<span class="ruby-identifier">has_key?</span> <span class="ruby-identifier">name</span>&#x000A;60:   <span class="ruby-keyword kw">end</span></pre>
+                  <pre id='M000008-source'>    <span class="ruby-comment cmt"># File lib/benelux.rb, line 53</span>&#x000A;53:   <span class="ruby-keyword kw">def</span> <span class="ruby-constant">Benelux</span>.<span class="ruby-identifier">track</span>(<span class="ruby-identifier">name</span>)&#x000A;54:     <span class="ruby-identifier">raise</span> <span class="ruby-constant">UnknownTrack</span> <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">track?</span> <span class="ruby-identifier">name</span>&#x000A;55:     <span class="ruby-ivar">@tracks</span>[<span class="ruby-identifier">name</span>]&#x000A;56:   <span class="ruby-keyword kw">end</span></pre>
                 </div>
               </div>
-              <div class='method public-class' id='method-M000010'>
-                <a name='M000010'>      </a>
+              <div class='method public-class' id='method-M000009'>
+                <a name='M000009'>      </a>
+                <div class='synopsis'>
+                  <span class='name'>track?</span>
+                  <span class='arguments'>(name)</span>
+                </div>
+                <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('M000009-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='M000009-source'>    <span class="ruby-comment cmt"># File lib/benelux.rb, line 58</span>&#x000A;58:   <span class="ruby-keyword kw">def</span> <span class="ruby-constant">Benelux</span>.<span class="ruby-identifier">track?</span>(<span class="ruby-identifier">name</span>)&#x000A;59:     <span class="ruby-ivar">@tracks</span>.<span class="ruby-identifier">has_key?</span> <span class="ruby-identifier">name</span>&#x000A;60:   <span class="ruby-keyword kw">end</span></pre>
+                </div>
+              </div>
+              <div class='method public-class' id='method-M000012'>
+                <a name='M000012'>      </a>
                 <div class='synopsis'>
                   <span class='name'>update_global_timeline</span>
                   <span class='arguments'>()</span>
@@ -484,10 +435,10 @@
                   </p>
                 </div>
                 <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('M000010-source'); return false">
+                  <a class='source-toggle' href='#' onclick="toggleCode('M000012-source'); return false">
                     [show source]
                   </a>
-                  <pre id='M000010-source'>     <span class="ruby-comment cmt"># File lib/benelux.rb, line 88</span>&#x000A; 88:   <span class="ruby-keyword kw">def</span> <span class="ruby-constant">Benelux</span>.<span class="ruby-identifier">update_global_timeline</span>&#x000A; 89:     <span class="ruby-ivar">@@mutex</span>.<span class="ruby-identifier">synchronize</span> <span class="ruby-keyword kw">do</span>&#x000A; 90:       <span class="ruby-identifier">dthreads</span> = <span class="ruby-constant">Benelux</span>.<span class="ruby-identifier">known_threads</span>.<span class="ruby-identifier">select</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">t</span><span class="ruby-operator">|</span> &#x000A; 91:         <span class="ruby-operator">!</span><span class="ruby-identifier">t</span>.<span class="ruby-identifier">timeline</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> (<span class="ruby-identifier">t</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">||</span> <span class="ruby-operator">!</span><span class="ruby-identifier">t</span>.<span class="ruby-identifier">status</span>) <span class="ruby-operator">&amp;&amp;</span>&#x000A; 92:         <span class="ruby-operator">!</span><span class="ruby-ivar">@processed_dead_threads</span>.<span class="ruby-identifier">member?</span>(<span class="ruby-identifier">t</span>)&#x000A; 93:       }&#x000A; 94:       <span class="ruby-comment cmt"># Threads that have rotated timelines</span>&#x000A; 95:       <span class="ruby-identifier">rthreads</span> = <span class="ruby-constant">Benelux</span>.<span class="ruby-identifier">known_threads</span>.<span class="ruby-identifier">select</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">t</span><span class="ruby-operator">|</span>&#x000A; 96:         <span class="ruby-operator">!</span><span class="ruby-identifier">t</span>.<span class="ruby-identifier">rotated_timelines</span>.<span class="ruby-identifier">empty?</span>&#x000A; 97:       }&#x000A; 98:       <span class="ruby-identifier">dtimelines</span> = <span class="ruby-identifier">dthreads</span>.<span class="ruby-identifier">collect</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">t</span><span class="ruby-operator">|</span> <span class="ruby-identifier">t</span>.<span class="ruby-identifier">timeline</span> }&#x000A; 99:       <span class="ruby-comment cmt"># Also get all rotated timelines. </span>&#x000A;100:       <span class="ruby-identifier">rthreads</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">t</span><span class="ruby-operator">|</span> &#x000A;101:         <span class="ruby-comment cmt"># We loop carefully through the rotated timelines</span>&#x000A;102:         <span class="ruby-comment cmt"># incase something was added while we're working. </span>&#x000A;103:         <span class="ruby-keyword kw">while</span> <span class="ruby-operator">!</span><span class="ruby-identifier">t</span>.<span class="ruby-identifier">rotated_timelines</span>.<span class="ruby-identifier">empty?</span>&#x000A;104:           <span class="ruby-identifier">dtimelines</span>.<span class="ruby-identifier">push</span> <span class="ruby-identifier">t</span>.<span class="ruby-identifier">rotated_timelines</span>.<span class="ruby-identifier">shift</span> &#x000A;105:         <span class="ruby-keyword kw">end</span>&#x000A;106:       }&#x000A;107:       <span class="ruby-constant">Benelux</span>.<span class="ruby-identifier">ld</span> [<span class="ruby-identifier">:update_global_timeline</span>, <span class="ruby-identifier">dthreads</span>.<span class="ruby-identifier">size</span>, <span class="ruby-identifier">rthreads</span>.<span class="ruby-identifier">size</span>, <span class="ruby-identifier">dtimelines</span>.<span class="ruby-identifier">size</span>].<span class="ruby-identifier">inspect</span>&#x000A;108:       <span class="ruby-comment cmt"># Keep track of this update separately</span>&#x000A;109:       <span class="ruby-ivar">@timeline_chunk</span> = <span class="ruby-constant">Benelux</span><span class="ruby-operator">::</span><span class="ruby-constant">Timeline</span>.<span class="ruby-identifier">new</span>&#x000A;110:       <span class="ruby-ivar">@timeline_chunk</span>.<span class="ruby-identifier">merge!</span> <span class="ruby-operator">*</span><span class="ruby-identifier">dtimelines</span>&#x000A;111:       <span class="ruby-ivar">@processed_dead_threads</span>.<span class="ruby-identifier">push</span> <span class="ruby-operator">*</span><span class="ruby-identifier">dthreads</span>&#x000A;112:       <span class="ruby-identifier">tl</span> = <span class="ruby-constant">Benelux</span>.<span class="ruby-identifier">timeline</span>.<span class="ruby-identifier">merge!</span> <span class="ruby-constant">Benelux</span>.<span class="ruby-identifier">timeline_chunk</span>&#x000A;113:       <span class="ruby-ivar">@timeline_updates</span> <span class="ruby-operator">+=</span> <span class="ruby-value">1</span>&#x000A;114:       <span class="ruby-identifier">tl</span>&#x000A;115:     <span class="ruby-keyword kw">end</span>&#x000A;116:   <span class="ruby-keyword kw">end</span></pre>
+                  <pre id='M000012-source'>     <span class="ruby-comment cmt"># File lib/benelux.rb, line 94</span>&#x000A; 94:   <span class="ruby-keyword kw">def</span> <span class="ruby-constant">Benelux</span>.<span class="ruby-identifier">update_global_timeline</span>&#x000A; 95:     <span class="ruby-ivar">@@mutex</span>.<span class="ruby-identifier">synchronize</span> <span class="ruby-keyword kw">do</span>&#x000A; 96:       <span class="ruby-identifier">dthreads</span> = <span class="ruby-constant">Benelux</span>.<span class="ruby-identifier">known_threads</span>.<span class="ruby-identifier">select</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">t</span><span class="ruby-operator">|</span> &#x000A; 97:         <span class="ruby-operator">!</span><span class="ruby-identifier">t</span>.<span class="ruby-identifier">timeline</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> (<span class="ruby-identifier">t</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">||</span> <span class="ruby-operator">!</span><span class="ruby-identifier">t</span>.<span class="ruby-identifier">status</span>) <span class="ruby-operator">&amp;&amp;</span>&#x000A; 98:         <span class="ruby-operator">!</span><span class="ruby-ivar">@processed_dead_threads</span>.<span class="ruby-identifier">member?</span>(<span class="ruby-identifier">t</span>)&#x000A; 99:       }&#x000A;100:       <span class="ruby-comment cmt"># Threads that have rotated timelines</span>&#x000A;101:       <span class="ruby-identifier">rthreads</span> = <span class="ruby-constant">Benelux</span>.<span class="ruby-identifier">known_threads</span>.<span class="ruby-identifier">select</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">t</span><span class="ruby-operator">|</span>&#x000A;102:         <span class="ruby-operator">!</span><span class="ruby-identifier">t</span>.<span class="ruby-identifier">rotated_timelines</span>.<span class="ruby-identifier">empty?</span>&#x000A;103:       }&#x000A;104:       <span class="ruby-identifier">dtimelines</span> = <span class="ruby-identifier">dthreads</span>.<span class="ruby-identifier">collect</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">t</span><span class="ruby-operator">|</span> <span class="ruby-identifier">t</span>.<span class="ruby-identifier">timeline</span> }&#x000A;105:       <span class="ruby-comment cmt"># Also get all rotated timelines. </span>&#x000A;106:       <span class="ruby-identifier">rthreads</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">t</span><span class="ruby-operator">|</span> &#x000A;107:         <span class="ruby-comment cmt"># We loop carefully through the rotated timelines</span>&#x000A;108:         <span class="ruby-comment cmt"># incase something was added while we're working. </span>&#x000A;109:         <span class="ruby-keyword kw">while</span> <span class="ruby-operator">!</span><span class="ruby-identifier">t</span>.<span class="ruby-identifier">rotated_timelines</span>.<span class="ruby-identifier">empty?</span>&#x000A;110:           <span class="ruby-identifier">dtimelines</span>.<span class="ruby-identifier">push</span> <span class="ruby-identifier">t</span>.<span class="ruby-identifier">rotated_timelines</span>.<span class="ruby-identifier">shift</span> &#x000A;111:         <span class="ruby-keyword kw">end</span>&#x000A;112:       }&#x000A;113:       <span class="ruby-constant">Benelux</span>.<span class="ruby-identifier">ld</span> [<span class="ruby-identifier">:update_global_timeline</span>, <span class="ruby-identifier">dthreads</span>.<span class="ruby-identifier">size</span>, <span class="ruby-identifier">rthreads</span>.<span class="ruby-identifier">size</span>, <span class="ruby-identifier">dtimelines</span>.<span class="ruby-identifier">size</span>].<span class="ruby-identifier">inspect</span>&#x000A;114:       <span class="ruby-comment cmt"># Keep track of this update separately</span>&#x000A;115:       <span class="ruby-ivar">@timeline_chunk</span> = <span class="ruby-constant">Benelux</span><span class="ruby-operator">::</span><span class="ruby-constant">Timeline</span>.<span class="ruby-identifier">new</span>&#x000A;116:       <span class="ruby-ivar">@timeline_chunk</span>.<span class="ruby-identifier">merge!</span> <span class="ruby-operator">*</span><span class="ruby-identifier">dtimelines</span>&#x000A;117:       <span class="ruby-ivar">@processed_dead_threads</span>.<span class="ruby-identifier">push</span> <span class="ruby-operator">*</span><span class="ruby-identifier">dthreads</span>&#x000A;118:       <span class="ruby-identifier">tl</span> = <span class="ruby-constant">Benelux</span>.<span class="ruby-identifier">timeline</span>.<span class="ruby-identifier">merge!</span> <span class="ruby-constant">Benelux</span>.<span class="ruby-identifier">timeline_chunk</span>&#x000A;119:       <span class="ruby-ivar">@timeline_updates</span> <span class="ruby-operator">+=</span> <span class="ruby-value">1</span>&#x000A;120:       <span class="ruby-identifier">tl</span>&#x000A;121:     <span class="ruby-keyword kw">end</span>&#x000A;122:   <span class="ruby-keyword kw">end</span></pre>
                 </div>
               </div>
             </div>

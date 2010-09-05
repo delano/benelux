@@ -45,15 +45,15 @@
             <h2>Methods</h2>
             <h3>public instance</h3>
             <ol>
-              <li><a href="#M000040">generate_packed_method</a></li>
-              <li><a href="#M000039">install_method</a></li>
+              <li><a href="#M000096">generate_packed_method</a></li>
+              <li><a href="#M000095">install_method</a></li>
             </ol>
           </div>
           <div id='section'>
             <div id='methods'>
               <h2>Public instance methods</h2>
-              <div class='method public-instance' id='method-M000040'>
-                <a name='M000040'>      </a>
+              <div class='method public-instance' id='method-M000096'>
+                <a name='M000096'>      </a>
                 <div class='synopsis'>
                   <span class='name'>generate_packed_method</span>
                   <span class='arguments'>()</span>
@@ -70,14 +70,14 @@
                   </p>
                 </div>
                 <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('M000040-source'); return false">
+                  <a class='source-toggle' href='#' onclick="toggleCode('M000096-source'); return false">
                     [show source]
                   </a>
-                  <pre id='M000040-source'>     <span class="ruby-comment cmt"># File lib/benelux/packer.rb, line 116</span>&#x000A;116:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">generate_packed_method</span>&#x000A;117:       <span class="ruby-node">%Q{&#x000A;118:       def #{@meth}(*args, &amp;block)&#x000A;119:         call_id = &quot;&quot; &lt;&lt; self.object_id.abs.to_s &lt;&lt; args.object_id.abs.to_s&#x000A;120:         Benelux.current_track :global unless Benelux.known_thread?&#x000A;121:         mark_a = Benelux.thread_timeline.add_mark :'#{@aliaz}_a'&#x000A;122:         mark_a.add_tag :call_id =&gt; call_id&#x000A;123:         tags = mark_a.tags&#x000A;124:         ret = #{@methorig}(*args, &amp;block)&#x000A;125:       rescue =&gt; ex  # We do this so we can use&#x000A;126:         raise ex    # ex in the ensure block.&#x000A;127:       ensure&#x000A;128:         mark_z = Benelux.thread_timeline.add_mark :'#{@aliaz}_z'&#x000A;129:         mark_z.tags = tags # In case tags were added between these marks&#x000A;130:         range = Benelux.thread_timeline.add_range :'#{@aliaz}', mark_a, mark_z&#x000A;131:         range.exception = ex if defined?(ex) &amp;&amp; !ex.nil?&#x000A;132:       end&#x000A;133:       }</span>&#x000A;134:     <span class="ruby-keyword kw">end</span></pre>
+                  <pre id='M000096-source'>     <span class="ruby-comment cmt"># File lib/benelux/packer.rb, line 116</span>&#x000A;116:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">generate_packed_method</span>&#x000A;117:       <span class="ruby-node">%Q{&#x000A;118:       def #{@meth}(*args, &amp;block)&#x000A;119:         #p [&quot;#{@meth} 1&quot;]&#x000A;120:         call_id = &quot;&quot; &lt;&lt; self.object_id.abs.to_s &lt;&lt; args.object_id.abs.to_s&#x000A;121:         Benelux.current_track :global unless Benelux.known_thread?&#x000A;122:         mark_a = Benelux.current_track.timeline.add_mark :'#{@aliaz}_a'&#x000A;123:         mark_a.add_tag :call_id =&gt; call_id&#x000A;124:         tags = mark_a.tags&#x000A;125:         ret = #{@methorig}(*args, &amp;block)&#x000A;126:         #p [&quot;#{@meth} 2&quot;]&#x000A;127:         ret&#x000A;128:       rescue =&gt; ex  # We do this so we can use&#x000A;129:         raise ex    # ex in the ensure block.&#x000A;130:       ensure&#x000A;131:         mark_z = Benelux.current_track.timeline.add_mark :'#{@aliaz}_z'&#x000A;132:         mark_z.tags = tags # In case tags were added between these marks&#x000A;133:         range = Benelux.current_track.timeline.add_range :'#{@aliaz}', mark_a, mark_z&#x000A;134:         range.exception = ex if defined?(ex) &amp;&amp; !ex.nil?&#x000A;135:       end&#x000A;136:       }</span>&#x000A;137:     <span class="ruby-keyword kw">end</span></pre>
                 </div>
               </div>
-              <div class='method public-instance' id='method-M000039'>
-                <a name='M000039'>      </a>
+              <div class='method public-instance' id='method-M000095'>
+                <a name='M000095'>      </a>
                 <div class='synopsis'>
                   <span class='name'>install_method</span>
                   <span class='arguments'>()</span>
@@ -90,10 +90,10 @@
                   </p>
                 </div>
                 <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('M000039-source'); return false">
+                  <a class='source-toggle' href='#' onclick="toggleCode('M000095-source'); return false">
                     [show source]
                   </a>
-                  <pre id='M000039-source'>     <span class="ruby-comment cmt"># File lib/benelux/packer.rb, line 106</span>&#x000A;106:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">install_method</span>&#x000A;107:       <span class="ruby-ivar">@klass</span>.<span class="ruby-identifier">module_eval</span> <span class="ruby-identifier">generate_packed_method</span>, <span class="ruby-keyword kw">__FILE__</span>, <span class="ruby-value">94</span>&#x000A;108:     <span class="ruby-keyword kw">end</span></pre>
+                  <pre id='M000095-source'>     <span class="ruby-comment cmt"># File lib/benelux/packer.rb, line 106</span>&#x000A;106:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">install_method</span>&#x000A;107:       <span class="ruby-ivar">@klass</span>.<span class="ruby-identifier">module_eval</span> <span class="ruby-identifier">generate_packed_method</span>, <span class="ruby-keyword kw">__FILE__</span>, <span class="ruby-value">94</span>&#x000A;108:     <span class="ruby-keyword kw">end</span></pre>
                 </div>
               </div>
             </div>
