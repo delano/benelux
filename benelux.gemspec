@@ -1,7 +1,7 @@
 @spec = Gem::Specification.new do |s|
   s.name = "benelux"
   s.rubyforge_project = 'benelux'
-  s.version = "0.6.0"
+  s.version = "0.6.1"
   s.summary = "Benelux: A mad way to time Ruby codes"
   s.description = s.summary
   s.author = "Delano Mandelbaum"
@@ -13,7 +13,8 @@
   s.rdoc_options = ["--line-numbers", "--title", s.summary, "--main", "README.rdoc"]
   s.require_paths = %w[lib]
   
-  s.add_dependency("storable", [">= 0.8.0"])
+  s.add_dependency("attic", ">= 0.5.3")
+  s.add_dependency("storable", ">= 0.8.6")
   
   # = MANIFEST =
   # git ls-files

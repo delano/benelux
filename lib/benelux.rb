@@ -5,7 +5,7 @@ require 'selectable'
 require 'storable'
 
 module Benelux
-  VERSION = "0.6.0"
+  VERSION = "0.6.1"
   NOTSUPPORTED = [Class, Object, Kernel]
   
   class BeneluxError < RuntimeError; end
