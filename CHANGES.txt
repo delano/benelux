@@ -1,5 +1,10 @@
 BENELUX, CHANGES
 
+#### 0.6.1 (2011-02-11) ##############################
+
+* FIXED: Fix for segfault in Ruby 1.9.2 (Don't use attic in Thread).
+         See http://redmine.ruby-lang.org/issues/show/4389
+
 
 #### 0.6.0 (2010-09-05) ##############################
 

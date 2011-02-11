@@ -23,9 +23,9 @@ end
 
 class Thread
   extend Attic
-  attic :timeline
-  attic :track_name
-  attic :rotated_timelines
+  send :attr_accessor, :timeline
+  send :attr_accessor, :track_name
+  send :attr_accessor, :rotated_timelines
   def rotate_timeline
     self.rotated_timelines << self.timeline
     tags = self.timeline.default_tags.clone
